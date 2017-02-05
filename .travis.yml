@@ -31,13 +31,7 @@ notifications:
 
 matrix:
   include:
-    - env: ACTION='-Dapiman-test.type=es -Dapiman.gateway-test.config=servlet-es'
-      jdk: oraclejdk8
     - env: ACTION='-Dapiman.gateway-test.config=vertx3-mem'
-      jdk: oraclejdk8
-    - env: ACTION='-Dapiman.gateway-test.config=vertx3-es'
-      jdk: oraclejdk8
-    - env: ACTION='-Dapiman.gateway-test.config=amg-1'
       jdk: oraclejdk8
 
 env:
@@ -52,7 +46,8 @@ addons:
       name: "apiman/apiman"
       description: "Free, Libre & Open Source API Management"
     notification_email: "marc@rhymewithgravy.com"
-    build_command:   "mvn test install -B -Dmaven.javadoc.skip=true"
+    build_command_prepend: "mvn clean"
+    build_command:   "mvn -DskipTests=true -Dmaven.javadoc.skip=true -Dmvn.skip.test=true compile"
     branch_pattern: coverity_scan
       
 install: travis_retry mvn clean install -Dinvoker.skip -Dmaven.javadoc.skip=true -Dmvn.skip.test=true -DskipTests=true -T1C -B | egrep -v 'Download|\\[exec\\] [[:digit:]]+/[[:digit:]]+|^[[:space:]]*\\[exec\\][[:space:]]*$' ; [ ${PIPESTATUS[0]} == 0 ];
