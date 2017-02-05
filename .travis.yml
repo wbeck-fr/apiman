@@ -15,6 +15,7 @@ services:
 before_install:
   - sed -i.bak -e 's|https://nexus.codehaus.org/snapshots/|https://oss.sonatype.org/content/repositories/codehaus-snapshots/|g' ~/.m2/settings.xml
   - echo 'MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -Xmx512m"' > ~/.mavenrc
+  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 jdk:
   - oraclejdk8
@@ -38,6 +39,21 @@ matrix:
       jdk: oraclejdk8
     - env: ACTION='-Dapiman.gateway-test.config=amg-1'
       jdk: oraclejdk8
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "S2L+uzsQa2JxQL0OrPUdX4+qEh851CGkNbYAxbSMmw38ISN/AI/oyVFv0CF3gyjkJizuc9KUdJIVzD5oGfzeOAY5uVvZZshsUuaSzjcRbRbFadHkwfgc/j0gPM3B+6YQsQdZRvA0arCgqR9a/qIzFPqQUsCXTB0KQZhyXFK9xnI="
+
+addons:
+  coverity_scan:
+    project:
+      name: "apiman/apiman"
+      description: "Free, Libre & Open Source API Management"
+    notification_email: "marc@rhymewithgravy.com"
+    build_command:   "mvn test install -B -Dmaven.javadoc.skip=true"
+    branch_pattern: coverity_scan
       
 install: travis_retry mvn clean install -Dinvoker.skip -Dmaven.javadoc.skip=true -Dmvn.skip.test=true -DskipTests=true -T1C -B | egrep -v 'Download|\\[exec\\] [[:digit:]]+/[[:digit:]]+|^[[:space:]]*\\[exec\\][[:space:]]*$' ; [ ${PIPESTATUS[0]} == 0 ];
 
