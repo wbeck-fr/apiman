@@ -20,6 +20,7 @@ import io.apiman.common.util.SimpleStringUtils;
 import io.apiman.common.util.crypt.IDataEncrypter;
 import io.apiman.gateway.engine.EngineConfigTuple;
 import io.apiman.gateway.engine.GatewayConfigProperties;
+import io.apiman.gateway.engine.IApiRequestPathParser;
 import io.apiman.gateway.engine.IComponent;
 import io.apiman.gateway.engine.IConnectorFactory;
 import io.apiman.gateway.engine.IEngineConfig;
@@ -82,6 +83,7 @@ public class VertxEngineConfig implements IEngineConfig {
     private static final String GATEWAY_POLICY_FACTORY_PREFIX = "policy-factory";
     private static final String GATEWAY_METRICS_PREFIX = "metrics";
     private static final String GATEWAY_COMPONENT_PREFIX = "components";
+    private static final String GATEWAY_REQUEST_PARSER_PREFIX = "request-parser";
 
     private static final String GATEWAY_CONFIG = "config";
     private static final String GATEWAY_CLASS = "class";
@@ -154,6 +156,18 @@ public class VertxEngineConfig implements IEngineConfig {
     @Override
     public Map<String, String> getPolicyFactoryConfig() {
         return getConfig(config, GATEWAY_POLICY_FACTORY_PREFIX);
+    }
+
+
+    @Override
+    public Class<? extends IApiRequestPathParser> getApiRequestPathParserClass(IPluginRegistry pluginRegistry) {
+        return loadConfigClass(getClassname(config, GATEWAY_REQUEST_PARSER_PREFIX),
+                IApiRequestPathParser.class, DefaultApiRequestFactoryImpl.class);
+    }
+
+    @Override
+    public Map<String, String> getApiRequestPathParserConfig() { // Probably will not be used
+        return getConfig(config, GATEWAY_REQUEST_PARSER_PREFIX);
     }
 
     @Override
