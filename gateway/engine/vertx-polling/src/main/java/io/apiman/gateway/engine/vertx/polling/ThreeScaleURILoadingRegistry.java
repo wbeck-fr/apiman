@@ -46,9 +46,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -64,12 +62,6 @@ public class ThreeScaleURILoadingRegistry extends InMemoryRegistry implements As
     private URI apiUri;
     private Vertx vertx;
     private Map<String, String> options;
-    private static final Policy THREESCALE_PLUGIN_POLICY = new Policy();
-
-    static {
-        THREESCALE_PLUGIN_POLICY.setPolicyImpl("plugin:io.apiman.plugins:apiman-plugins-3scale-auth:1.2.8-SNAPSHOT:war/io.apiman.plugins.auth3scale.Auth3Scale");
-        THREESCALE_PLUGIN_POLICY.setPolicyJsonConfig("{}");
-    }
 
     private String requireOpt(String key, String errorMsg) {
         Arguments.require(options.containsKey(key), errorMsg);
@@ -81,6 +73,10 @@ public class ThreeScaleURILoadingRegistry extends InMemoryRegistry implements As
         this.vertx = vertx;
         this.options = options;
         apiUri = URI.create(requireOpt("apiEndpoint", "apiEndpoint is required in configuration"));
+    }
+
+    public ThreeScaleURILoadingRegistry(Map<String, String> options) {
+        this(Vertx.vertx(), null, options);
     }
 
     @Override
@@ -145,8 +141,8 @@ public class ThreeScaleURILoadingRegistry extends InMemoryRegistry implements As
         private Deque<ThreeScaleURILoadingRegistry> awaiting = new ArrayDeque<>();
         private List<ThreeScaleURILoadingRegistry> allRegistries = new ArrayList<>(); // TODO for testing, perhaps can get rid of?
         private boolean dataProcessed = false;
-        private List<Client> clients = Collections.emptyList();
-        private List<Api> apis = Collections.emptyList();
+        private List<Client> clients = new ArrayList<>();
+        private List<Api> apis = new ArrayList<>();
         private Logger log = LoggerFactory.getLogger(OneShotURILoader.class);
         private IAsyncHandler<Void> reloadHandler;
 
@@ -253,40 +249,23 @@ public class ThreeScaleURILoadingRegistry extends InMemoryRegistry implements As
                     Content config = root.getProxyConfig().getContent();
                     Api api = new Api();
                     api.setEndpoint(config.getProxy().getEndpoint());
-                    setDefaultPolicy(api);
+                    set3ScalePolicy(api, root);
                     api.setPublicAPI(true);
 
-
                     // API ID = service id (i think)
+                    api.setApiId(config.getSystemName());
                     api.setOrganizationId("DEFAULT");
-                    //api.setApiId(service.getString("system_name"));
-                    //api.setApiNumericId(service.getLong("id"));
                     api.setEndpoint(config.getProxy().getApiBackend());
                     api.setEndpointContentType("text/json"); // don't think there is an equivalent of this in 3scale
                     api.setEndpointType("rest"); //don't think there is an equivalent of this in 3scale
                     api.setParsePayload(false); // can let user override this?
                     api.setPublicAPI(true); // is there an equivalent of this?
                     api.setVersion("DEFAULT"); // don't think this is relevant anymore
-                    ////
-                    //api.getIdentifiers().put(idElement.getCanonicalName(), idElement);
-                    //api.setUserKeyField(keyField);
-                    //api.setUserKeyLocation(keyLocation);
-
-                  //  api.setAuthType(AuthTypeEnum.API_KEY);
-                  //  api.setProviderKey(backendResponse.getString("provider_key")); // to connect to 3scale manager
-                  //  api.setManagerEndpoint(service.getJsonObject("backend").getString("endpoint")); // where does the 3scale manager live
-
-
 
                     log.info("Processing - {0}: ", config);
                     log.info("Creating API - {0}: ", api);
-
-//                    api.setApiId(config.getId());
-                    //api.setApiId(config);
+                    apis.add(api);
                 }
-
-
-
 
                 dataProcessed = true;
                 checkQueue();
@@ -295,8 +274,12 @@ public class ThreeScaleURILoadingRegistry extends InMemoryRegistry implements As
             }
         }
 
-        private void setDefaultPolicy(Api api) {
-            api.getApiPolicies().add(THREESCALE_PLUGIN_POLICY);
+        private void set3ScalePolicy(Api api, ProxyConfigRoot config) { // FIXME optimise
+            //JsonObject json = new JsonObject().put("proxyConfig", new JsonObject(Json.encode(root.getProxyConfig())));
+            Policy pol = new Policy();
+            pol.setPolicyImpl("plugin:io.apiman.plugins:apiman-plugins-3scale-auth:1.2.10-SNAPSHOT:war/io.apiman.plugins.auth3scale.Auth3Scale"); // TODO get version? Hmm! Env?
+            pol.setPolicyJsonConfig(Json.encode(config));
+            api.getApiPolicies().add(pol);
         }
 
         public synchronized void subscribe(ThreeScaleURILoadingRegistry registry, IAsyncResultHandler<Void> failureHandler) {
@@ -349,15 +332,20 @@ public class ThreeScaleURILoadingRegistry extends InMemoryRegistry implements As
     }
 
     public static void main(String[] args) {
-        Map<String, String> opts = new HashMap<>();
-        opts.put("apiEndpoint", "https://ewittman-admin.3scale.net/");
-        opts.put("accessToken", "914e2f81d22b0c1baf62e77250d3daab9bec675318ebb555b8e39f91877ed5a8");
-        ThreeScaleURILoadingRegistry reg = new ThreeScaleURILoadingRegistry(Vertx.vertx(), null, opts);
-        reg.initialize(res -> {
-            if (res.isError()) {
-                throw new RuntimeException(res.getError());
-            }
-        });
+//        Map<String, String> opts = new HashMap<>();
+//        opts.put("apiEndpoint", "https://ewittman-admin.3scale.net/");
+//        opts.put("accessToken", "914e2f81d22b0c1baf62e77250d3daab9bec675318ebb555b8e39f91877ed5a8");
+//        ThreeScaleURILoadingRegistry reg = new ThreeScaleURILoadingRegistry(Vertx.vertx(), null, opts);
+//        reg.initialize(res -> {
+//            if (res.isError()) {
+//                throw new RuntimeException(res.getError());
+//            }
+//        });
+
+      String in =  "{\"proxy_config\":{\"id\":14,\"version\":1,\"environment\":\"production\",\"content\":{\"id\":2555417735624,\"account_id\":2445581528354,\"name\":\"Another Service\",\"oneline_description\":null,\"description\":\"Another service\",\"txt_api\":null,\"txt_support\":null,\"txt_features\":null,\"created_at\":\"2016-09-07T14:34:38Z\",\"updated_at\":\"2016-10-25T12:18:28Z\",\"logo_file_name\":null,\"logo_content_type\":null,\"logo_file_size\":null,\"state\":\"incomplete\",\"intentions_required\":false,\"draft_name\":\"\",\"infobar\":null,\"terms\":null,\"display_provider_keys\":false,\"tech_support_email\":null,\"admin_support_email\":null,\"credit_card_support_email\":null,\"buyers_manage_apps\":true,\"buyers_manage_keys\":true,\"custom_keys_enabled\":false,\"buyer_plan_change_permission\":\"none\",\"buyer_can_select_plan\":false,\"notification_settings\":null,\"default_application_plan_id\":2357355868190,\"default_service_plan_id\":2357355868189,\"buyer_can_see_log_requests\":false,\"default_end_user_plan_id\":null,\"end_user_registration_required\":true,\"tenant_id\":2445581528354,\"system_name\":\"anotherservice\",\"backend_version\":\"2\",\"mandatory_app_key\":true,\"buyer_key_regenerate_enabled\":true,\"support_email\":\"eric.wittmann@redhat.com\",\"referrer_filters_required\":false,\"deployment_option\":\"on_premise\",\"proxiable?\":true,\"backend_authentication_type\":\"service_token\",\"backend_authentication_value\":\"0cced6bfbe94e73ac8143ecf18253e2bddb3db97f18f0a55129e72403c9bba75\",\"proxy\":{\"id\":81928,\"tenant_id\":2445581528354,\"service_id\":2555417735624,\"endpoint\":\"\",\"deployed_at\":\"2016-10-25T12:18:36Z\",\"api_backend\":\"https://echo-api.3scale.net:443\",\"auth_app_key\":\"app_key\",\"auth_app_id\":\"app_id\",\"auth_user_key\":\"user_key_foobar\",\"credentials_location\":\"query\",\"error_auth_failed\":\"Authentication failed\",\"error_auth_missing\":\"Authentication parameters missing\",\"created_at\":\"2016-09-07T14:34:38Z\",\"updated_at\":\"2016-09-07T17:07:32Z\",\"error_status_auth_failed\":403,\"error_headers_auth_failed\":\"text/plain; charset=us-ascii\",\"error_status_auth_missing\":403,\"error_headers_auth_missing\":\"text/plain; charset=us-ascii\",\"error_no_match\":\"No Mapping Rule matched\",\"error_status_no_match\":404,\"error_headers_no_match\":\"text/plain; charset=us-ascii\",\"secret_token\":\"Shared_secret_sent_from_proxy_to_API_backend_f0f4cbff3f17df56\",\"hostname_rewrite\":\"\",\"oauth_login_url\":null,\"sandbox_endpoint\":\"https://anotherservice-2445581528354.staging.apicast.io:443\",\"api_test_path\":\"/\",\"api_test_success\":true,\"hostname_rewrite_for_sandbox\":\"echo-api.3scale.net\",\"endpoint_port\":80,\"valid?\":true,\"service_backend_version\":\"2\",\"hosts\":[\"anotherservice-2445581528354.staging.apicast.io\"],\"backend\":{\"endpoint\":\"https://su1.3scale.net\",\"host\":\"su1.3scale.net\"},\"proxy_rules\":[{\"id\":122619,\"proxy_id\":81928,\"http_method\":\"GET\",\"pattern\":\"/\",\"metric_id\":2555417956740,\"metric_system_name\":\"hits\",\"delta\":1,\"tenant_id\":2445581528354,\"created_at\":\"2016-09-07T14:34:38Z\",\"updated_at\":\"2016-09-07T14:34:38Z\",\"redirect_url\":null,\"parameters\":[],\"querystring_parameters\":{}}]}}}}\n";
+
+      Json.decodeValue(in, ProxyConfigRoot.class);
+
     }
 
 }

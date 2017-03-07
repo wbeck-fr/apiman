@@ -33,6 +33,7 @@ import io.apiman.gateway.engine.IRegistry;
 import io.apiman.gateway.engine.impl.DefaultDataEncrypter;
 import io.apiman.gateway.engine.impl.DefaultPolicyErrorWriter;
 import io.apiman.gateway.engine.impl.DefaultPolicyFailureWriter;
+import io.apiman.gateway.engine.impl.DefaultRequestPathParser;
 import io.apiman.gateway.engine.policy.IPolicyFactory;
 import io.apiman.gateway.engine.policy.PolicyFactoryImpl;
 import io.apiman.gateway.platforms.vertx3.common.verticles.VerticleType;
@@ -162,7 +163,7 @@ public class VertxEngineConfig implements IEngineConfig {
     @Override
     public Class<? extends IApiRequestPathParser> getApiRequestPathParserClass(IPluginRegistry pluginRegistry) {
         return loadConfigClass(getClassname(config, GATEWAY_REQUEST_PARSER_PREFIX),
-                IApiRequestPathParser.class, DefaultApiRequestFactoryImpl.class);
+                IApiRequestPathParser.class, DefaultRequestPathParser.class);
     }
 
     @Override
@@ -276,6 +277,9 @@ public class VertxEngineConfig implements IEngineConfig {
     }
 
     protected Map<String, String> toFlatStringMap(JsonObject jsonObject) {
+        if (jsonObject == null)
+            return Collections.emptyMap();
+
         Map<String, String> outMap = new LinkedHashMap<>();
         // TODO figure out why this workaround is necessary.
         jsonMapToProperties("", new JsonObject(jsonObject.encode()).getMap(), outMap);

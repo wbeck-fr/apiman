@@ -47,13 +47,13 @@ public class HttpApiFactory {
         IGNORESET.add("Host");
     }
 
-    private final IApiRequestPathParser requestPathParser;
+    private static IApiRequestPathParser requestPathParser;
 
-    public HttpApiFactory(IApiRequestPathParser requestPathParser) {
-        this.requestPathParser = requestPathParser;
+    public static void init(IApiRequestPathParser requestPathParser) {
+        HttpApiFactory.requestPathParser = requestPathParser;
     }
 
-    public ApiResponse buildResponse(HttpClientResponse response, Set<String> suppressHeaders) {
+    public static ApiResponse buildResponse(HttpClientResponse response, Set<String> suppressHeaders) {
         ApiResponse apimanResponse = new ApiResponse();
         apimanResponse.setCode(response.statusCode());
         apimanResponse.setMessage(response.statusMessage());
@@ -61,7 +61,7 @@ public class HttpApiFactory {
         return apimanResponse;
     }
 
-    public void buildResponse(HttpServerResponse httpServerResponse, ApiResponse amanResponse, HttpVersion httpVersion) {
+    public static void buildResponse(HttpServerResponse httpServerResponse, ApiResponse amanResponse, HttpVersion httpVersion) {
         amanResponse.getHeaders().forEach(e -> {
             if (httpVersion == HttpVersion.HTTP_1_0 || httpVersion == HttpVersion.HTTP_1_1 || !e.getKey().equals("Connection")) {
                 httpServerResponse.headers().add(e.getKey(), e.getValue());
@@ -71,7 +71,7 @@ public class HttpApiFactory {
         httpServerResponse.setStatusMessage(amanResponse.getMessage());
     }
 
-    public ApiRequest buildRequest(HttpServerRequest req, boolean isTransportSecure) {
+    public static ApiRequest buildRequest(HttpServerRequest req, boolean isTransportSecure) {
         ApiRequest apimanRequest = new ApiRequest();
         apimanRequest.setApiKey(parseApiKey(req));
         apimanRequest.setRemoteAddr(req.remoteAddress().host());
@@ -83,7 +83,7 @@ public class HttpApiFactory {
         return apimanRequest;
     }
 
-    private void mungePath(HttpServerRequest request, ApiRequest apimanRequest) {
+    private static void mungePath(HttpServerRequest request, ApiRequest apimanRequest) {
         ApiRequestPathInfo parsedPath = requestPathParser.parseEndpoint(request.path(), apimanRequest.getHeaders());
         apimanRequest.setApiOrgId(parsedPath.orgId);
         apimanRequest.setApiId(parsedPath.apiId);
@@ -92,7 +92,7 @@ public class HttpApiFactory {
         apimanRequest.setDestination(parsedPath.resource);
     }
 
-    private void multimapToMap(CaseInsensitiveStringMultiMap map, MultiMap multimap, Set<String> suppressHeaders) {
+    private static void multimapToMap(CaseInsensitiveStringMultiMap map, MultiMap multimap, Set<String> suppressHeaders) {
         for (Map.Entry<String, String> entry : multimap) {
             if(!suppressHeaders.contains(entry.getKey())) {
                 String key = entry.getKey();
