@@ -118,11 +118,11 @@ gulp.task('connect', function() {
 gulp.task('css', function() {
     return gulp.src(
         [
-            'node_modules/patternfly/components/bootstrap-select/dist/css/bootstrap-select.css',
+            'node_modules/bootstrap-select/dist/css/bootstrap-select.css',
             'node_modules/patternfly/dist/css/patternfly.css',
             'node_modules/patternfly/dist/css/patternfly-additions.css',
             'node_modules/ng-sortable/dist/ng-sortable.css',
-            'node_modules/patternfly/components/cs/c3.css',
+            'node_modules/c3/c3.css',
             'node_modules/angular-xeditable-npm/dist/css/xeditable.css',
             'node_modules/angular-ui-bootstrap/ui-bootstrap-csp.css',
             'node_modules/ui-select/dist/select.css',
