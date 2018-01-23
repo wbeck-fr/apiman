@@ -140,8 +140,8 @@ gulp.task('css', function() {
 gulp.task('fonts', function() {
     return gulp.src(
         [
-            './node_modules/patternfly/components/bootstrap/dist/fonts/*.{eot,svg,ttf,woff,woff2}',
-            './node_modules/patternfly/components/font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}',
+            './node_modules/bootstrap/dist/fonts*.{eot,svg,ttf,woff,woff2}',
+            './node_modules/font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}',
             './node_modules/patternfly/dist/fonts/*.{eot,svg,ttf,woff,woff2}',
             SwaggerUIPath + '/dist/fonts/*.{eot,svg,ttf,woff,woff2}'
         ])
@@ -166,8 +166,8 @@ gulp.task('images', function() {
 gulp.task('path-adjust', function() {
     // All CSS
     return gulp.src(['deps.css'])
-        .pipe(replace('patternfly/components/bootstrap/dist/fonts/', './fonts/'))
-        .pipe(replace('patternfly/components/font-awesome/fonts/', './fonts/'))
+        .pipe(replace('bootstrap/dist/fonts/', './fonts/'))
+        .pipe(replace('font-awesome/fonts/', './fonts/'))
         .pipe(replace('patternfly/dist/fonts/', './fonts/'))
         .pipe(replace('patternfly/dist/img/', './images/'))
         .pipe(replace('swagger-ui-browserify/node_modules/swagger-ui/dist/images/', './images/'))
