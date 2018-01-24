@@ -1,3 +1,4 @@
+@import "e2e.css";
 
 body {
   line-height: normal;
@@ -77,9 +78,10 @@ a.ui-select-match-close:hover {
 }
 
 .apiman-about-page .about-logo {
-  background-image: url(../img/about-logo.gif);
+  background-image: url(../img/about-logo.png);
   background-repeat: no-repeat;
   background-position: top left;
+  background-size: contain;
   width: 215px;
   height: 259px;
   margin-top: 30px;
@@ -119,11 +121,13 @@ textarea.dropping {
   width: 100%;
   padding: 3px;
   border: 1px solid rgb(183, 183, 183);
+  /*fix input height*/
+  height: 28px;
 }
 .apiman-search-box button.btn {
-  margin-left: 0px;
-  border-left: 0px;
   box-shadow: none;
+  /*fix input height*/
+  height: 28px;
 }
 
 .italic {
@@ -173,7 +177,6 @@ textarea.apiman-form-data {
   margin-bottom: 0px;
 }
 
-
 @keyframes progressPulse {
   from {
     border-bottom-color: rgb(25, 157, 222);
@@ -199,19 +202,22 @@ textarea.apiman-form-data {
 }
 
 #apiman-header {
-  background-color: rgb(36, 52, 70);
-  border-bottom: 1px solid black;
+  background-color: var(--e2e-bg-color);
+  border-bottom: 3px solid var(--e2e-border-color);
 }
 #apiman-header .main-header {
   padding-top: 5px;
 }
 #apiman-header .logo {
-  background-image: url(../img/logo-header.png);
-  margin-top: 3px;
-  width: 120px;
-  height: 30px;
+  margin: 10px 0px;
+  background-image: url(../img/e2e_logo.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 150px;
   float: left;
 }
+
 #apiman-header .search {
   font-size: 12px;
   margin-top: 10px;
@@ -223,6 +229,7 @@ textarea.apiman-form-data {
   color: #eee;
   font-size: 13px;
 }
+
 #apiman-header .user-menu {
   font-size: 15px;
   margin-top: 10px;
@@ -275,7 +282,7 @@ textarea.apiman-form-data {
   background-color: #1cace9;
 }
 .apiman-label-success {
-  background-color: #5cb75c;
+  background-color: var(--e2e-button-selected-color);
 }
 .apiman-label-info {
   background-color: #27799c;
@@ -329,7 +336,7 @@ textarea.apiman-form-data {
 }
 
 #form-page .inline-apiman-form-control {
-  display: inline; 
+  display: inline;
   margin: 0px 5px;
   width: auto;
 }
@@ -356,20 +363,20 @@ div.page {
   border: 1px solid rgb(200, 200, 200);
   width: 49%;
   float: left;
-  margin-top: 20px;
-  box-shadow: 2px 2px 3px rgb(221, 221, 221);
+  margin: 20px 20px 0px 0px;
+  min-height: 220px;
 }
 .dash-group:hover {
-  border: 1px solid rgb(175, 175, 190);
-  box-shadow: 2px 2px 3px rgb(201, 201, 201);
+  border: 1px solid var(--e2e-button-hover-color);
 }
 .dash-group .title {
-  background-color: #f6f6f6;
+
   padding: 8px;
-  color: #666;
-  font-weight: bold;
-  font-size: 12px;
-  border-bottom: 1px solid rgb(200, 200, 200);
+  color: #ffffff;
+  font-weight: 300;
+  font-size: 17pt;
+  border-bottom: 1px solid var(--e2e-bg-color);
+  background-color: var(--e2e-bg-color);
 }
 .dash-group .description {
   padding: 10px;
@@ -383,24 +390,25 @@ div.page {
   padding: 0px;
 }
 .dash-group .actions ul li {
-  list-style: circle;
+  list-style: none;
   padding: 2px;
+  font-weight: bold;
 }
 
 .dash-admin-group {
-  border: 1px solid rgb(254, 201, 201);
+  border: 1px solid rgb(200, 200, 200);
 }
 .dash-admin-group:hover {
-  border: 1px solid rgb(224, 181, 181);
-  box-shadow: 2px 2px 3px rgb(211, 201, 201);
+  border: 1px solid var(--e2e-button-hover-color);
 }
 .dash-admin-group .title {
-  background-color: rgb(254, 227, 227);
-  color: #666;
-  border-bottom: 1px solid rgb(254, 201, 201);
+  /*Same style for .dash-admin-group because of E2E Corporate Design*/
+  color: #ffffff;
+  border-bottom: 1px solid var(--e2e-bg-color);
 }
 .dash-admin-group a {
-  color: rgb(217, 82, 79);
+  color: var(--e2e-bg-color);
+  vertical-align: middle;
 }
 
 .browse-items {
@@ -422,8 +430,7 @@ div.page {
   overflow: hidden;
 }
 .browse-items .item:hover {
-  border: 1px solid rgb(200, 200, 200);
-  background-color: #f9f9f9;
+  border: 1px solid var(--e2e-button-hover-color);
   box-shadow: 2px 2px 3px #ddd;
 }
 .browse-items .item .title {
@@ -456,7 +463,7 @@ div.page {
 }
 
 .apiman-label-faded {
-  color: #789;
+  color: #ffffff;
 }
 .apiman-label-small {
   font-size: 10px;
@@ -507,7 +514,7 @@ div.page {
 }
 
 .apiman-entitytabs .nav-tabs li.active a {
-  color: rgb(0, 153, 211);
+  color: var(--e2e-bg-color);
 }
 
 .apiman-activity .apiman-summaryrow hr {
@@ -629,7 +636,7 @@ ol.breadcrumb {
 }
 
 .apiman-entity-summary {
-  border: 1px solid rgb(200, 200, 200);
+  border: 1px solid var(--e2e-bg-color);
   box-shadow: 2px 2px 3px rgb(221, 221, 221);
   margin-bottom: 10px;
   padding-top: 10px;
@@ -704,7 +711,7 @@ ol.breadcrumb {
 }
 .apiman-entity-nav .nav-pills li.active a {
   background-color: white;
-  color: rgb(0, 153, 211);
+  color: var(--e2e-bg-color);
   border-right: 0px;
   border-top: 1px solid rgb(221, 221, 221);
   border-bottom: 1px solid rgb(221, 221, 221);
@@ -935,9 +942,9 @@ ol.breadcrumb {
   font-size: 13px;
   font-weight: normal;
   line-height: 1.3;
-  color: rgb(136, 136, 136);
-  background-color: #F2F2FA;
-  border: 2px solid rgb(204, 204, 204);
+  color: #ffffff;
+  background-color: var(--e2e-grey-button);
+  border: 2px solid var(--e2e-grey-button-border);
 }
 .apiman-no-entities-arrow {
   float: right;
@@ -1248,13 +1255,13 @@ div.admin-page .admin-content .apiman-summaryrow .emphasis {
   -webkit-margin-before: -4px;
 }
 
-div.editable-click { 
+div.editable-click {
   color: black;
   border-bottom: hidden;
   border: 1px solid white;
 }
 
-div.editable-click:hover { 
+div.editable-click:hover {
   border: 1px solid rgb(200, 200, 200);
   border-radius: 3px 0px 0px 3px;
   padding: 5px;
@@ -1263,8 +1270,8 @@ div.editable-click:hover {
 }
 
 .editable-wrap {
-    width: 100% !important;
-    overflow: hidden;
+  width: 100% !important;
+  overflow: hidden;
 }
 
 .apiman-inline-edit-overlay {
@@ -1555,7 +1562,7 @@ table tr.apiman_deleting {
 }
 
 .apiman-wizard-page {
-  
+
 }
 .apiman-wizard-page h1 {
   margin-top: 0px;
@@ -1743,8 +1750,8 @@ html, body {height: 100%;}
   text-align: center;
 }
 .apiman-card-table .card:hover {
-  border-color: #59b1d3;
-  border-top: 2px solid #59b1d3;
+  border-color: var(--e2e-button-hover-color);
+  border-top: 2px solid var(--e2e-button-hover-color);
 }
 .apiman-card-table .card .info {
   position: absolute;
@@ -1804,7 +1811,7 @@ html, body {height: 100%;}
 }
 
 #apiman-tags-filter div {
-	margin-top: -1px;
+  margin-top: -1px;
 }
 @-moz-document url-prefix() {
   #apiman-tags-filter div {
@@ -1841,19 +1848,16 @@ html, body {height: 100%;}
 
 .select2-container {
   font-size: 12px;
+  background-color: transparent;
+  border-color: transparent;
 }
 
 .select2-container .select2-choice {
   -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-  background-color: #eeeeee;
-  background-image: -webkit-linear-gradient(top, #fafafa 0%, #ededed 100%);
-  background-image: -o-linear-gradient(top, #fafafa 0%, #ededed 100%);
-  background-image: linear-gradient(to bottom, #fafafa 0%, #ededed 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffafafa', endColorstr='#ffededed', GradientType=0);
-  color: #4d5258;
-  border: 1px solid #b7b7b7;
+  background: var(--e2e-grey-button);
+  color: #ffffff !important;
+  border: 1px solid var(--e2e-grey-button-border);
   border-radius: 0;
   cursor: pointer;
   font-weight: 600;
@@ -1879,9 +1883,9 @@ html, body {height: 100%;}
 
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
   .select2-search input, .select2-search-choice-close, .select2-container .select2-choice abbr, .select2-container .select2-choice .select2-arrow b {
-     background: none;
-     font-weight: normal;
-   }
+    background: none;
+    font-weight: normal;
+  }
 }
 
 .select2-default {
@@ -1889,10 +1893,10 @@ html, body {height: 100%;}
 }
 
 .ui-select-container.select2-container .select2-choice:hover {
-  background-color: #eeeeee;
+  background-color: var(--e2e-button-hover-color);
   background-image: none;
-  border-color: #b7b7b7;
-  color: #4d5258;
+  border-color: var(--e2e-button-hover-color);
+  color: #ffffff;
 }
 
 .ui-select-container.select2-container.select2-container-disabled .select2-choice:hover {
@@ -1902,12 +1906,12 @@ html, body {height: 100%;}
   cursor: not-allowed;
 }
 
-.select2-dropdown-open.open .select2-choice, .select2-dropdown-open.open .select2-choice:hover, .select2-dropdown-open.open .select2-choice:focus {
-  background-color: #e2e2e2;
+.select2-dropdown-open.open .select2-choice, .select2-dropdown-open.open .select2-choice:hover, .select2-dropdown-open.open {
+  background-color: var(--e2e-grey-button);
   background-image: none;
-  border-color: #a5a5a5;
+  border-color: var(--e2e-grey-button-border);
   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  color: #4d5258;
+  color: #ffffff;
   outline-offset: -2px;
 }
 
@@ -1922,12 +1926,12 @@ html, body {height: 100%;}
   margin: 4px 0;
 }
 
-.select2-results .select2-highlighted, .ui-select-choices-row:hover {
-  background-color: #d4edfa;
-  border-color: #b3d3e7;
+.select2-results .select2-highlighted {
+  background-color: var(--e2e-button-selected-color);
+  border-color: var(--e2e-button-selected-border-color);
   border-style: solid;
   border-width: 1px 0;
-  color: #4d5258;
+  color: #ffffff;
   font-weight: normal;
 }
 

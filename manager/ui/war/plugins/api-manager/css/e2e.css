@@ -1,0 +1,211 @@
+/* --------------------------------------------------------
+E2E-Stylesheet
+----------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+:root {
+    --e2e-bg-color:                     #06618e;
+    --e2e-border-color:                 #689c40;
+    --e2e-dropdown-hover-color:         #e8e8e8;
+
+    --e2e-button-color:                 #06618e;
+    --e2e-button-border-color:          #055076;
+    --e2e-button-hover-color:           #2695cc;
+    --e2e-button-active-color:          #043953;
+    --e2e-button-active-border:         #033249;
+    --e2e-button-selected-color:        #689c40;
+    --e2e-button-selected-border-color: #46692b;
+
+    --e2e-grey-button:                  #bbb6b9;
+    --e2e-grey-button-border:           #6a7480;
+}
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size: 20pt;
+    font-weight: 300;
+}
+
+h1, h2, a {
+    color: var(--e2e-bg-color);
+}
+
+a:hover {
+    text-decoration: none;
+    color: var(--e2e-button-hover-color);
+}
+
+.btn-default {
+    background-image: none;
+    background-color: var(--e2e-grey-button);
+    border-color: var(--e2e-grey-button-border);
+    color: #ffffff;
+}
+
+.btn-default:hover {
+    background-color: var(--e2e-button-hover-color);
+    border-color: transparent;
+    color: #ffffff;
+}
+
+.btn-default:active, .btn-default:focus, .btn-default:active:focus {
+    background-color: var(--e2e-button-active-color);
+    border-color: var(--e2e-button-active-border);
+    color: #ffffff;
+}
+
+.btn-primary, .btn-danger {
+    /*Same style for .btn-danger because of E2E Corporate Design*/
+    background-image: none;
+    background-color: var(--e2e-button-color);
+    border-color: var(--e2e-button-border-color);
+}
+
+.btn-primary:hover, .btn-danger:hover {
+    background-color: var(--e2e-button-hover-color);
+    border-color: transparent;
+}
+
+.btn-primary:active, .btn-primary:focus, .btn-primary:active:focus, .btn-danger:active, .btn-danger:focus, .btn-danger:active:focus {
+    background-color: var(--e2e-button-active-color);
+    border-color: var(--e2e-button-active-border);
+}
+
+.nav  li  a:hover, .nav  li  a:focus {
+    background-color: var(--e2e-dropdown-hover-color);
+}
+
+.dropdown-menu  li  a:hover {
+    background-color: var(--e2e-dropdown-hover-color);
+    border-color: var(--e2e-dropdown-hover-color);
+}
+
+.dropdown-menu  li  a:active {
+    background-color: var(--e2e-button-selected-color);
+    border-color: var(--e2e-button-selected-border-color);
+    /*color: #363636 !important;*/
+}
+
+.dropdown-menu  li  a:focus{
+    background-color: var(--e2e-button-active-color);
+    border-color: var(--e2e-button-active-border);
+    color: #ffffff;
+}
+
+.bootstrap-select.btn-group .dropdown-menu .selected a {
+    /*!important is needed here, because the framework that is used by apiman uses it also*/
+    background-color: var(--e2e-button-selected-color) !important;
+    border-color: var(--e2e-button-selected-border-color) !important;
+    color: #ffffff !important;
+}
+
+.bootstrap-select.btn-group .btn {
+    /*Make it the same height like select2 dropdowns*/
+    height: 29px;
+}
+
+.bootstrap-select.btn-group .btn:hover {
+    border-color: var(--e2e-button-hover-color);
+    background-color: var(--e2e-button-hover-color);
+    color: #ffffff;
+}
+
+.bootstrap-select.btn-group .btn:focus {
+    background-color: var(--e2e-grey-button);
+    border-color: var(--e2e-grey-button-border);
+    color: #ffffff;
+}
+
+.bootstrap-select .dropdown-toggle.bs-placeholder,
+.bootstrap-select .dropdown-toggle.bs-placeholder:hover,
+.bootstrap-select .dropdown-toggle.bs-placeholder:focus,
+.bootstrap-select .dropdown-toggle.bs-placeholder:active {
+    color: #ffffff;
+}
+.nav-pills  li.active a {
+    background-color: var(--e2e-button-selected-color);
+}
+
+.nav-pills  li.active a:hover {
+    background-color: var(--e2e-button-selected-color);
+}
+
+.nav-pills  li a:focus {
+    background-color: var(--e2e-button-active-color);
+    color: #ffffff;
+}
+
+.apiman-entity-nav .nav-pills li a:focus {
+    color: #ffffff;
+}
+
+.nav-tabs  li.active  a {
+    color: var(--e2e-bg-color);
+}
+
+.select2 .select2-choice.ui-select-match, .select2 .select2-choice.ui-select-match:hover {
+    color: #ffffff;
+}
+
+.select2-result-label:focus, .select2-result-label:active {
+    background-color: var(--e2e-button-active-color);
+    border-color: var(--e2e-button-active-border);
+    color: #ffffff;
+}
+
+.ui-select-choices-row:hover {
+    background-color: var(--e2e-dropdown-hover-color);
+}
+
+.table-hover > tbody > tr:hover > td {
+    background-color: transparent;
+    border-bottom: transparent;
+}
+
+.open .dropdown-toggle.btn-default, .open .dropdown-toggle.btn-default:focus {
+    background-color: var(--e2e-grey-button);
+    border-color: var(--e2e-grey-button-border);
+    color: #ffffff;
+}
+
+.ui-select-container.select2-container .select2-choice {
+    background-color: var(--e2e-grey-button);
+    border-color: var(--e2e-grey-button-border);
+    color: #ffffff;
+}
+
+.form-control:hover {
+    border-color: var(--e2e-button-hover-color);
+}
+
+.col-md-12.no-phone .description{
+    font-weight: bold;
+}
+
+.dash-group .description {
+    font-weight: 300;
+}
+
+.dash-group.pull-right {
+    margin-right: 0px;
+}
+
+.col-md-12.flex-container{
+    display: flex;
+}
+
+.dash-group .actions ul li:before {
+    /*Square*/
+    content: "\25A0";
+    color: var(--e2e-bg-color);
+    margin-left: -17px;
+    padding-right: 10px;
+}
+
+.dash-group .actions ul li a {
+    vertical-align: middle;
+}
