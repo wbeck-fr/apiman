@@ -1,37 +1,24 @@
+@import "e2e-login.css";
+
 .login-pf .container {
     padding-top: 40px;
-    background-color: rgb(36, 52, 70);
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-    color: white;
+    background-color: var(--e2e-bg-color);
+    color: #ffffff;
 }
 
 .login-pf body {
-    background: rgb(246, 246, 246);
+    background-color: var(--e2e-bg-color);
+    background-image: url("../img/login-e2e-bg.jpg");
     background-size: 100% auto;
-    color: #666;
-    background-image: url("../img/apiman-bg.png");
-    background-repeat: repeat;
+    color: #ffffff;
 }
 
 .login-pf .container .details {
-  border-left: 1px solid #666;
+    border-left: 1px solid #666;
 }
 
 .login-pf a:hover {
     color: #0099d3;
-}
-
-#kc-logo {
-    width: 100%;
-}
-
-#kc-logo-wrapper {
-    background-image: url("../img/apiman-logo.png");
-    background-repeat: no-repeat;
-    background-position: top right;
-    height: 200px;
-    margin: 30px;
 }
 
 #kc-header {
@@ -45,12 +32,14 @@
     text-transform: uppercase;
     line-height: 1.2em;
     margin-bottom: 15px;
+    padding-top: 5%;
 }
 
 #kc-container-wrapper {
-    bottom: 13%;
+    bottom: 6%;
     position: absolute;
     width: 100%;
+    background-color: var(--e2e-bg-color);
 }
 
 #kc-content {
@@ -82,18 +71,16 @@
 }
 
 #kc-form-buttons.submit input[type=submit] {
-    background-color: #0085CF;
-    background-image: linear-gradient(to bottom, #00A8E1 0%, #0085CF 100%);
-    background-repeat: repeat-x;
+    background-color: #b3c435;
     color: #FFF;
     border-radius: 1px;
-    border: 1px solid #006E9C;
+    border: 1px solid var(--e2e-border-color);
 }
 #kc-form-buttons.submit input[type=submit]:focus, #kc-form-buttons.submit input[type=submit]:active {
-    background-color: #0085CF;
+    background-color: var(--e2e-button-selected-color);
     background-image: none;
-    border-color: #006E9C;
-    color: #FFF;  
+    border-color: var(--e2e-border-color);
+    color: #FFF;
 }
 
 #kc-feedback-wrapper {
@@ -251,10 +238,6 @@ ol#kc-totp-settings li:first-of-type {
 }
 
 @media (max-width: 767px) {
-    #kc-logo-wrapper {
-        margin-top: 30px;
-        margin-right: 15px;
-    }
 
     #kc-header {
         padding-left: 15px;
