@@ -4,6 +4,8 @@
     padding-top: 40px;
     background-color: var(--e2e-bg-color);
     color: #ffffff;
+    /*Support IE*/
+    background-color: #06618e;
 }
 
 .login-pf body {
@@ -11,6 +13,8 @@
     background-image: url("../img/login-e2e-bg.jpg");
     background-size: 100% auto;
     color: #ffffff;
+    /*Support IE*/
+    background-color: #06618e;
 }
 
 .login-pf .container .details {
@@ -75,6 +79,9 @@
     color: #FFF;
     border-radius: 1px;
     border: 1px solid var(--e2e-border-color);
+    /*Support IE*/
+    background-color: #b3c435;
+    border: 1px solid #689c40;
 }
 #kc-form-buttons.submit input[type=submit]:focus, #kc-form-buttons.submit input[type=submit]:active {
     background-color: var(--e2e-button-selected-color);

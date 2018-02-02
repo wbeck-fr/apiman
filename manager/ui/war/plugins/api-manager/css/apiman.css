@@ -204,6 +204,9 @@ textarea.apiman-form-data {
 #apiman-header {
   background-color: var(--e2e-bg-color);
   border-bottom: 3px solid var(--e2e-border-color);
+  /*Support IE*/
+  background-color: #06618e;
+  border-bottom: 3px solid #689c40;
 }
 #apiman-header .main-header {
   padding-top: 5px;
@@ -377,6 +380,9 @@ div.page {
   font-size: 17pt;
   border-bottom: 1px solid var(--e2e-bg-color);
   background-color: var(--e2e-bg-color);
+  /*Support IE*/
+  background-color: #06618e;
+  border-bottom: 3px solid #06618e;
 }
 .dash-group .description {
   padding: 10px;

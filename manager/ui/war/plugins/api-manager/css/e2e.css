@@ -32,6 +32,8 @@ h1 {
 
 h1, h2, a {
     color: var(--e2e-bg-color);
+    /*Support IE*/
+    color: #06618e;
 }
 
 a:hover {
@@ -44,6 +46,9 @@ a:hover {
     background-color: var(--e2e-grey-button);
     border-color: var(--e2e-grey-button-border);
     color: #ffffff;
+    /*Support IE*/
+    background-color: #bbb6b9;
+    border-color: #6a7480;
 }
 
 .btn-default:hover {
@@ -170,12 +175,18 @@ a:hover {
     background-color: var(--e2e-grey-button);
     border-color: var(--e2e-grey-button-border);
     color: #ffffff;
+    /*Support IE*/
+    background-color: #bbb6b9;
+    border-color: #6a7480;
 }
 
 .ui-select-container.select2-container .select2-choice {
     background-color: var(--e2e-grey-button);
     border-color: var(--e2e-grey-button-border);
     color: #ffffff;
+    /*Support IE*/
+    background-color: #bbb6b9;
+    border-color: #6a7480;
 }
 
 .form-control:hover {
