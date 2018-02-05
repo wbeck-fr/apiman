@@ -89,7 +89,12 @@ public class VersionMigrators {
          */
         public VersionComponents(String version) {
             @SuppressWarnings("nls")
-            String[] split = version.replace("-SNAPSHOT", "").split("\\.");
+            String[] split;
+            if (version.contains("beta")){
+                split = version.replaceAll("-beta\\d", "").split("\\.");
+            } else {
+                split = version.replace("-SNAPSHOT", "").split("\\.");
+            }
             major = new Integer(split[0]);
             minor = new Integer(split[1]);
             patch = new Integer(split[2]);
