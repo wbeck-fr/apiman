@@ -593,7 +593,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>apiman-distro-tomcat8</artifactId>
+        <artifactId>E2EBridgeGateway</artifactId>
         <version>${project.version}</version>
         <type>zip</type>
         <classifier>overlay</classifier>

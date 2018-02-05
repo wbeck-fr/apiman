@@ -7,7 +7,7 @@
     <version>7.0.0-beta1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>apiman-distro-tomcat8</artifactId>
+  <artifactId>E2EBridgeGateway</artifactId>
   <packaging>pom</packaging>
   <name>apiman-distro-tomcat8</name>
 
