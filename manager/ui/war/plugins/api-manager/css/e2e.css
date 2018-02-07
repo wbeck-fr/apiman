@@ -41,6 +41,10 @@ a:hover {
     color: var(--e2e-button-hover-color);
 }
 
+.btn {
+    box-shadow: none;
+}
+
 .btn-default {
     background-image: none;
     background-color: var(--e2e-grey-button);
@@ -152,7 +156,7 @@ a:hover {
     color: var(--e2e-bg-color);
 }
 
-.select2 .select2-choice.ui-select-match, .select2 .select2-choice.ui-select-match:hover {
+.select2 .select2-choice.ui-select-match:hover {
     color: #ffffff;
 }
 
@@ -180,13 +184,17 @@ a:hover {
     border-color: #6a7480;
 }
 
-.ui-select-container.select2-container .select2-choice {
+.select2-container .select2-choice {
     background-color: var(--e2e-grey-button);
     border-color: var(--e2e-grey-button-border);
     color: #ffffff;
     /*Support IE*/
     background-color: #bbb6b9;
     border-color: #6a7480;
+}
+
+.select2-container.select2-container-disabled .select2-choice {
+    color: #8b8d8f;
 }
 
 .form-control:hover {
@@ -219,4 +227,14 @@ a:hover {
 
 .dash-group .actions ul li a {
     vertical-align: middle;
+}
+
+.alert-info {
+    background-color: var(--e2e-grey-button);
+    border: 2px solid var(--e2e-grey-button-border);
+    color: #ffffff;
+}
+
+.panel {
+    box-shadow: none;
 }

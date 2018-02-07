@@ -24,13 +24,13 @@ textarea#api-definition.apiman-form-data.myBlur {
 .ui-select-bootstrap .ui-select-choices-row>a:hover, .ui-select-bootstrap .ui-select-choices-row>a:focus {
   text-decoration: none;
   color: #262626;
-  background-color: #d4edfa;
-  border-color: #b3d3e7;
+  background-color: var(--e2e-dropdown-hover-color);
+  border-color: var(--e2e-dropdown-hover-color);
 }
 
 .ui-select-bootstrap .ui-select-choices-row.active>a {
-  background-color: #0099d3;
-  border-color: #0076b7;
+  background-color: var(--e2e-button-selected-color);
+  border-color: var(--e2e-button-selected-color);
   color: #fff;
   outline: 2px auto -webkit-focus-ring-color;
   outline-offset: -2px;
@@ -437,7 +437,6 @@ div.page {
 }
 .browse-items .item:hover {
   border: 1px solid var(--e2e-button-hover-color);
-  box-shadow: 2px 2px 3px #ddd;
 }
 .browse-items .item .title {
   font-size: 15px;
@@ -469,7 +468,7 @@ div.page {
 }
 
 .apiman-label-faded {
-  color: #ffffff;
+  color: #333333;
 }
 .apiman-label-small {
   font-size: 10px;
@@ -643,7 +642,6 @@ ol.breadcrumb {
 
 .apiman-entity-summary {
   border: 1px solid var(--e2e-bg-color);
-  box-shadow: 2px 2px 3px rgb(221, 221, 221);
   margin-bottom: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -1360,9 +1358,7 @@ textarea.apiman-endpoint {
 #new-contract-form .client.selected .title, #new-contract-form .plan.selected .title, #new-contract-form .api.selected .title {
   background-color: #3776ab;
 }
-#new-contract-form .client:hover, #new-contract-form .plan:hover, #new-contract-form .api:hover {
-  box-shadow: 3px 3px 5px #ccc;
-}
+
 #new-contract-form .plan {
   margin-left: 40px;
   margin-right: 40px;
@@ -1859,10 +1855,8 @@ html, body {height: 100%;}
 }
 
 .select2-container .select2-choice {
-  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
   background: var(--e2e-grey-button);
-  color: #ffffff !important;
+  color: #ffffff;
   border: 1px solid var(--e2e-grey-button-border);
   border-radius: 0;
   cursor: pointer;
@@ -1895,7 +1889,7 @@ html, body {height: 100%;}
 }
 
 .select2-default {
-  color: #4d5258 !important;
+  color: #ffffff !important;
 }
 
 .ui-select-container.select2-container .select2-choice:hover {
@@ -1910,6 +1904,7 @@ html, body {height: 100%;}
   background-image: none;
   border: 1px solid #ddd;
   cursor: not-allowed;
+  color: #8b8d8f;
 }
 
 .select2-dropdown-open.open .select2-choice, .select2-dropdown-open.open .select2-choice:hover, .select2-dropdown-open.open {
