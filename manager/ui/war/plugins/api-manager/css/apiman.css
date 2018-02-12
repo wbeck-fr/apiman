@@ -706,7 +706,7 @@ ol.breadcrumb {
   border-bottom: 1px solid transparent;
   color: rgb(34, 34, 34);
 }
-.apiman-entity-nav .nav-pills li a:hover {
+.apiman-entity-nav .nav-pills li a:hover, .apiman-entity-nav .nav-pills li a:focus {
 }
 .apiman-entity-nav .nav-pills li.active a:hover, .apiman-entity-nav .nav-pills li.first a:hover, .apiman-entity-nav .nav-pills li.last a:hover {
   text-decoration: none;
