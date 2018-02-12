@@ -475,8 +475,7 @@ div.page {
 }
 
 .apiman-entitysummary {
-  padding: 5px;
-  border: 1px solid rgb(200, 200, 200);
+  border: 1px solid var(--e2e-bg-color);
   padding-top: 15px;
   padding-bottom: 15px;
   margin-bottom: 10px;
@@ -641,9 +640,8 @@ ol.breadcrumb {
 
 .apiman-entity-summary {
   border: 1px solid var(--e2e-bg-color);
-  margin-bottom: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin: 0px -20px 10px -20px;
+  padding: 10px 20px 10px 20px;
 }
 
 .apiman-entity-summary .apiman-entity-breadcrumb {
@@ -695,6 +693,7 @@ ol.breadcrumb {
 
 .apiman-entity-nav {
   font-size: 15px;
+  padding-left: 0px;
 }
 
 .apiman-entity-nav .nav-pills li {
