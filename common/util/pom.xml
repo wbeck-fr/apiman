@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.apiman</groupId>
     <artifactId>apiman-common</artifactId>
-    <version>7.0.0-beta1</version>
+    <version>7.0.0-beta2</version>
   </parent>
   <artifactId>apiman-common-util</artifactId>
   <packaging>bundle</packaging>

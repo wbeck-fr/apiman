@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.apiman</groupId>
     <artifactId>apiman-gateway</artifactId>
-    <version>7.0.0-beta1</version>
+    <version>7.0.0-beta2</version>
   </parent>
   <artifactId>apiman-gateway-platforms</artifactId>
   <packaging>pom</packaging>
