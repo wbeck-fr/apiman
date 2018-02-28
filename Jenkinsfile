@@ -37,7 +37,7 @@ pipeline {
         stage('Archive') {
             when {
                 not {
-                    branch 'e2e-release'
+                    branch 'e2e_release'
                 }
             }
             steps {
@@ -55,11 +55,11 @@ pipeline {
         }
         stage('Archive release') {
             when {
-                branch 'e2e-release'
+                branch 'e2e_release'
             }
             steps {
                 dir('distro/tomcat8/target/') {
-                    sh 'rename.ul "-overlay" "" *.zip'
+                    sh 'rename.ul -- "-overlay" "" *.zip'
                 }
                 archiveArtifacts artifacts: 'distro/tomcat8/target/E2EBridgeGateway*.zip'
             }
