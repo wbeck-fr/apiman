@@ -73,10 +73,6 @@ a.ui-select-match-close:hover {
   display: none !important;
 }
 
-.apiman-about-page table {
-  box-shadow: 2px 2px 3px rgb(221, 221, 221);
-}
-
 .apiman-about-page .about-logo {
   background-image: url(../img/about-logo.png);
   background-repeat: no-repeat;
@@ -842,8 +838,8 @@ ol.breadcrumb {
   border-color: transparent;
 }
 .apiman-entity-new .input-search-results .item:hover {
-  border-color: rgb(179, 211, 231);
-  background-color: rgb(212, 237, 250);
+  border-color: var(--e2e-dropdown-hover-color);
+  background-color: var(--e2e-dropdown-hover-color);
   text-decoration: none;
 }
 .apiman-entity-new .input-search-results .item:focus {
@@ -851,8 +847,8 @@ ol.breadcrumb {
 }
 .apiman-entity-new .input-search-results .item.selected {
   color: white;
-  border-color: rgb(0, 118, 183);
-  background-color: rgb(0, 153, 211);
+  border-color: var(--e2e-button-selected-border-color);
+  background-color: var(--e2e-button-selected-color);
 }
 .apiman-entity-new .btn-search {
   float: left;
@@ -868,7 +864,6 @@ ol.breadcrumb {
 }
 
 .apiman-contracts .apiman-summaryrow .actions {
-  visibility: hidden;
   float: right;
 }
 .apiman-contracts .apiman-summaryrow:hover .actions {
@@ -968,7 +963,6 @@ ol.breadcrumb {
 .apiman-cards .apiman-card {
   width: 320px;
   border: 1px solid rgb(204, 204, 204);
-  box-shadow: 2px 2px 3px #ddd;
   margin-right: 15px;
   margin-bottom: 15px;
   min-height: 110px;

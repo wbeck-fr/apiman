@@ -120,7 +120,7 @@ a:hover {
 
 .bootstrap-select.btn-group .btn {
     /*Make it the same height like select2 dropdowns*/
-    height: 29px;
+    height: 28px;
 }
 
 .bootstrap-select.btn-group .btn:hover {
@@ -252,4 +252,12 @@ a:hover {
 
 .panel {
     box-shadow: none;
+}
+
+.btn .apiman-label-faded {
+    color: #ffffff;
+}
+
+.apiman-cards .apiman-card:hover {
+    border: 1px solid var(--e2e-bg-color);
 }
