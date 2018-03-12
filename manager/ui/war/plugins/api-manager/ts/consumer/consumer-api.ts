@@ -121,8 +121,8 @@ module Apiman {
         }]);
 
     export var ConsumerApiDefController = _module.controller("Apiman.ConsumerApiDefController",
-        ['$q', '$scope', 'OrgSvcs', 'PageLifecycle', '$routeParams', '$window', 'Logger', 'ApiDefinitionSvcs', 'Configuration',
-        ($q, $scope, OrgSvcs, PageLifecycle, $routeParams, $window, Logger, ApiDefinitionSvcs, Configuration) => {
+        ['$q', '$rootScope', '$scope', 'OrgSvcs', 'PageLifecycle', '$routeParams', '$window', 'Logger', 'ApiDefinitionSvcs', 'Configuration',
+        ($q, $rootScope, $scope, OrgSvcs, PageLifecycle, $routeParams, $window, Logger, ApiDefinitionSvcs, Configuration) => {
             $scope.params = $routeParams;
             $scope.chains = {};
 
@@ -138,13 +138,44 @@ module Apiman {
                     });
                 })
             };
-            
+
+            $scope.addAuthCredentials = function(){
+                // Set API-Key
+                var key = $scope.authCredentials.api_key;
+                var keyValue = $scope.authCredentials.api_key_value;
+                var apiKey = new SwaggerClient.ApiKeyAuthorization(key, keyValue, "header");
+                $window.swaggerUi.api.clientAuthorizations.add(key, apiKey);
+
+                // Set Basic Auth
+                var username = $scope.authCredentials.username;
+                var password = $scope.authCredentials.password;
+                console.log(username + password);
+                var apiKeyAuth = new SwaggerClient.PasswordAuthorization(username, password);
+                $window.swaggerUi.api.clientAuthorizations.add("apimanauth", apiKeyAuth);
+
+                $rootScope.isDirty = false;
+            };
+
+            var checkDirty = function(){
+                var dirty = false;
+                if ($scope.authCredentials.api_key){
+                    dirty = $scope.authCredentials.api_key_value ? true : false;
+                }
+                if ($scope.authCredentials.username){
+                    dirty = $scope.authCredentials.password ? true : false;
+                }
+                $rootScope.isDirty = dirty;
+            };
+
+            $scope.$watch('authCredentials', checkDirty, true);
+
             PageLifecycle.loadPage('ConsumerApiDef', undefined, pageData, $scope, function() {
                 $scope.api = $scope.version.api;
                 $scope.org = $scope.api.organization;
                 $scope.hasError = false;
 
                 $scope.hasPublicPublishedAPI = ($scope.version.publicAPI && $scope.version.status == "Published") ? true : false;
+
                 PageLifecycle.setPageTitle('consumer-api-def', [ $scope.api.name ]);
                 
                 var hasSwagger = false;
@@ -191,6 +222,7 @@ module Apiman {
                                 // ignore the host that is specified in swagger-file and use the gateway as host
                                 $window.swaggerUi.api.setHost($scope.publicEndpoint.managedEndpoint.replace(/^https?:\/\//, ''));
                             }
+
                             $scope.$apply(function(error) {
                                 $scope.definitionStatus = 'complete';
                             });
