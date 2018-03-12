@@ -1438,8 +1438,8 @@ textarea.apiman-endpoint {
 
 #apiman-swagger.swagger-section .swagger-ui-wrap {
   max-width: none;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 #apiman-swagger.swagger-section .swagger-ui-wrap a {
   cursor: pointer;

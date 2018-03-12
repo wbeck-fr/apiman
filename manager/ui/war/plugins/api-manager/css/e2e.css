@@ -261,3 +261,12 @@ a:hover {
 .apiman-cards .apiman-card:hover {
     border: 1px solid var(--e2e-bg-color);
 }
+
+.swagger-ui-form-table {
+    width: 100%;
+}
+
+.swagger-ui-form-table td:first-child{
+    width: 1%;
+    white-space: nowrap;
+}
