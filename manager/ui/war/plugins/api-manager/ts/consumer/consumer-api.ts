@@ -129,6 +129,13 @@ module Apiman {
             var pageData = {
                 version: $q(function(resolve, reject) {
                     OrgSvcs.get({ organizationId: $routeParams.org, entityType: 'apis', entityId: $routeParams.api, versionsOrActivity: 'versions', version: $routeParams.version }, resolve, reject);
+                }),
+                publicEndpoint: $q(function(resolve, reject) {
+                    OrgSvcs.get({ organizationId: $routeParams.org, entityType: 'apis', entityId: $routeParams.api, versionsOrActivity: 'versions', version: $routeParams.version, policiesOrActivity: 'endpoint' }, resolve, function(error) {
+                        resolve({
+                            managedEndpoint: 'Not available.'
+                        });
+                    });
                 })
             };
             
@@ -137,6 +144,7 @@ module Apiman {
                 $scope.org = $scope.api.organization;
                 $scope.hasError = false;
 
+                $scope.hasPublicPublishedAPI = ($scope.version.publicAPI && $scope.version.status == "Published") ? true : false;
                 PageLifecycle.setPageTitle('consumer-api-def', [ $scope.api.name ]);
                 
                 var hasSwagger = false;
@@ -161,21 +169,28 @@ module Apiman {
                             apimanauth: new SwaggerClient.ApiKeyAuthorization("Authorization", authHeader, "header")
                         },
                         onComplete: function() {
-                            $('#swagger-ui-container a').each(function(idx, elem) {
-                                var href = $(elem).attr('href');
-                                if (href[0] == '#') {
-                                    $(elem).removeAttr('href');
-                                }
-                            });
-                            $('#swagger-ui-container div.sandbox_header').each(function(idx, elem) {
-                                $(elem).remove();
-                            });
-                            $('#swagger-ui-container li.operation div.auth').each(function(idx, elem) {
-                                $(elem).remove();
-                            });
-                            $('#swagger-ui-container li.operation div.access').each(function(idx, elem) {
-                                $(elem).remove();
-                            });
+                            // Remove Swagger-UI-Try-Out-Button if the requested API is not public and NOT published
+                            if(!$scope.hasPublicPublishedAPI){
+                                $('#swagger-ui-container a').each(function(idx, elem) {
+                                    var href = $(elem).attr('href');
+                                    if (href[0] == '#') {
+                                        $(elem).removeAttr('href');
+                                    }
+                                });
+                                $('#swagger-ui-container div.sandbox_header').each(function(idx, elem) {
+                                    $(elem).remove();
+                                });
+                                $('#swagger-ui-container li.operation div.auth').each(function(idx, elem) {
+                                    $(elem).remove();
+                                });
+                                $('#swagger-ui-container li.operation div.access').each(function(idx, elem) {
+                                    $(elem).remove();
+                                });
+                            } else if ($scope.hasPublicPublishedAPI){
+                                // If the requested API is public and published then
+                                // ignore the host that is specified in swagger-file and use the gateway as host
+                                $window.swaggerUi.api.setHost($scope.publicEndpoint.managedEndpoint.replace(/^https?:\/\//, ''));
+                            }
                             $scope.$apply(function(error) {
                                 $scope.definitionStatus = 'complete';
                             });
