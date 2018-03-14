@@ -270,3 +270,13 @@ a:hover {
     width: 1%;
     white-space: nowrap;
 }
+
+.client-apps-api-table {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.client-apps-api-table th:nth-child(n+4){
+    width: 1%;
+    white-space: nowrap;
+}

@@ -121,8 +121,8 @@ module Apiman {
         }]);
 
     export var ConsumerApiDefController = _module.controller("Apiman.ConsumerApiDefController",
-        ['$q', '$rootScope', '$scope', 'OrgSvcs', 'PageLifecycle', '$routeParams', '$window', 'Logger', 'ApiDefinitionSvcs', 'Configuration',
-        ($q, $rootScope, $scope, OrgSvcs, PageLifecycle, $routeParams, $window, Logger, ApiDefinitionSvcs, Configuration) => {
+        ['$q', '$rootScope', '$scope', 'OrgSvcs', 'PageLifecycle', '$routeParams', '$window', 'Logger', 'ApiDefinitionSvcs', 'Configuration', 'SwaggerUIContractService',
+        ($q, $rootScope, $scope, OrgSvcs, PageLifecycle, $routeParams, $window, Logger, ApiDefinitionSvcs, Configuration, SwaggerUIContractService) => {
             $scope.params = $routeParams;
             $scope.chains = {};
 
@@ -149,7 +149,6 @@ module Apiman {
                 // Set Basic Auth
                 var username = $scope.authCredentials.username;
                 var password = $scope.authCredentials.password;
-                console.log(username + password);
                 var apiKeyAuth = new SwaggerClient.PasswordAuthorization(username, password);
                 $window.swaggerUi.api.clientAuthorizations.add("apimanauth", apiKeyAuth);
 
@@ -169,12 +168,22 @@ module Apiman {
 
             $scope.$watch('authCredentials', checkDirty, true);
 
+            $scope.$on("$locationChangeStart", function(event, new_url, old_url){
+                //check if new requested url contains /def
+                //If not remove X-API-Key
+                if (new_url.indexOf("/def") == -1){
+                    console.log("Success");
+                    SwaggerUIContractService.removeXAPIKey();
+                }
+            });
+
             PageLifecycle.loadPage('ConsumerApiDef', undefined, pageData, $scope, function() {
                 $scope.api = $scope.version.api;
                 $scope.org = $scope.api.organization;
                 $scope.hasError = false;
 
                 $scope.hasPublicPublishedAPI = ($scope.version.publicAPI && $scope.version.status == "Published") ? true : false;
+                $scope.hasContract = (SwaggerUIContractService.getXAPIKey() && $scope.version.status == "Published") ? true : false;
 
                 PageLifecycle.setPageTitle('consumer-api-def', [ $scope.api.name ]);
                 
@@ -197,11 +206,11 @@ module Apiman {
                         validatorUrl:null,
                         sorter : "alpha",
                         authorizations: {
-                            apimanauth: new SwaggerClient.ApiKeyAuthorization("Authorization", authHeader, "header")
+                            apimanauth: new SwaggerClient.ApiKeyAuthorization("Authorization", authHeader, "header"),
                         },
                         onComplete: function() {
-                            // Remove Swagger-UI-Try-Out-Button if the requested API is not public and NOT published
-                            if(!$scope.hasPublicPublishedAPI){
+                            // Remove Swagger-UI-Try-Out-Button if the requested API is not public/has no contract and NOT published
+                            if(!($scope.hasPublicPublishedAPI || $scope.hasContract)){
                                 $('#swagger-ui-container a').each(function(idx, elem) {
                                     var href = $(elem).attr('href');
                                     if (href[0] == '#') {
@@ -217,15 +226,21 @@ module Apiman {
                                 $('#swagger-ui-container li.operation div.access').each(function(idx, elem) {
                                     $(elem).remove();
                                 });
-                            } else if ($scope.hasPublicPublishedAPI){
-                                // If the requested API is public and published then
+                            } else if ($scope.hasPublicPublishedAPI || $scope.hasContract){
+                                // If the requested API is public/has contract and published then
                                 // ignore the host that is specified in swagger-file and use the gateway as host
                                 $window.swaggerUi.api.setHost($scope.publicEndpoint.managedEndpoint.replace(/^https?:\/\//, ''));
+                                $window.swaggerUi.api.setBasePath('');
                             }
 
                             $scope.$apply(function(error) {
                                 $scope.definitionStatus = 'complete';
                             });
+                            
+                            if (SwaggerUIContractService.getXAPIKey()){
+                                var apiKey = new SwaggerClient.ApiKeyAuthorization("X-API-Key", SwaggerUIContractService.getXAPIKey(), "header");
+                                $window.swaggerUi.api.clientAuthorizations.add("X-API-Key", apiKey);
+                            };
                         },
                         onFailure: function() {
                             $scope.$apply(function(error) {
