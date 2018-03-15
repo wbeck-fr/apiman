@@ -33,7 +33,7 @@ module Apiman {
             $scope.removePolicy = function(policy, size) {
                 var options = {
                     title: 'Confirm Remove Policy',
-                    message: 'Do you really want to remove this policy from the client app?'
+                    message: 'Do you really want to remove this policy from the client?'
                 };
     
                 $scope.animationsEnabled = true;

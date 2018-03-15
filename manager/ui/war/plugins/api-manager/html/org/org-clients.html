@@ -20,13 +20,13 @@
             <div ng-include="'plugins/api-manager/html/org/org_tabs.include'"></div>
             <div id="entitytabsContent" class="tab-content">
 
-              <!-- Client Apps Tab Content -->
+              <!-- Client Tab Content -->
               <div class="tab-pane active" id="tab-clients">
                 <div class="apiman-filters apiman-clients-filters">
                   <div>
-                    <apiman-search-box id="clients-filter" apiman-i18n-key="filter-org-clients" function="filterClients" placeholder="Filter by client app name..." />
+                    <apiman-search-box id="clients-filter" apiman-i18n-key="filter-org-clients" function="filterClients" placeholder="Filter by client name..." />
                   </div>
-                  <a apiman-permission="clientEdit" data-field="toNewClient" href="{{ pluginName }}/new-client" class="btn btn-primary pull-right" apiman-i18n-key="new-client">New Client App</a>
+                  <a apiman-permission="clientEdit" data-field="toNewClient" href="{{ pluginName }}/new-client" class="btn btn-primary pull-right" apiman-i18n-key="new-client">New Client</a>
                 </div>
                 <div class="clearfix"></div>
                 <!-- The list of clients in the org -->
@@ -35,7 +35,7 @@
                   <div class="apiman-no-content container-fluid" ng-hide="clients.length > 0">
                     <div class="row">
                       <div class="col-md-9">
-                        <p class="apiman-no-entities-description" apiman-i18n-key="no-clients-found-for-org">It looks like there aren't (yet) any client apps in this organization! Now might be a good time to click the New App button up above...</p>
+                        <p class="apiman-no-entities-description" apiman-i18n-key="no-clients-found-for-org">It looks like there aren't (yet) any client in this organization! Now might be a good time to click the New App button up above...</p>
                       </div>
                       <div class="col-md-3">
                         <div class="apiman-no-entities-arrow"></div>
@@ -46,7 +46,7 @@
                   <div class="apiman-no-content container-fluid" ng-show="clients.length > 0 && filteredClients.length == 0">
                     <div class="row">
                       <div class="col-md-12">
-                        <p class="apiman-no-entities-description" apiman-i18n-key="no-clients-found-for-filter">No Client Apps found matching your filter criteria - please try searching for something different.</p>
+                        <p class="apiman-no-entities-description" apiman-i18n-key="no-clients-found-for-filter">No Clients found matching your filter criteria - please try searching for something different.</p>
                       </div>
                     </div>
                   </div>
@@ -63,7 +63,7 @@
                   </div>
                 </div>
               </div>
-              <!-- End Client Apps Tab Content -->
+              <!-- End Clients Tab Content -->
               
             </div>
           </div>

@@ -128,7 +128,7 @@ module Apiman {
                 var options = {
                     publishedOnly: true,
                     message: 'This will unregister ' + $scope.client.name + '. Really do this?',
-                    title: 'Confirm Unregister App'
+                    title: 'Confirm Unregister Client'
                 };
 
                 $scope.animationsEnabled = true;

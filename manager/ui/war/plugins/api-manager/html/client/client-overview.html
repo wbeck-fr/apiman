@@ -25,38 +25,38 @@
         <div class="col-md-10 apiman-entity-content apiman-entity-overview">
           <!-- Content Summary -->
           <div class="col-md-12">
-            <h1 apiman-i18n-key="client-details">Client App Details</h1>
+            <h1 apiman-i18n-key="client-details">Client Details</h1>
             <p apiman-i18n-key="client-overview.client-description">
-              This is the Client App details page.  Use this page to modify the Client App's meta-data,
+              This is the Client details page.  Use this page to modify the Client's meta-data,
               policies, and contracts.  There is no need to follow the tabs in order, but note that
-              you will need to fill out a minimum amount of data before the Client App can be registered
-              with the Gateway.  In particular, the Client App must have at least one API Contract
+              you will need to fill out a minimum amount of data before the Client can be registered
+              with the Gateway.  In particular, the Client must have at least one API Contract
               (see the "Contracts" tab).
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/contracts" apiman-i18n-key="contracts">Contracts</a></h2>
             <p apiman-i18n-key="client-overview.contracts-description">
               The 'Contracts' tab is where you can manage all of the API Contracts for this 
-              Client App.  A API Contract is simply a link between this Client App and a provided
-              API the the Client App consumes.
+              Client.  A API Contract is simply a link between this Client and a provided
+              API the the Client consumes.
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/policies" apiman-i18n-key="policies">Policies</a></h2>
             <p apiman-i18n-key="client-overview.policies-description">
               The 'Policies' tab allows you to manage the Client-level policies that should
-              be applied whenever a request is made to any API consumed by this Client App.
+              be applied whenever a request is made to any API consumed by this Client.
             </p>
 
             <h2 apiman-status="Registered"><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/apis" apiman-i18n-key="apis">APIs</a></h2>
             <p apiman-i18n-key="client-overview.apis-description" apiman-status="Registered">
-              The 'APIs' tab lists all of the APIs consumed by this Client App, including 
+              The 'APIs' tab lists all of the APIs consumed by this Client, including
               showing the API Key and live endpoint for each.  Go here if you want to figure out
               how to invoke an API once you have a Contract for it.
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/activity" apiman-i18n-key="activity">Change Log</a></h2>
             <p apiman-i18n-key="client-overview.activity-description">
-              The 'Change Log' tab shows a history of all the changes made to the Client App.  Essentially
+              The 'Change Log' tab shows a history of all the changes made to the Client.  Essentially
               it is an audit log.
             </p>
           </div>

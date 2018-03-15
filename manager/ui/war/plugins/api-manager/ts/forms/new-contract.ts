@@ -82,7 +82,7 @@ module Apiman {
                 };
 
                 $scope.changedClient = function (newValue) {
-                    Logger.debug('Client App selected: {0}', newValue);
+                    Logger.debug('Client selected: {0}', newValue);
 
                     $scope.clientVersions = [];
 

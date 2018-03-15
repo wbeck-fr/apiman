@@ -14,7 +14,7 @@
     </div>
     <!-- Helpful hint -->
     <div class="row">
-        <p class="col-md-6 apiman-label-faded" apiman-i18n-key="new-contract-help-text" class="apiman-label-faded">Creating a Contract allows you to connect a Client App to an API via a particular Plan offered by the API. You would want to do this so that your Client App can invoke the API successfully. Note that this is not necessary if the API is public.</p>
+        <p class="col-md-6 apiman-label-faded" apiman-i18n-key="new-contract-help-text" class="apiman-label-faded">Creating a Contract allows you to connect a Client to an API via a particular Plan offered by the API. You would want to do this so that your Client can invoke the API successfully. Note that this is not necessary if the API is public.</p>
     </div>
     <!-- HR -->
     <div class="row hr-row">
@@ -24,17 +24,17 @@
     <div id="new-contract-form" class="new-contract-form row">
         <div class="col-md-6">
             <div class="client" ng-class="{ selected : selectedClientVersion }">
-                <div class="title"><i class="fa fa-gears fa-fw"></i> <span apiman-i18n-key="from-client">From Client App</span></div>
+                <div class="title"><i class="fa fa-gears fa-fw"></i> <span apiman-i18n-key="from-client">From Client</span></div>
                 <div class="body">
                     <p apiman-i18n-key="new-contract.client-description">
-                        The Client App that will be used as the source of the new API Contract.  Choose one 
-                        of your available Client Apps below, and then choose a Client App version.
+                        The Client that will be used as the source of the new API Contract.  Choose one
+                        of your available Clients below, and then choose a Client version.
                     </p>
                     <div class="center-content" ng-show="clients.length > 0">
                         <ui-select ng-model="selectedClient"
                                    on-select="changedClient($item)"
                                    search-enabled="true">
-                            <ui-select-match placeholder="Select a Client Application" apiman-i18n-key="select-client">
+                            <ui-select-match placeholder="Select a Client" apiman-i18n-key="select-client">
                                 <span ng-bind="$select.selected.organizationName + ' / ' + $select.selected.name"></span>
                             </ui-select-match>
                             <ui-select-choices repeat="client in (clients | filter: $select.search) track by client.id">
@@ -56,15 +56,15 @@
                     <div class="alert alert-warning" ng-show="clients.length > 0 && selectedClient && clientVersions.length == 0" style="margin-top: 10px">
                         <span class="pficon pficon-info"></span>
                  <span apiman-i18n-key="new-contract.no-client-versions">
-                   There are no versions of the selected Client App that can be registered.  For example, if a
-                   Client App is Retired you will not be able to create a Contract for it.
+                   There are no versions of the selected Client that can be registered.  For example, if a
+                   Client is Retired you will not be able to create a Contract for it.
                  </span>
                     </div>
                     <div class="alert alert-warning" ng-show="clients.length == 0">
                         <span class="pficon pficon-info"></span>
                  <span apiman-i18n-key="new-contract.no-clients-found">
-                   We couldn't find any Client Apps for you - you must manage at least one
-                   Client App in order to create a Contract.
+                   We couldn't find any Clients for you - you must manage at least one
+                   Client in order to create a Contract.
                  </span>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                 <div class="title"><i class="fa fa-puzzle-piece fa-fw"></i> <span apiman-i18n-key="to-api">To API</span></div>
                 <div class="body">
                     <p apiman-i18n-key="new-contract.api-description">
-                      Use this section to choose what API the Client App will be consuming (aka the
+                      Use this section to choose what API the Client will be consuming (aka the
                       "target" of this API Contract).
                     </p>
                     <div class="center-content">

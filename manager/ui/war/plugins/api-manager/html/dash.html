@@ -18,10 +18,10 @@
         <div class="col-md-12 no-phone">
           <span class="description" apiman-i18n-key="dash.page-description">
             Welcome to Bridge Gateway, your API management solution.  Use this software to provide
-            various APIs (APIs) to your consumers (Client Apps) through a secure, scalable,
+            various APIs (APIs) to your consumers (Clients) through a secure, scalable,
             and governed Gateway layer.  API Management allows API Developers to centralize
             control and analysis of their APIs.  It also provides a central location for
-            Client App Developers to find and consume available APIs.
+            Client Developers to find and consume available APIs.
           </span>
           <hr />
         </div>
@@ -35,9 +35,9 @@
               <span apiman-i18n-key="organizations">Organizations</span>
             </div>
             <div class="description" apiman-i18n-key="dash.orgs-description">
-              All APIs and Client Apps must be managed within the context of an 
+              All APIs and Clients must be managed within the context of an
               Organization.  You can be a member of multiple Organizations at the same
-              time, with different roles in each:  you can be a Client App
+              time, with different roles in each:  you can be a Client
               Developer in one organization and an API Developer in another.
             </div>
             <div class="actions">
@@ -56,7 +56,7 @@
             </div>
             <div class="description" apiman-i18n-key="dash.apis-description">
               Create, find, or manage APIs.  An API is also known as a "Service" - anything
-              that can be invoked remotely by some sort of client application.  This platform
+              that can be invoked remotely by some sort of client.  This platform
               simply provides a way to turn unmanaged (raw) back-end APIs into "managed" APIs
               by attaching policies to them.
             </div>
@@ -76,17 +76,17 @@
           <div class="dash-group">
             <div class="title">
               <i class="fa fa-gears"></i>
-              <span apiman-i18n-key="clients">Client Apps</span>
+              <span apiman-i18n-key="clients">Clients</span>
             </div>
             <div class="description" apiman-i18n-key="dash.clients-description">
-              Create and manage your Client Apps.  A Client App is the thing that consumes
+              Create and manage your Clients.  A Client is the thing that consumes
               APIs.  These consumers must be defined in this platform so that 
               contracts can be created between them and the APIs they wish to consume.
             </div>
             <div class="actions">
               <ul>
-                <li><a id="clients-manage" href="{{ pluginName }}/users/{{ currentUser.username }}/clients" apiman-i18n-key="actions.my-clients" data-field="myClients">Manage My Client Apps</a></li>
-                <li><a id="clients-new" href="{{ pluginName }}/new-client" apiman-i18n-key="actions.new-client" data-field="createClient">Create a New Client App</a></li>
+                <li><a id="clients-manage" href="{{ pluginName }}/users/{{ currentUser.username }}/clients" apiman-i18n-key="actions.my-clients" data-field="myClients">Manage My Clients</a></li>
+                <li><a id="clients-new" href="{{ pluginName }}/new-client" apiman-i18n-key="actions.new-client" data-field="createClient">Create a New Client</a></li>
                 <li><a id="apis-consume" href="{{ pluginName }}/browse/apis" apiman-i18n-key="actions.find-api">Find/Consume an API</a></li>
               </ul>
             </div>
