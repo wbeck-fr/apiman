@@ -33,28 +33,28 @@
               with the Gateway.  In particular, the Client App must have at least one API Contract
               (see the "Contracts" tab).
             </p>
-            
-            <h2 apiman-i18n-key="contracts">Contracts</h2>
+
+            <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/contracts" apiman-i18n-key="contracts">Contracts</a></h2>
             <p apiman-i18n-key="client-overview.contracts-description">
               The 'Contracts' tab is where you can manage all of the API Contracts for this 
               Client App.  A API Contract is simply a link between this Client App and a provided
               API the the Client App consumes.
             </p>
 
-            <h2 apiman-i18n-key="policies">Policies</h2>
+            <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/policies" apiman-i18n-key="policies">Policies</a></h2>
             <p apiman-i18n-key="client-overview.policies-description">
               The 'Policies' tab allows you to manage the Client-level policies that should
               be applied whenever a request is made to any API consumed by this Client App.
             </p>
 
-            <h2 apiman-i18n-key="apis" apiman-status="Registered">APIs</h2>
+            <h2 apiman-status="Registered"><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/apis" apiman-i18n-key="apis">APIs</a></h2>
             <p apiman-i18n-key="client-overview.apis-description" apiman-status="Registered">
               The 'APIs' tab lists all of the APIs consumed by this Client App, including 
               showing the API Key and live endpoint for each.  Go here if you want to figure out
               how to invoke an API once you have a Contract for it.
             </p>
 
-            <h2 apiman-i18n-key="activity">Change Log</h2>
+            <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/activity" apiman-i18n-key="activity">Change Log</a></h2>
             <p apiman-i18n-key="client-overview.activity-description">
               The 'Change Log' tab shows a history of all the changes made to the Client App.  Essentially
               it is an audit log.
