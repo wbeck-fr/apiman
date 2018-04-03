@@ -280,3 +280,9 @@ a:hover {
     width: 1%;
     white-space: nowrap;
 }
+
+.container-fluid .cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+}
