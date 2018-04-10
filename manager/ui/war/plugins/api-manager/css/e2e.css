@@ -5,20 +5,20 @@ E2E-Stylesheet
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 :root {
-    --e2e-bg-color:                     #06618e;
+    --e2e-bg-color:                     #06618e; /*Mittelblau*/
     --e2e-border-color:                 #689c40;
     --e2e-dropdown-hover-color:         #e8e8e8;
 
     --e2e-button-color:                 #06618e;
     --e2e-button-border-color:          #055076;
-    --e2e-button-hover-color:           #2695cc;
+    --e2e-button-hover-color:           #2695cc; /*Royalblau*/
     --e2e-button-active-color:          #043953;
     --e2e-button-active-border:         #033249;
     --e2e-button-selected-color:        #689c40;
     --e2e-button-selected-border-color: #46692b;
 
-    --e2e-grey-button:                  #bbb6b9;
-    --e2e-grey-button-border:           #6a7480;
+    --e2e-grey-button:                  #bbb6b9; /*Rosengrau*/
+    --e2e-grey-button-border:           #6a7480; /*Schiefergrau*/
 }
 
 * {
@@ -285,4 +285,77 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
 }
+
+/*Vertical Styling*/
+.navbar-pf-vertical {
+    border-bottom: 1px #FFFFFF;
+    background-color: #054869;
+}
+
+.nav-pf-vertical {
+    background: var(--e2e-bg-color);
+    max-width: 200px;
+    /*force 1px border with top*/
+    top: 61px;
+    border-right: none;
+
+}
+.nav-pf-secondary-nav {
+    /*force 1px border with top*/
+    top: 61px;
+    border: none;
+    background: rgba(7,98,142,0.6);
+    box-shadow: inset 10px 0px 10px -5px rgba(7,98,142,0.6);
+}
+
+.nav-pf-vertical.collapsed {
+    max-width: 75px;
+}
+
+.list-group-item {
+    max-width: 200px;
+}
+
+.nav-pf-vertical .list-group-item  a, .nav-pf-vertical .list-group-item a .fa, .nav-pf-vertical .list-group-item.active a .fa {
+    color: #FFFFFF;
+}
+
+.nav-pf-vertical .list-group-item.active  a, .nav-pf-vertical .list-group-item:hover a, .nav-pf-vertical .list-group-item:hover a .fa {
+     background-color: var(--e2e-button-hover-color);
+     color: #FFFFFF;
+ }
+
+.nav-pf-vertical .nav-pf-secondary-nav .list-group-item:hover a {
+    background-color: var(--e2e-button-hover-color);
+    color: #FFFFFF;
+}
+
+.nav-pf-vertical .nav-pf-secondary-nav .list-group-item a {
+    background-color: transparent;
+    color: #FFFFFF;
+}
+
+.nav-pf-vertical .list-group-item.active a:before {
+    background: #FFFFFF;
+}
+
+.navbar-pf-vertical .nav .nav-item-iconic .caret,
+.navbar-pf-vertical .nav .nav-item-iconic .fa,
+.navbar-pf-vertical .nav .nav-item-iconic .pficon {
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.secondary-nav-item-pf a:after {
+     color: #FFFFFF;
+ }
+
+.navbar-pf-vertical .navbar-toggle .icon-bar {
+    /*white hamburger menu icon*/
+    background: #FFFFFF;
+}
+
+.navbar-pf-vertical .nav .nav-item-iconic {
+    /*username*/
+    color: #FFFFFF;
 }

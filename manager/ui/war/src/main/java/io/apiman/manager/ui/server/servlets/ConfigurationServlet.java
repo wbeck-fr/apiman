@@ -96,7 +96,7 @@ public class ConfigurationServlet extends AbstractUIServlet {
             configBean.setUser(new UserConfigurationBean());
             configBean.setUi(new UiConfigurationBean());
             configBean.setApi(new ApiConfigurationBean());
-            configBean.getUi().setHeader("community"); //$NON-NLS-1$
+            configBean.getUi().setHeader("e2e"); //$NON-NLS-1$
             configBean.getUi().setMetrics(getConfig().isMetricsEnabled());
             configBean.getUi().setPlatform(getConfig().getPlatform());
             configBean.getApiman().setVersion(version.getVersionString());
