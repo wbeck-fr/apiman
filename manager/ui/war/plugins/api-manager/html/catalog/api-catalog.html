@@ -8,7 +8,7 @@
 <body>
 <div>
     <div ng-include="headerInclude"></div>
-    <div ng-controller="Apiman.ApiCatalogController" class="page container" ng-cloak="" ng-show="pageState == 'loaded'">
+    <div ng-controller="Apiman.ApiCatalogController" class="page container" ng-cloak="">
         <div class="row">
             <div class="col-md-12">
                 <ol class="breadcrumb">
@@ -38,9 +38,18 @@
                         <hr/>
                     </div>
 
+                    <div class="row" ng-hide="pageState == 'loaded'">
+                        <div class="col-md-12">
+                            <div style="margin-top: 15px; padding: 20px" class="alert alert-info">
+                                <div style="float:left; margin-right: 6px" class="spinner spinner-sm"></div>
+                                <span apiman-i18n-key="loading-api-catalog">Loading APIs from API Catalog, this can take up to several minutes...</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Filter and Actions -->
                     <div class="row"
-                         id="api-catalog-filters">
+                         id="api-catalog-filters" ng-show="pageState == 'loaded'">
                         <!-- Filter: Search -->
                         <span>
                     <apiman-search-box id="apis-filter"
@@ -107,12 +116,14 @@
                             data-ng-options="ns.name for ns in namespaces | orderBy: ns.name">
                     </select>
                   </span>
-
+                        <button class="btn btn-primary pull-right" ng-click="userReloadAPICatalog()">
+                            <span class="fa fa-fw fa-refresh"></span>
+                        </button>
                     </div>
 
 
                     <!-- Table of APIs -->
-                    <div class="row apiman-card-table">
+                    <div class="row apiman-card-table" ng-show="pageState == 'loaded'">
                         <div class="container-fluid cards">
                             <div ng-repeat="api in filteredApis=(apis | filter: criteria | filter: epType | selectedTags: selected.tags  | filter:hideInternal:isInternal | orderBy: 'name':reverse)"
                                  class="card">

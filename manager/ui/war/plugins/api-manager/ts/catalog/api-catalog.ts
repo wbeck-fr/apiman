@@ -4,8 +4,8 @@ module Apiman {
 
     import CurrentUserSvcs = ApimanRPC.CurrentUserSvcs;
     export var ApiCatalogController = _module.controller("Apiman.ApiCatalogController",
-        [ '$q', 'Logger', '$scope', '$filter', '$timeout', 'ApiCatalogSvcs', 'PageLifecycle', '$uibModal', 'CurrentUserSvcs', '$location',
-          ($q, Logger, $scope, $filter, $timeout, ApiCatalogSvcs, PageLifecycle, $uibModal, CurrentUserSvcs, $location) => {
+        [ '$q', 'Logger', '$scope', '$rootScope', '$filter', '$timeout', 'ApiCatalogSvcs', 'PageLifecycle', '$uibModal', 'CurrentUserSvcs', '$location',
+          ($q, Logger, $scope, $rootScope, $filter, $timeout, ApiCatalogSvcs, PageLifecycle, $uibModal, CurrentUserSvcs, $location) => {
 
                 var body:any = {};
                 body.filters = [];
@@ -98,7 +98,6 @@ module Apiman {
                         }
                     });
                 };
-                
                 $scope.tagLabel = function(tag) {
                     var idx = tag.indexOf("=");
                     if (idx == -1) {
@@ -107,7 +106,6 @@ module Apiman {
                         return tag.slice(idx + 1);
                     }
                 };
-                
                 $scope.tagTitle = function(tag) {
                     return "Filter by tag: " + tag;
                 };
@@ -139,26 +137,65 @@ module Apiman {
                     })
                 };
 
-                PageLifecycle.loadPage('ApiCatalog', undefined, pageData, $scope, function () {
-                    angular.forEach($scope.apis, function (api) {
-                        api.iconIsUrl = false;
-                        if (!api.icon) {
-                            api.icon = 'puzzle-piece';
-                        }
-                        if (api.icon.indexOf('http') == 0) {
-                            api.iconIsUrl = true;
-                        }
-                        api.ticon = 'fa-file-text-o';
-                        if (api.endpointType == 'soap') {
-                            api.ticon = 'fa-file-code-o';
-                        }
-                        if (api.routeDefinitionUrl != null) {
-                            api.definitionUrl = api.routeDefinitionUrl;
-                        }
+
+                let apiAdjustments = function (api) {
+                  api.iconIsUrl = false;
+                  if (!api.icon) {
+                      api.icon = 'puzzle-piece';
+                  }
+                  if (api.icon.indexOf('http') == 0) {
+                      api.iconIsUrl = true;
+                  }
+                  api.ticon = 'fa-file-text-o';
+                  if (api.endpointType == 'soap') {
+                      api.ticon = 'fa-file-code-o';
+                  }
+                  if (api.routeDefinitionUrl != null) {
+                      api.definitionUrl = api.routeDefinitionUrl;
+                  }
+                };
+
+                $scope.userReloadAPICatalog = function(){
+                    $rootScope.pageState = 'loading';
+                    $scope.apis = null;
+
+                    let resyncBody:any = {};
+                    resyncBody.filters = [];
+
+                    // Fix string that will evaluated by the e2e-catalog-plugin
+                    resyncBody.filters.push({"name": "name", "value": "__resyncAPICatalogByUser__", "operator": "like"});
+                    resyncBody.filters.push({"name": "namespace", "value": "__resyncAPICatalogByUser__", "operator": "eq"});
+
+                    let resyncSearchString = angular.toJson(resyncBody);
+
+                    let target = $q(function (resolve, reject) {
+                        $scope.hasInternalApis = false;
+                        ApiCatalogSvcs.search(resyncSearchString, function (reply) {
+                            angular.forEach(reply.beans, function (entry) {
+                                if (entry.internal) {
+                                    $scope.hasInternalApis = true;
+                                }
+                            });
+                            resolve(reply.beans);
+                        }, reject);
                     });
 
-                    $scope.tags = _.uniq(_.flatten(_.map($scope.apis, 'tags')));
+                    target.then(data => {
+                        $scope.apis = data;
+                        angular.forEach($scope.apis, function (api) {
+                            apiAdjustments(api)
+                        });
+                        $scope.tags = _.uniq(_.flatten(_.map($scope.apis, 'tags')));
+                        $rootScope.pageState = 'loaded';
+                    })
+                };
 
+
+                PageLifecycle.loadPage('ApiCatalog', undefined, pageData, $scope, function () {
+                    angular.forEach($scope.apis, function (api) {
+                        apiAdjustments(api)
+                    });
+                    $scope.tags = _.uniq(_.flatten(_.map($scope.apis, 'tags')));
                     PageLifecycle.setPageTitle('api-catalog');
                 });
             }
@@ -169,7 +206,6 @@ module Apiman {
           ($q, $rootScope, Logger, $scope, OrgSvcs, PageLifecycle, $uibModalInstance, api, orgs) => {
 
                 var recentOrg = $rootScope.mruOrg;
-                
                 $scope.api = api;
                 $scope.orgs = orgs;
 
@@ -214,7 +250,6 @@ module Apiman {
     export var ApiCatalogDefController = _module.controller("Apiman.ApiCatalogDefController",
         [ '$q', '$scope', 'ApiCatalogSvcs', 'PageLifecycle', '$routeParams', '$window', 'Logger', 'ApiDefinitionSvcs', 'Configuration',
           ($q, $scope, ApiCatalogSvcs, PageLifecycle, $routeParams, $window, Logger, ApiDefinitionSvcs, Configuration) => {
-          
                 $scope.params = $routeParams;
                 $scope.chains = {};
 
