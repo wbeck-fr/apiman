@@ -43,7 +43,7 @@
                       <th apiman-i18n-key="api">API</th>
                       <th apiman-i18n-key="version">Version</th>
                       <th apiman-i18n-key="plan">Plan</th>
-                      <th></th>
+                      <th>Endpoint</th>
                       <th>Test</th>
                     </tr>
                   </thead>
@@ -56,7 +56,7 @@
                       </td>
                       <td><span>{{ api.apiVersion }}</span></td>
                       <td>{{ api.planName }}</td>
-                      <td><a title="How do I invoke this API?" apiman-i18n-key="client-apis.howtoinvoke" ng-click="howToInvoke(apiRegistry.apiKey, api)" href="javascript:;"><span class="pficon pficon-info"></span></a></td>
+                      <td style="text-align: center"><a title="How do I invoke this API?" apiman-i18n-key="client-apis.howtoinvoke" ng-click="howToInvoke(apiRegistry.apiKey, api)" href="javascript:;"><span class="pficon pficon-info"></span></a></td>
                       <td>
                         <a href="{{ pluginName }}/browse/orgs/{{ api.apiOrgId }}/{{ api.apiId }}/{{ api.apiVersion }}/def" ng-click="showSwaggerUI(apiRegistry.apiKey)">Try-It-Out</a>
                       </td>
