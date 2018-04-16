@@ -125,7 +125,7 @@
                     <!-- Table of APIs -->
                     <div class="row apiman-card-table" ng-show="pageState == 'loaded'">
                         <div class="container-fluid cards">
-                            <div ng-repeat="api in filteredApis=(apis | filter: criteria | filter: epType | selectedTags: selected.tags  | filter:hideInternal:isInternal | orderBy: 'name':reverse)"
+                            <div ng-repeat="api in filteredApis=(apis | filter: criteria | filter: {endpointType: epType}| selectedTags: selected.tags  | filter:hideInternal:isInternal | orderBy: 'name':reverse)"
                                  class="card">
                                 <a ng-show="api.description" uib-tooltip="{{ api.description }}"
                                    tooltip-trigger="mouseenter" tooltip-placement="top" href="#" class="info"><i
