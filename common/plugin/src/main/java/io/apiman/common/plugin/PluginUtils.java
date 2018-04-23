@@ -15,6 +15,10 @@
  */
 package io.apiman.common.plugin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.apiman.common.config.ConfigFactory;
+import org.apache.commons.configuration.Configuration;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -23,8 +27,6 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 /**
  * Some generally useful static methods.
@@ -32,11 +34,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author eric.wittmann@redhat.com
  */
 public class PluginUtils {
-
     public static final String PLUGIN_SPEC_PATH = "META-INF/apiman/plugin.json"; //$NON-NLS-1$
+    public static final String LOCAL_MAVEN_REPOSITORY_PATH = "apiman.plugins.m2-repository-path";
     private static final ObjectMapper mapper = new ObjectMapper();
     private static final Set<URI> MAVEN_REPOSITORIES = new HashSet<>();
+    public static final Configuration config;
+
     static {
+        config = ConfigFactory.createConfig();
         try {
             MAVEN_REPOSITORIES.add(new URI("https://repo1.maven.org/maven2/")); //$NON-NLS-1$
         } catch (URISyntaxException e) {
@@ -98,8 +103,11 @@ public class PluginUtils {
      * @return user's M2 repo
      */
     public static File getUserM2Repository() {
-		// if there is m2override system propery, use it.
-        String m2Override = System.getProperty("apiman.gateway.m2-repository-path"); //$NON-NLS-1$
+        // if there is m2override property in apiman.properties, use it (used by user)
+        String m2Override = config.getString(LOCAL_MAVEN_REPOSITORY_PATH);
+        // if there is m2override system property, use it (used for tests in apiman)
+        m2Override = (m2Override == null) ? System.getProperty("apiman.gateway.m2-repository-path") : m2Override;
+
         if (m2Override != null) {
             return new File(m2Override).getAbsoluteFile();
         }
