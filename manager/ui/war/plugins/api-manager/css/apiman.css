@@ -1502,6 +1502,7 @@ table tr.apiman_deleting {
   font-size: 19px;
   font-weight: bold;
   color: #666;
+  padding-left: 20px;
 }
 .apiman-wizard-items .apiman-subheader {
   font-size: 16px;
@@ -1541,6 +1542,7 @@ table tr.apiman_deleting {
 }
 .apiman-wizard .apiman-wizard-item .step-title {
   padding-left: 32px;
+  padding-top: 5px;
   font-size: 15px;
   font-weight: bold;
   color: #999;
@@ -1551,10 +1553,10 @@ table tr.apiman_deleting {
   background-color: white;
 }
 .apiman-wizard .apiman-wizard-item.active .step i, .apiman-wizard .apiman-wizard-item.active .step-title {
-  color: rgb(207, 97, 0);
+  color: #b3c435;
 }
 .apiman-wizard .apiman-wizard-item.done .step i, .apiman-wizard .apiman-wizard-item.done .step-title {
-  color: rgb(33, 169, 150);
+  color: var(--e2e-border-color);
 }
 
 .apiman-wizard-page {

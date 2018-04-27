@@ -359,3 +359,48 @@ a:hover {
     /*username*/
     color: #FFFFFF;
 }
+
+/*angulr-scrollable-table*/
+.scrollableContainer .headerSpacer {
+    background-clip: padding-box;
+    background-color: #f5f5f5;
+    background-image: linear-gradient(to bottom, #fafafa 0%, #ededed 100%);
+    background-repeat: repeat-x;
+}
+
+/*Remove double border on first left element*/
+.scrollArea table th:first-of-type .box{
+    padding: 0 8px;
+    padding-right: 11px;
+    border-left: none
+}
+
+.scrollArea table .th-inner {
+    height: 26px;
+    line-height: 26px;
+}
+
+.scrollableContainer {
+    height: inherit;
+    padding-top: 25px;
+}
+
+.scrollableContainer .headerSpacer {
+    height: 26px;
+}
+
+.scrollArea {
+    border: none;
+    /*without 1px transparent border the header is not displayed correctly*/
+    border-right: 1px solid transparent;
+    /*+1px because only left border is none*/
+    width: calc(100% + 1px);
+}
+
+.scrollArea table tbody tr td:first-child {
+    box-shadow: inset 1px 0 0 0 #dddddd;
+}
+
+.scrollArea table tbody tr td:last-child {
+    box-shadow: inset -1px 0 0 0 #dddddd;
+}
