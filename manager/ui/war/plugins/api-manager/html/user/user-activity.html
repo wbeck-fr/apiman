@@ -11,30 +11,31 @@
 <div ng-controller="Apiman.UserActivityController" class="page container" data-field="page" ng-cloak=""
      ng-show="pageState == 'loaded'">
     <div ng-include="'plugins/api-manager/html/user/user_bc.include'"></div>
-    <div class="row">
-        <!-- Left Hand Side -->
-        <div ng-include="'plugins/api-manager/html/user/user_entity.include'"></div>
-        <!-- /Left Hand Side -->
+    <div class="col-md-12">
+        <div class="row">
+            <!-- Left Hand Side -->
+            <div ng-include="'plugins/api-manager/html/user/user_entity.include'"></div>
+            <!-- /Left Hand Side -->
 
-        <!-- Center Content -->
-        <div class="col-md-8">
-            <div class="apiman-entitytabs">
-                <div ng-include="'plugins/api-manager/html/user/user_tabs.include'"></div>
-                <div id="entitytabsContent" class="tab-content">
+            <!-- Center Content -->
+            <div class="col-md-8">
+                <div class="apiman-entitytabs">
+                    <div ng-include="'plugins/api-manager/html/user/user_tabs.include'"></div>
+                    <div id="entitytabsContent" class="tab-content">
 
-                    <!-- Change Log Tab Content -->
-                    <div class="tab-pane active" id="tab-activity">
-                        <div class="clearfix"></div>
-                        <!-- The user's activity stream -->
-                        <apiman-activity model="auditEntries" next="getNextPage"/>
+                        <!-- Change Log Tab Content -->
+                        <div class="tab-pane active" id="tab-activity">
+                            <div class="clearfix"></div>
+                            <!-- The user's activity stream -->
+                            <apiman-activity model="auditEntries" next="getNextPage"/>
+                        </div>
+                        <!-- End Change Log Tab Content -->
+
                     </div>
-                    <!-- End Change Log Tab Content -->
-
                 </div>
             </div>
+            <!-- /Center Content -->
         </div>
-        <!-- /Center Content -->
-
     </div>
 </div> <!-- /container -->
 </body>

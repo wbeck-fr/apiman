@@ -638,8 +638,8 @@ ol.breadcrumb {
 
 .apiman-entity-summary {
   border: 1px solid var(--e2e-bg-color);
-  margin: 0px -20px 10px -20px;
-  padding: 10px 20px 10px 20px;
+  margin-bottom: 10px;
+  padding: 10px 0px;
 }
 
 .apiman-entity-summary .apiman-entity-breadcrumb {
@@ -691,7 +691,6 @@ ol.breadcrumb {
 
 .apiman-entity-nav {
   font-size: 15px;
-  padding-left: 0px;
 }
 
 .apiman-entity-nav .nav-pills li {
@@ -1440,8 +1439,8 @@ textarea.apiman-endpoint {
 
 #apiman-swagger.swagger-section .swagger-ui-wrap {
   max-width: none;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 #apiman-swagger.swagger-section .swagger-ui-wrap a {
   cursor: pointer;
