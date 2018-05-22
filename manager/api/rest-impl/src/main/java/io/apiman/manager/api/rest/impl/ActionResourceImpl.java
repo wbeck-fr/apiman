@@ -47,27 +47,15 @@ import io.apiman.manager.api.gateway.IGatewayLink;
 import io.apiman.manager.api.gateway.IGatewayLinkFactory;
 import io.apiman.manager.api.rest.contract.IActionResource;
 import io.apiman.manager.api.rest.contract.IOrganizationResource;
-import io.apiman.manager.api.rest.contract.exceptions.ActionException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.GatewayNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanVersionNotFoundException;
+import io.apiman.manager.api.rest.contract.exceptions.*;
 import io.apiman.manager.api.rest.impl.audit.AuditUtils;
 import io.apiman.manager.api.rest.impl.i18n.Messages;
 import io.apiman.manager.api.rest.impl.util.ExceptionFactory;
 import io.apiman.manager.api.security.ISecurityContext;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import java.util.*;
 
 /**
  * Implementation of the Action API.
@@ -88,6 +76,8 @@ public class ActionResourceImpl implements IActionResource {
     @Inject ISecurityContext securityContext;
 
     @Inject @ApimanLogger(ActionResourceImpl.class) IApimanLogger log;
+
+    private OrganizationResourceImpl organizationResource;
 
     /**
      * Constructor.
@@ -136,21 +126,16 @@ public class ActionResourceImpl implements IActionResource {
             throw ExceptionFactory.actionException(Messages.i18n.format("ApiNotFound")); //$NON-NLS-1$
         }
 
-        // Validate that it's ok to perform this action - API must be Ready.
-        if (!versionBean.isPublicAPI() && versionBean.getStatus() != ApiStatus.Ready) {
+        // Validate that it's ok to perform this action - API must be Ready or Published.
+        if (versionBean.getStatus() == ApiStatus.Retired || versionBean.getStatus() == ApiStatus.Created) {
             throw ExceptionFactory.actionException(Messages.i18n.format("InvalidApiStatus")); //$NON-NLS-1$
         }
-        if (versionBean.isPublicAPI()) {
-            if (versionBean.getStatus() == ApiStatus.Retired || versionBean.getStatus() == ApiStatus.Created) {
-                throw ExceptionFactory.actionException(Messages.i18n.format("InvalidApiStatus")); //$NON-NLS-1$
-            }
-            if (versionBean.getStatus() == ApiStatus.Published) {
-                Date modOn = versionBean.getModifiedOn();
-                Date publishedOn = versionBean.getPublishedOn();
-                int c = modOn.compareTo(publishedOn);
-                if (c <= 0) {
-                    throw ExceptionFactory.actionException(Messages.i18n.format("ApiRePublishNotRequired")); //$NON-NLS-1$
-                }
+        if (versionBean.getStatus() == ApiStatus.Published) {
+            Date modOn = versionBean.getModifiedOn();
+            Date publishedOn = versionBean.getPublishedOn();
+            int c = modOn.compareTo(publishedOn);
+            if (c <= 0) {
+                throw ExceptionFactory.actionException(Messages.i18n.format("ApiRePublishNotRequired")); //$NON-NLS-1$
             }
         }
 
@@ -168,22 +153,22 @@ public class ActionResourceImpl implements IActionResource {
         gatewayApi.setParsePayload(versionBean.isParsePayload());
         boolean hasTx = false;
         try {
-            if (versionBean.isPublicAPI()) {
-                List<Policy> policiesToPublish = new ArrayList<>();
-                List<PolicySummaryBean> apiPolicies = query.getPolicies(action.getOrganizationId(),
-                        action.getEntityId(), action.getEntityVersion(), PolicyType.Api);
-                storage.beginTx();
-                hasTx = true;
-                for (PolicySummaryBean policySummaryBean : apiPolicies) {
-                    PolicyBean apiPolicy = storage.getPolicy(PolicyType.Api, action.getOrganizationId(),
-                            action.getEntityId(), action.getEntityVersion(), policySummaryBean.getId());
-                    Policy policyToPublish = new Policy();
-                    policyToPublish.setPolicyJsonConfig(apiPolicy.getConfiguration());
-                    policyToPublish.setPolicyImpl(apiPolicy.getDefinition().getPolicyImpl());
-                    policiesToPublish.add(policyToPublish);
-                }
-                gatewayApi.setApiPolicies(policiesToPublish);
+            List<Policy> policiesToPublish = new ArrayList<>();
+            List<PolicySummaryBean> apiPolicies = query.getPolicies(action.getOrganizationId(),
+                                                                    action.getEntityId(), action.getEntityVersion(),
+                                                                    PolicyType.Api);
+            storage.beginTx();
+            hasTx = true;
+            for (PolicySummaryBean policySummaryBean : apiPolicies) {
+                PolicyBean apiPolicy = storage.getPolicy(PolicyType.Api, action.getOrganizationId(),
+                                                         action.getEntityId(), action.getEntityVersion(),
+                                                         policySummaryBean.getId());
+                Policy policyToPublish = new Policy();
+                policyToPublish.setPolicyJsonConfig(apiPolicy.getConfiguration());
+                policyToPublish.setPolicyImpl(apiPolicy.getDefinition().getPolicyImpl());
+                policiesToPublish.add(policyToPublish);
             }
+            gatewayApi.setApiPolicies(policiesToPublish);
         } catch (StorageException e) {
             throw ExceptionFactory.actionException(Messages.i18n.format("PublishError"), e); //$NON-NLS-1$
         } finally {
@@ -231,7 +216,42 @@ public class ActionResourceImpl implements IActionResource {
         }
 
         log.debug(String.format("Successfully published API %s on specified gateways: %s", //$NON-NLS-1$
-                versionBean.getApi().getName(), versionBean.getApi()));
+                                versionBean.getApi().getName(), versionBean.getApi()));
+
+        reRegisterClients(action, versionBean);
+    }
+
+    /**
+     * Re-register all clients with contracts to the republished API
+     * @param action actionBean
+     * @param versionBean versionBean
+     */
+    private void reRegisterClients(ActionBean action, ApiVersionBean versionBean) {
+        if (!versionBean.isPublicAPI()) {
+            if (organizationResource == null) {
+                instantiateOrganizationResource();
+            }
+            try {
+                List<ContractSummaryBean> contractSummaryBeans = organizationResource.getApiVersionContracts(
+                        action.getOrganizationId(), action.getEntityId(), action.getEntityVersion(), 0,
+                        Integer.MAX_VALUE);
+                for (ContractSummaryBean contractSummaryBean : contractSummaryBeans) {
+                    ActionBean actionBean = new ActionBean();
+                    actionBean.setOrganizationId(contractSummaryBean.getClientOrganizationId());
+                    actionBean.setEntityId(contractSummaryBean.getClientId());
+                    actionBean.setEntityVersion(contractSummaryBean.getClientVersion());
+                    registerClient(actionBean);
+                }
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void instantiateOrganizationResource() {
+        organizationResource = new OrganizationResourceImpl();
+        organizationResource.securityContext = securityContext;
+        organizationResource.storage = storage;
+        organizationResource.query = query;
+        organizationResource.log = log;
     }
 
     /**
@@ -344,15 +364,7 @@ public class ActionResourceImpl implements IActionResource {
         boolean isReregister = false;
 
         // Validate that it's ok to perform this action
-        if (versionBean.getStatus() == ClientStatus.Registered) {
-            Date modOn = versionBean.getModifiedOn();
-            Date publishedOn = versionBean.getPublishedOn();
-            int c = modOn.compareTo(publishedOn);
-            if (c <= 0) {
-                throw ExceptionFactory.actionException(Messages.i18n.format("ClientReRegisterNotRequired")); //$NON-NLS-1$
-            }
-            isReregister = true;
-        }
+        if (versionBean.getStatus() == ClientStatus.Registered) isReregister = true;
 
         Client client = new Client();
         client.setOrganizationId(versionBean.getClient().getOrganization().getId());

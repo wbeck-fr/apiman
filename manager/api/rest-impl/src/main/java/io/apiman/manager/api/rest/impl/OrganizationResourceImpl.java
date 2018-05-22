@@ -16,96 +16,37 @@
 
 package io.apiman.manager.api.rest.impl;
 
-import static java.util.stream.Collectors.toList;
-
 import io.apiman.common.logging.IApimanLogger;
 import io.apiman.common.util.crypt.DataEncryptionContext;
 import io.apiman.common.util.crypt.DataEncryptionContext.EntityType;
 import io.apiman.common.util.crypt.IDataEncrypter;
 import io.apiman.gateway.engine.beans.ApiEndpoint;
 import io.apiman.manager.api.beans.BeanUtils;
-import io.apiman.manager.api.beans.apis.ApiBean;
-import io.apiman.manager.api.beans.apis.ApiDefinitionType;
-import io.apiman.manager.api.beans.apis.ApiGatewayBean;
-import io.apiman.manager.api.beans.apis.ApiPlanBean;
-import io.apiman.manager.api.beans.apis.ApiStatus;
-import io.apiman.manager.api.beans.apis.ApiVersionBean;
-import io.apiman.manager.api.beans.apis.ApiVersionStatusBean;
-import io.apiman.manager.api.beans.apis.NewApiBean;
-import io.apiman.manager.api.beans.apis.NewApiDefinitionBean;
-import io.apiman.manager.api.beans.apis.NewApiVersionBean;
-import io.apiman.manager.api.beans.apis.UpdateApiBean;
-import io.apiman.manager.api.beans.apis.UpdateApiVersionBean;
+import io.apiman.manager.api.beans.apis.*;
 import io.apiman.manager.api.beans.audit.AuditEntryBean;
 import io.apiman.manager.api.beans.audit.data.EntityUpdatedData;
 import io.apiman.manager.api.beans.audit.data.MembershipData;
-import io.apiman.manager.api.beans.clients.ApiKeyBean;
-import io.apiman.manager.api.beans.clients.ClientBean;
-import io.apiman.manager.api.beans.clients.ClientStatus;
-import io.apiman.manager.api.beans.clients.ClientVersionBean;
-import io.apiman.manager.api.beans.clients.NewClientBean;
-import io.apiman.manager.api.beans.clients.NewClientVersionBean;
-import io.apiman.manager.api.beans.clients.UpdateClientBean;
+import io.apiman.manager.api.beans.clients.*;
 import io.apiman.manager.api.beans.contracts.ContractBean;
 import io.apiman.manager.api.beans.contracts.NewContractBean;
 import io.apiman.manager.api.beans.download.DownloadBean;
 import io.apiman.manager.api.beans.download.DownloadType;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
-import io.apiman.manager.api.beans.idm.GrantRolesBean;
-import io.apiman.manager.api.beans.idm.PermissionType;
-import io.apiman.manager.api.beans.idm.RoleBean;
-import io.apiman.manager.api.beans.idm.RoleMembershipBean;
-import io.apiman.manager.api.beans.idm.UserBean;
+import io.apiman.manager.api.beans.idm.*;
 import io.apiman.manager.api.beans.members.MemberBean;
 import io.apiman.manager.api.beans.members.MemberRoleBean;
-import io.apiman.manager.api.beans.metrics.ClientUsagePerApiBean;
-import io.apiman.manager.api.beans.metrics.HistogramIntervalType;
-import io.apiman.manager.api.beans.metrics.ResponseStatsHistogramBean;
-import io.apiman.manager.api.beans.metrics.ResponseStatsPerClientBean;
-import io.apiman.manager.api.beans.metrics.ResponseStatsPerPlanBean;
-import io.apiman.manager.api.beans.metrics.ResponseStatsSummaryBean;
-import io.apiman.manager.api.beans.metrics.UsageHistogramBean;
-import io.apiman.manager.api.beans.metrics.UsagePerClientBean;
-import io.apiman.manager.api.beans.metrics.UsagePerPlanBean;
+import io.apiman.manager.api.beans.metrics.*;
 import io.apiman.manager.api.beans.orgs.NewOrganizationBean;
 import io.apiman.manager.api.beans.orgs.OrganizationBean;
 import io.apiman.manager.api.beans.orgs.UpdateOrganizationBean;
-import io.apiman.manager.api.beans.plans.NewPlanBean;
-import io.apiman.manager.api.beans.plans.NewPlanVersionBean;
-import io.apiman.manager.api.beans.plans.PlanBean;
-import io.apiman.manager.api.beans.plans.PlanStatus;
-import io.apiman.manager.api.beans.plans.PlanVersionBean;
-import io.apiman.manager.api.beans.plans.UpdatePlanBean;
-import io.apiman.manager.api.beans.policies.NewPolicyBean;
-import io.apiman.manager.api.beans.policies.PolicyBean;
-import io.apiman.manager.api.beans.policies.PolicyChainBean;
-import io.apiman.manager.api.beans.policies.PolicyDefinitionBean;
-import io.apiman.manager.api.beans.policies.PolicyType;
-import io.apiman.manager.api.beans.policies.UpdatePolicyBean;
+import io.apiman.manager.api.beans.plans.*;
+import io.apiman.manager.api.beans.policies.*;
 import io.apiman.manager.api.beans.search.PagingBean;
 import io.apiman.manager.api.beans.search.SearchCriteriaBean;
 import io.apiman.manager.api.beans.search.SearchCriteriaFilterOperator;
 import io.apiman.manager.api.beans.search.SearchResultsBean;
-import io.apiman.manager.api.beans.summary.ApiEntryBean;
-import io.apiman.manager.api.beans.summary.ApiPlanSummaryBean;
-import io.apiman.manager.api.beans.summary.ApiRegistryBean;
-import io.apiman.manager.api.beans.summary.ApiSummaryBean;
-import io.apiman.manager.api.beans.summary.ApiVersionEndpointSummaryBean;
-import io.apiman.manager.api.beans.summary.ApiVersionSummaryBean;
-import io.apiman.manager.api.beans.summary.ClientSummaryBean;
-import io.apiman.manager.api.beans.summary.ClientVersionSummaryBean;
-import io.apiman.manager.api.beans.summary.ContractSummaryBean;
-import io.apiman.manager.api.beans.summary.GatewaySummaryBean;
-import io.apiman.manager.api.beans.summary.PlanSummaryBean;
-import io.apiman.manager.api.beans.summary.PlanVersionSummaryBean;
-import io.apiman.manager.api.beans.summary.PolicySummaryBean;
-import io.apiman.manager.api.core.IApiKeyGenerator;
-import io.apiman.manager.api.core.IApiValidator;
-import io.apiman.manager.api.core.IClientValidator;
-import io.apiman.manager.api.core.IDownloadManager;
-import io.apiman.manager.api.core.IMetricsAccessor;
-import io.apiman.manager.api.core.IStorage;
-import io.apiman.manager.api.core.IStorageQuery;
+import io.apiman.manager.api.beans.summary.*;
+import io.apiman.manager.api.core.*;
 import io.apiman.manager.api.core.exceptions.StorageException;
 import io.apiman.manager.api.core.logging.ApimanLogger;
 import io.apiman.manager.api.core.util.PolicyTemplateUtil;
@@ -115,60 +56,17 @@ import io.apiman.manager.api.gateway.IGatewayLinkFactory;
 import io.apiman.manager.api.rest.contract.IOrganizationResource;
 import io.apiman.manager.api.rest.contract.IRoleResource;
 import io.apiman.manager.api.rest.contract.IUserResource;
-import io.apiman.manager.api.rest.contract.exceptions.AbstractRestException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiDefinitionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiVersionAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientVersionAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ContractAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ContractNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.EntityStillActiveException;
-import io.apiman.manager.api.rest.contract.exceptions.GatewayNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidApiStatusException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidClientStatusException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidMetricCriteriaException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidNameException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidParameterException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidPlanStatusException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidVersionException;
-import io.apiman.manager.api.rest.contract.exceptions.NotAuthorizedException;
-import io.apiman.manager.api.rest.contract.exceptions.OrganizationAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.OrganizationNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanVersionAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PolicyDefinitionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PolicyNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.RoleNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.SystemErrorException;
-import io.apiman.manager.api.rest.contract.exceptions.UserNotFoundException;
+import io.apiman.manager.api.rest.contract.exceptions.*;
 import io.apiman.manager.api.rest.impl.audit.AuditUtils;
 import io.apiman.manager.api.rest.impl.i18n.Messages;
 import io.apiman.manager.api.rest.impl.util.ExceptionFactory;
 import io.apiman.manager.api.rest.impl.util.FieldValidator;
 import io.apiman.manager.api.security.ISecurityContext;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.stream.StreamSupport;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.ISODateTimeFormat;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -178,12 +76,15 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.StreamSupport;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.ISODateTimeFormat;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Implementation of the Organization API.
@@ -345,7 +246,7 @@ public class OrganizationResourceImpl implements IOrganizationResource {
      * @see io.apiman.manager.api.rest.contract.IOrganizationResource#deleteClient(java.lang.String, java.lang.String)
      */
     @Override
-    public void deleteClient(@PathParam("organizationId") String organizationId, @PathParam("clientId") String clientId) 
+    public void deleteClient(@PathParam("organizationId") String organizationId, @PathParam("clientId") String clientId)
             throws OrganizationNotFoundException, NotAuthorizedException, EntityStillActiveException {
         try {
             if (!securityContext.hasPermission(PermissionType.clientAdmin, organizationId))
@@ -1975,15 +1876,8 @@ public class OrganizationResourceImpl implements IOrganizationResource {
             throw ExceptionFactory.notAuthorizedException();
 
         ApiVersionBean avb = getApiVersion(organizationId, apiId, version);
-        if (avb.isPublicAPI()) {
-            if (avb.getStatus() == ApiStatus.Retired) {
-                throw ExceptionFactory.invalidApiStatusException();
-            }
-        } else {
-            if (avb.getStatus() == ApiStatus.Published || avb.getStatus() == ApiStatus.Retired) {
-                throw ExceptionFactory.invalidApiStatusException();
-            }
-        }
+
+        if (avb.getStatus() == ApiStatus.Retired) throw ExceptionFactory.invalidApiStatusException();
 
         avb.setModifiedBy(securityContext.getCurrentUser());
         avb.setModifiedOn(new Date());
@@ -2229,15 +2123,8 @@ public class OrganizationResourceImpl implements IOrganizationResource {
 
         // Make sure the API exists
         ApiVersionBean avb = getApiVersion(organizationId, apiId, version);
-        if (avb.isPublicAPI()) {
-            if (avb.getStatus() == ApiStatus.Retired) {
-                throw ExceptionFactory.invalidApiStatusException();
-            }
-        } else {
-            if (avb.getStatus() == ApiStatus.Published || avb.getStatus() == ApiStatus.Retired) {
-                throw ExceptionFactory.invalidApiStatusException();
-            }
-        }
+
+        if (avb.getStatus() == ApiStatus.Retired) throw ExceptionFactory.invalidApiStatusException();
 
         PolicyBean policy = doCreatePolicy(organizationId, apiId, version, bean, PolicyType.Api);
         log.debug(String.format("Created API policy %s", avb)); //$NON-NLS-1$
@@ -2331,15 +2218,8 @@ public class OrganizationResourceImpl implements IOrganizationResource {
 
         // Make sure the API exists and is in the right status.
         ApiVersionBean avb = getApiVersion(organizationId, apiId, version);
-        if (avb.isPublicAPI()) {
-            if (avb.getStatus() == ApiStatus.Retired) {
-                throw ExceptionFactory.invalidApiStatusException();
-            }
-        } else {
-            if (avb.getStatus() == ApiStatus.Published || avb.getStatus() == ApiStatus.Retired) {
-                throw ExceptionFactory.invalidApiStatusException();
-            }
-        }
+
+        if (avb.getStatus() == ApiStatus.Retired) throw ExceptionFactory.invalidApiStatusException();
 
         try {
             storage.beginTx();
@@ -3493,9 +3373,9 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         if (endpointProperties != null) {
             for (Entry<String, String> entry : endpointProperties.entrySet()) {
                 DataEncryptionContext ctx = new DataEncryptionContext(
-                        versionBean.getApi().getOrganization().getId(), 
+                        versionBean.getApi().getOrganization().getId(),
                         versionBean.getApi().getId(),
-                        versionBean.getVersion(), 
+                        versionBean.getVersion(),
                         EntityType.Api);
                 entry.setValue(encrypter.decrypt(entry.getValue(), ctx));
             }
@@ -3510,9 +3390,9 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         if (endpointProperties != null) {
             for (Entry<String, String> entry : endpointProperties.entrySet()) {
                 DataEncryptionContext ctx = new DataEncryptionContext(
-                        versionBean.getApi().getOrganization().getId(), 
+                        versionBean.getApi().getOrganization().getId(),
                         versionBean.getApi().getId(),
-                        versionBean.getVersion(), 
+                        versionBean.getVersion(),
                         EntityType.Api);
                 entry.setValue(encrypter.encrypt(entry.getValue(), ctx));
             }

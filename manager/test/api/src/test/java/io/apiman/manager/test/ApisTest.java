@@ -40,7 +40,7 @@ import org.junit.runner.RunWith;
 )
 @ManagerRestTestPublishPayload({
     "",
-    "{\"publicAPI\":false,\"organizationId\":\"Organization1\",\"apiId\":\"API1\",\"version\":\"1.0\",\"endpointType\":\"rest\",\"endpoint\":\"http://localhost:8080/ping\",\"endpointProperties\":{\"foo\":\"foo-value\",\"bar\":\"bar-value\"},\"apiPolicies\":[]}"
+    "{\"publicAPI\":false,\"organizationId\":\"Organization1\",\"apiId\":\"API1\",\"version\":\"1.0\",\"endpoint\":\"http://localhost:8080/ping\",\"endpointType\":\"rest\",\"endpointContentType\":\"xml\",\"endpointProperties\":{\"bar\":\"bar-value\",\"foo\":\"foo-value\"},\"parsePayload\":false,\"apiPolicies\":[{\"policyJsonConfig\":\"{\\\"testName\\\" : \\\"ApisTest\\\"}\",\"policyImpl\":\"org.example.policies.PolicyDef\"}]}"
 })
 public class ApisTest {
 

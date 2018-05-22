@@ -115,7 +115,7 @@
                       placeholder="Publishing..."
                       data-icon="fa-cog"
                       ng-click="publishApi()">Publish</button>
-              <button ng-show="version.publicAPI"
+              <button
                       ng-disabled="!isModified()"
                       apiman-action-btn=""
                       apiman-status="Published"
