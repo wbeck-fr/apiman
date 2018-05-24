@@ -75,7 +75,7 @@
                             <a href="{{ pluginName }}/users/{{ username }}/orgs">
                                 <span class="list-group-item-value">My Organizations</span>
                             </a>
-                            <a href="{{ pluginName }}/new-org">
+                            <a href="{{ pluginName }}/new-org" ng-hide="noCreateOrg || !isAdmin">
                                 <span class="list-group-item-value" style="margin-left:5px">Create Organization</span>
                             </a>
                         </li>
