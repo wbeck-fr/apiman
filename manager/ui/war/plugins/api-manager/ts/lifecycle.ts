@@ -95,6 +95,15 @@ module ApimanPageLifecycle {
             $rootScope.headerInclude = 'plugins/api-manager/html/headers/' + header + '.include';
             console.log('Using header: ' + $rootScope.headerInclude);
 
+            $rootScope.developmentMode = Configuration.ui && Configuration.ui.developmentMode;
+            console.log('Development mode: ' + $rootScope.developmentMode);
+
+            let redirectWrongPermission = function () {
+                Logger.info('Detected a 404 error.');
+                $location.url(Apiman.pluginName + '/errors/404').replace();
+                return;
+            };
+
             var processCurrentUser = function(currentUser) {
                 $rootScope.currentUser = currentUser;
                 var permissions = {};
@@ -215,12 +224,16 @@ module ApimanPageLifecycle {
                     var promise = $q.all(allData);
                     promise.then(function(data) {
                         // Make sure the user has permission to view this page.
+                        if (requiredPermission == "development"){
+                            if ($rootScope.developmentMode != true){
+                                redirectWrongPermission();
+                            }
+                        }
+
                         if ( (requiredPermission && requiredPermission == 'orgView' && !CurrentUser.isMember($scope.organizationId)) ||
                              ( requiredPermission && requiredPermission != 'orgView' && !CurrentUser.hasPermission($scope.organizationId, requiredPermission)) )
                         {
-                            Logger.info('Detected a 404 error.');
-                            $location.url(Apiman.pluginName + '/errors/404').replace();
-                            return;
+                            redirectWrongPermission();
                         }
                         // Now process all the data packets and bind them to the $scope.
                         var count = 0;

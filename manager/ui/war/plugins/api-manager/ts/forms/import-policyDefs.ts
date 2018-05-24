@@ -44,7 +44,7 @@ module Apiman {
                 }, PageLifecycle.handleError);
             }
             
-            PageLifecycle.loadPage('ImportPolicyDefs', 'admin', undefined, $scope, function() {
+            PageLifecycle.loadPage('ImportPolicyDefs', 'development', undefined, $scope, function() {
                 PageLifecycle.setPageTitle('import-policyDefs');
             });
     }])

@@ -45,7 +45,8 @@ module ApimanConfiguration {
             if (!cdata.ui) {
                 cdata.ui = {
                     header: false,
-                    metrics: true
+                    metrics: true,
+                    developmentMode: false
                 };
             }
 

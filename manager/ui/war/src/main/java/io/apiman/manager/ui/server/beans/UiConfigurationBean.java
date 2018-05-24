@@ -27,6 +27,7 @@ public class UiConfigurationBean {
     private Boolean metrics;
     private String platform = "community"; //$NON-NLS-1$
     private String backToConsole;
+    private Boolean developmentMode;
 
     /**
      * Constructor.
@@ -90,4 +91,17 @@ public class UiConfigurationBean {
         this.backToConsole = backToUrl;
     }
 
+    /**
+     * @return developmentMode
+     */
+    public Boolean getDevelopmentMode() {
+        return developmentMode;
+    }
+
+    /**
+     * Set UI-DevelopmentMode
+     */
+    public void setDevelopmentMode(Boolean developmentMode) {
+        this.developmentMode = developmentMode;
+    }
 }

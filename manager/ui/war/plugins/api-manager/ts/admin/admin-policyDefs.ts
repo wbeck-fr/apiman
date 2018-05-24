@@ -27,7 +27,7 @@ module Apiman {
                     }, reject);
                 })
             };
-            PageLifecycle.loadPage('AdminPolicyDefs', 'admin', pageData, $scope, function() {
+            PageLifecycle.loadPage('AdminPolicyDefs', 'development', pageData, $scope, function() {
                 PageLifecycle.setPageTitle('admin-policyDefs');
             });
     }])

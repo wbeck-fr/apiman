@@ -99,6 +99,7 @@ public class ConfigurationServlet extends AbstractUIServlet {
             configBean.getUi().setHeader("e2e"); //$NON-NLS-1$
             configBean.getUi().setMetrics(getConfig().isMetricsEnabled());
             configBean.getUi().setPlatform(getConfig().getPlatform());
+            configBean.getUi().setDevelopmentMode(getConfig().isDevelopmentMode());
             configBean.getApiman().setVersion(version.getVersionString());
             configBean.getApiman().setBuiltOn(version.getVersionDate());
             configBean.getApiman().setLogoutUrl(getConfig().getLogoutUrl());

@@ -9,7 +9,8 @@ var APIMAN_CONFIG_DATA = {
   },
   "ui" : {
     "header" : "apiman",
-    "metrics" : true
+    "metrics" : true,
+    "developmentMode": true
   },
   "api" : {
     "endpoint" : "http://localhost:8080/apiman",

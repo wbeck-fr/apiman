@@ -1165,7 +1165,7 @@ div.admin-page {
 }
 
 div.admin-page .breadcrumb {
-  border-bottom: 1px solid rgb(221, 221, 221);
+  border-bottom: none;
   margin-bottom: 15px;
 }
 

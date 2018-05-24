@@ -38,7 +38,7 @@ module Apiman {
                 }, PageLifecycle.handleError);
             };
             
-            PageLifecycle.loadPage('EditPlugin', 'admin', pageData, $scope, function() {
+            PageLifecycle.loadPage('EditPlugin', 'development', pageData, $scope, function() {
                 PageLifecycle.setPageTitle('plugin-details');
             });
     }])

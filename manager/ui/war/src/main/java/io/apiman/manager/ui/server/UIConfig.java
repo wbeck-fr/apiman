@@ -17,7 +17,6 @@ package io.apiman.manager.ui.server;
 
 import io.apiman.common.config.ConfigFactory;
 import io.apiman.manager.ui.server.beans.ApiAuthType;
-
 import org.apache.commons.configuration.Configuration;
 
 /**
@@ -37,6 +36,8 @@ public class UIConfig implements IUIConfig {
     public static final String APIMAN_MANAGER_UI_PLATFORM = "apiman-manager-ui.platform"; //$NON-NLS-1$
 
     public static final String APIMAN_MANAGER_UI_LOGOUT_URL = "apiman-manager-ui.logout-url"; //$NON-NLS-1$
+
+    public static final String APIMAN_MANAGER_UI_DEVELOPMENT_MODE = "apiman-manager-ui.developmentMode"; //$NON-NLS-1$
 
     private static Configuration config;
     static {
@@ -64,7 +65,15 @@ public class UIConfig implements IUIConfig {
     public String getPlatform() {
         return config.getString(UIConfig.APIMAN_MANAGER_UI_PLATFORM);
     }
-    
+
+    /**
+     * @see IUIConfig#isDevelopmentMode()
+     */
+    @Override
+    public boolean isDevelopmentMode() {
+        return config.getBoolean(UIConfig.APIMAN_MANAGER_UI_DEVELOPMENT_MODE, false);
+    }
+
     /**
      * @see io.apiman.manager.ui.server.IUIConfig#getManagementApiEndpoint()
      */

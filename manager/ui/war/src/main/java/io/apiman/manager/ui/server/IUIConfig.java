@@ -73,4 +73,11 @@ public interface IUIConfig {
      */
     public String getPlatform();
 
+    /**
+     * Returns true if UI-DevelopmentMode is true
+     *
+     * @return developmentMode
+     */
+    public boolean isDevelopmentMode();
+
 }
