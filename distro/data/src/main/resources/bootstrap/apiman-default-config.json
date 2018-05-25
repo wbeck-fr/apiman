@@ -285,6 +285,17 @@
     "formType" : "JsonSchema",
     "form" : "schemas/jsonp-policyDef.schema",
     "deleted" : false
+  }, {
+    "id" : "IgnoredResourcesPolicy",
+    "policyImpl" : "class:io.apiman.gateway.engine.policies.IgnoredResourcesPolicy",
+    "name" : "Ignored Resources Policy",
+    "description" : "Requests satisfying the provided regular expression will be ignored.",
+    "icon" : "eye-slash",
+    "templates" : [ {
+      "template" : "Requests matching any of the ${rules.size()} regular expressions provided will receive a 404 error code."
+    } ],
+    "formType" : "Default",
+    "deleted" : false
   } ],
   "Orgs" : [ ]
 }
