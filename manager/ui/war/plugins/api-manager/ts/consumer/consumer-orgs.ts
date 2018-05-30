@@ -28,9 +28,19 @@ module Apiman {
                     }
                 })
             };
-            
+
+            function loadAllEntries() {
+                if ($scope.orgs.length == 0) {
+                    $scope.searchOrg('*');
+                }
+                $('#apiman-search').val(function (index, value) {
+                    return value.replace('*','');
+                });
+            }
+
             PageLifecycle.loadPage('ConsumerOrgs', undefined, pageData, $scope, function() {
                 PageLifecycle.setPageTitle('consumer-orgs');
+                loadAllEntries();
                 $scope.$applyAsync(function() {
                     angular.forEach($scope.orgs, function(org) {
                         org.isMember = CurrentUser.isMember(org.id);

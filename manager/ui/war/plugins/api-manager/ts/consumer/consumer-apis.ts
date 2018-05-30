@@ -30,8 +30,18 @@ module Apiman {
                 })
             };
 
+            function loadAllEntries() {
+                if ($scope.apis.length == 0) {
+                   $scope.searchSvcs('*')
+                }
+                $('#apiman-search').val(function (index, value) {
+                    return value.replace('*','');
+                });
+            }
+
             PageLifecycle.loadPage('ConsumerApis', undefined, pageData, $scope, function() {
                 PageLifecycle.setPageTitle('consumer-apis');
+                loadAllEntries()
                 $scope.$applyAsync(function() {
                     $('#apiman-search').focus();
                 });

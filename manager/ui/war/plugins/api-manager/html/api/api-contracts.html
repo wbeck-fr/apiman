@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
   </head>
 
@@ -32,18 +32,19 @@
           </div>
           <div class="col-md-12">
             <div class="table-responsive">
-              <table class="table table-striped table-bordered table-hover" data-field="contracts">
-                <thead>
+              <scrollable-table style="height: 150px">
+                <table class="table table-striped table-bordered table-hover" data-field="contracts">
+                  <thead>
                   <tr>
-                    <th width="70%" apiman-i18n-key="client-client" nowrap="nowrap">Client</th>
+                    <th style="width: 70%" apiman-i18n-key="client-client" nowrap="nowrap">Client</th>
                     <th apiman-i18n-key="plan" nowrap="nowrap">Plan</th>
                     <th apiman-i18n-key="created-on_capitalized" nowrap="nowrap">Created On</th>
                   </tr>
-                </thead>
-                <tbody>
+                  </thead>
+                  <tbody>
 
                   <tr ng-hide="contracts.length > 0">
-                    <td colspan="4">
+                    <td colspan="3">
                       <div class="apiman-no-content container-fluid">
                         <div class="row">
                           <div class="col-md-12">
@@ -67,8 +68,10 @@
                     <td><span>{{ contract.planName }}</span></td>
                     <td><span>{{ contract.createdOn | date:'yyyy-MM-dd' }}</span></td>
                   </tr>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </scrollable-table>
+
             </div>
             <div style="text-align: center" ng-hide="contracts.length == 0">
               <button ng-show="hasMore" ng-click="getNextPage()" class="btn btn-default" data-field="moreButton" apiman-i18n-key="show-more-contracts" placeholder="Loading..." data-icon="fa-cog">Show More Contracts</button>

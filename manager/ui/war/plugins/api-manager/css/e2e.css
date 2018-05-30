@@ -396,3 +396,21 @@ a:hover {
 .scrollArea table tbody tr td:last-child {
     box-shadow: inset -1px 0 0 0 #dddddd;
 }
+
+.apiman-organizations, .apiman-apis, .apiman-clients, .apiman-plans, .apiman-members, .apiman-roles, .apiman-activity {
+    max-height: 70vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.apiman-contracts, .apiman-policies, .apiman-entity-content .apiman-activity {
+    max-height: 50vh;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.find-apis, .find-orgs {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
+}

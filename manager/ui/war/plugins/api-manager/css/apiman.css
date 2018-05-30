@@ -423,14 +423,12 @@ div.page {
 .browse-items .item {
   position: relative;
   padding: 10px;
-  width: 330px;
+  width: 32%;
   border: 1px solid rgb(218, 218, 218);
-  float: left;
-  margin-right: 15px;
-  margin-bottom: 15px;
+  margin-right: 1%;
+  margin-bottom: 1%;
 }
 .browse-items .item.card {
-  height: 110px;
   overflow: hidden;
 }
 .browse-items .item:hover {
@@ -618,11 +616,6 @@ div.page {
 
 .apiman-organizations hr, .apiman-apis hr, .apiman-clients hr, .apiman-plans hr, .apiman-members hr, .apiman-contracts hr, .apiman-policies hr, .apiman-roles hr {
   margin: 8px;
-}
-
-.apiman-plans .apiman-policy-chain {
-  max-height: 200px;
-  overflow: auto;
 }
 
 .apiman-timestamp {
@@ -1057,6 +1050,9 @@ ol.breadcrumb {
 
 .apiman-plan-selector {
   padding: 10px;
+  max-height: 30vh;
+  overflow: auto;
+  overflow-x: hidden;
 }
 .apiman-plan-selector .title {
   font-size: 16px;
@@ -1724,6 +1720,9 @@ html, body {height: 100%;}
   margin-top: 10px;
   background-color: #f5f5f5;
   padding-top: 20px;
+  max-height: 70vh;
+  overflow-x: hidden;
+  overflow: auto;
 }
 .apiman-card-table .alert {
   margin-left: 20px;

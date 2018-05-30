@@ -98,6 +98,7 @@ module Apiman {
 
             PageLifecycle.loadPage('OrgNewMember', 'orgAdmin', pageData, $scope, function() {
                 PageLifecycle.setPageTitle('new-member');
+                $scope.findUsers('*');
             });
         }])
 
