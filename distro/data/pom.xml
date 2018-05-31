@@ -3,8 +3,24 @@
   <parent>
     <groupId>io.apiman</groupId>
     <artifactId>apiman-distro</artifactId>
-    <version>7.0.0-beta4</version>
+    <version>7.0.0-rc1</version>
   </parent>
   <artifactId>apiman-distro-data</artifactId>
   <name>apiman-distro-data</name>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources/bootstrap</directory>
+        <targetPath>${basedir}/target/classes/bootstrap</targetPath>
+        <filtering>true</filtering>
+        <includes>
+            <include>apiman-default-config.json</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
 </project>

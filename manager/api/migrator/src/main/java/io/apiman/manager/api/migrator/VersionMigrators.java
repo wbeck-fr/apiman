@@ -92,7 +92,10 @@ public class VersionMigrators {
             String[] split;
             if (version.contains("beta")){
                 split = version.replaceAll("-beta\\d", "").split("\\.");
-            } else {
+            } else if (version.contains("rc")) {
+                split = version.replaceAll("-rc\\d", "").split("\\.");
+            }
+            else {
                 split = version.replace("-SNAPSHOT", "").split("\\.");
             }
             major = new Integer(split[0]);
