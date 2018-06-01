@@ -48,43 +48,43 @@
             <li class="list-group-item">
                 <a href="{{ pluginName }}">
                     <span class="fa fa-home" data-toggle="tooltip" title="Home"></span>
-                    <span class="list-group-item-value">Home</span>
+                    <span class="list-group-item-value" apiman-i18n-key="home">Home</span>
                 </a>
             </li>
 
             <li class="list-group-item secondary-nav-item-pf" data-target="#my_stuff-secondary">
                 <a>
                     <span class="fa fa-user" data-toggle="tooltip" title="My Stuff"></span>
-                    <span class="list-group-item-value">My Stuff</span>
+                    <span class="list-group-item-value" apiman-i18n-key="actions.my-stuff">My Stuff</span>
                 </a>
                 <div class="nav-pf-secondary-nav">
                     <div class="nav-item-pf-header">
                         <a class="secondary-collapse-toggle-pf" data-toggle="collapse-secondary-nav"></a>
-                        <span>My Stuff</span>
+                        <span apiman-i18n-key="actions.my-stuff">My Stuff</span>
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item" data-target="#my_stuff-my_apis-tertiary">
                             <a href="{{ pluginName }}/users/{{ username }}/apis">
-                                <span class="list-group-item-value">My APIs</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.my-apis">My APIs</span>
                             </a>
                             <a href="{{ pluginName }}/new-api">
-                                <span class="list-group-item-value" style="margin-left:5px">Create API</span>
+                                <span class="list-group-item-value" style="margin-left:5px" apiman-i18n-key="actions.create-api">Create API</span>
                             </a>
                         </li>
                         <li class="list-group-item" data-target="#my_stuff-my_organization-tertiary">
                             <a href="{{ pluginName }}/users/{{ username }}/orgs">
-                                <span class="list-group-item-value">My Organizations</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.my-orgs">My Organizations</span>
                             </a>
                             <a href="{{ pluginName }}/new-org" ng-hide="noCreateOrg || !isAdmin">
-                                <span class="list-group-item-value" style="margin-left:5px">Create Organization</span>
+                                <span class="list-group-item-value" style="margin-left:5px" apiman-i18n-key="actions.create-new-org">Create Organization</span>
                             </a>
                         </li>
                         <li class="list-group-item" data-target="#my_stuff-my_clients-tertiary">
                             <a href="{{ pluginName }}/users/{{ username }}/clients">
-                                <span class="list-group-item-value">My Clients</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.my-clients">My Clients</span>
                             </a>
                             <a href="{{ pluginName }}/new-client">
-                                <span class="list-group-item-value" style="margin-left:5px">Create Client</span>
+                                <span class="list-group-item-value" style="margin-left:5px" data-field="createClient">Create Client</span>
                             </a>
                         </li>
                     </ul>
@@ -94,59 +94,59 @@
             <li class="list-group-item">
                 <a href="{{ pluginName }}/catalog/api-catalog">
                     <span class="fa fa-book" data-toggle="tooltip" title="API Catalog"></span>
-                    <span class="list-group-item-value">API Catalog</span>
+                    <span class="list-group-item-value" apiman-i18n-key="actions.browse-importable-apis">API Catalog</span>
                 </a>
             </li>
 
             <li class="list-group-item">
                 <a href="{{ pluginName }}/browse/apis">
                     <span class="fa fa-gears" data-toggle="tooltip" title="Find APIs"></span>
-                    <span class="list-group-item-value">Find APIs</span>
+                    <span class="list-group-item-value" apiman-i18n-key="actions.find-api">Find APIs</span>
                 </a>
             </li>
 
             <li class="list-group-item">
                 <a href="{{ pluginName }}/browse/orgs">
-                    <span class="fa fa-shield" data-toggle="tooltip" title="FInd Organizations"></span>
-                    <span class="list-group-item-value">Find Organizations</span>
+                    <span class="fa fa-shield" data-toggle="tooltip" title="Find Organizations"></span>
+                    <span class="list-group-item-value" apiman-i18n-key="actions.browse-orgs">Find Organizations</span>
                 </a>
             </li>
 
             <li class="list-group-item secondary-nav-item-pf" data-target="#admin-secondary" ng-show="isAdmin">
                 <a>
                     <span class="fa fa-gavel" data-toggle="tooltip" title="Administration"></span>
-                    <span class="list-group-item-value">Administration</span>
+                    <span class="list-group-item-value" apiman-i18n-key="system-administration">Administration</span>
                 </a>
 
                 <div id="browse-secondary" class="nav-pf-secondary-nav">
                     <div class="nav-item-pf-header">
                         <a class="secondary-collapse-toggle-pf" data-toggle="collapse-secondary-nav"></a>
-                        <span>Administration</span>
+                        <span apiman-i18n-key="system-administration">Administration</span>
                     </div>
                     <ul class="list-group">
                         <li class="list-group-item" data-target="#admin-manage_roles-tertiary">
                             <a href="{{ pluginName }}/admin/roles">
-                                <span class="list-group-item-value">Manage Roles</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.manage-roles">Manage Roles</span>
                             </a>
                         </li>
                         <li class="list-group-item" data-target="#admin-manage_policies-tertiary">
                             <a href="{{ pluginName }}/admin/policyDefs">
-                                <span class="list-group-item-value">Manage Policiy Definitions</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.manage-policyDefs">Manage Policiy Definitions</span>
                             </a>
                         </li>
                         <li class="list-group-item" data-target="#admin-manage_gateway-tertiary">
                             <a href="{{ pluginName }}/admin/gateways">
-                                <span class="list-group-item-value">Manage Gateways</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.manage-gateways">Manage Gateways</span>
                             </a>
                         </li>
                         <li class="list-group-item" data-target="#admin-manage_plugins-tertiary">
                             <a href="{{ pluginName }}/admin/plugins">
-                                <span class="list-group-item-value">Manage Plugins</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.manage-plugins">Manage Plugins</span>
                             </a>
                         </li>
                         <li class="list-group-item" data-target="#admin-manage_export-tertiary">
                             <a href="{{ pluginName }}/admin/export">
-                                <span class="list-group-item-value">Export&sol;Import Data</span>
+                                <span class="list-group-item-value" apiman-i18n-key="export-import-data">Export&sol;Import Data</span>
                             </a>
                         </li>
                     </ul>

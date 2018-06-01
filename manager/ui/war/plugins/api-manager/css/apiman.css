@@ -365,7 +365,6 @@ div.page {
   width: 49%;
   float: left;
   margin: 20px 20px 0px 0px;
-  min-height: 220px;
 }
 .dash-group:hover {
   border: 1px solid var(--e2e-button-hover-color);
@@ -383,21 +382,22 @@ div.page {
   border-bottom: 3px solid #06618e;
 }
 .dash-group .description {
-  padding: 10px;
+  padding: 55px;
+  font-size: 14px;
 }
-.dash-group .actions {
-  padding: 10px;
-}
-.dash-group .actions ul {
-  margin: 0px;
-  margin-left: 40px;
-  padding: 0px;
-}
-.dash-group .actions ul li {
-  list-style: none;
-  padding: 2px;
-  font-weight: bold;
-}
+/*.dash-group .actions {*/
+  /*padding: 10px;*/
+/*}*/
+/*.dash-group .actions ul {*/
+  /*margin: 0px;*/
+  /*margin-left: 40px;*/
+  /*padding: 0px;*/
+/*}*/
+/*.dash-group .actions ul li {*/
+  /*list-style: none;*/
+  /*padding: 2px;*/
+  /*font-weight: bold;*/
+/*}*/
 
 .dash-admin-group {
   border: 1px solid rgb(200, 200, 200);
