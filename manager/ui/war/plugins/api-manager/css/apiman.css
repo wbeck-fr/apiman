@@ -78,9 +78,7 @@ a.ui-select-match-close:hover {
   background-repeat: no-repeat;
   background-position: top left;
   background-size: contain;
-  width: 215px;
-  height: 259px;
-  margin-top: 30px;
+  height: 30vh;
 }
 
 .apiman-about-page .about-label {
@@ -211,7 +209,6 @@ textarea.apiman-form-data {
 }
 #apiman-header .logo {
   margin: 10px 0px;
-  background-image: url(../img/e2e_logo.png);
   background-size: cover;
   background-repeat: no-repeat;
   height: 20px;

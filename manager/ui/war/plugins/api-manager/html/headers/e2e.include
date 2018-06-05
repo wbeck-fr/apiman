@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="{{ pluginName }}" class="navbar-brand">
-                <img class="navbar-brand-icon" src="plugins/api-manager/img/e2e_logo.png" alt="" />
+                <img class="navbar-brand-icon" src="plugins/api-manager/img/API-Management.png" alt="" />
             </a>
         </div>
         <nav class="collapse navbar-collapse">
