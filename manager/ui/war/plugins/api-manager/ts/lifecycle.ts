@@ -27,7 +27,7 @@ module ApimanPageLifecycle {
         "page.title.edit-policyDef": "API Management - Edit Policy Definition",
         "page.title.edit-role": "API Management - Edit Role",
         "page.title.import-policyDefs": "API Management - Import Policy Definition(s)",
-        "page.title.import-apis": "API Management - Import API(s)",
+        "page.title.import-apis": "API Management - API Catalog Import",
         "page.title.new-client": "API Management - New Client",
         "page.title.new-client-version": "API Management - New Client Version",
         "page.title.new-contract": "API Management - New Contract",

@@ -15,7 +15,7 @@
           <ol class="breadcrumb" data-field="breadcrumb">
             <li><a id="bc-home" href="{{ pluginName }}/"><i class="fa fa-home fa-fw"></i><span apiman-i18n-key="home">Home</span></a></li>
             <li><a id="bc-apis" href="{{ pluginName }}/orgs/{{ org.id }}/apis"><i class="fa fa-shield fa-fw"></i><span>{{ org.name }}</span></a></li>
-            <li class="active"><span apiman-i18n-key="import-apis_">Import API(s)</span></li>
+            <li class="active"><span apiman-i18n-key="import-apis_">Import from API Catalog</span></li>
           </ol>
         </div>
       </div>
@@ -24,7 +24,7 @@
         <div class="col-md-3 apiman-wizard-items">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-md-12 apiman-header ng-binding" apiman-i18n-key="import-apis_">Import API(s)</div>
+              <div class="col-md-12 apiman-header ng-binding" apiman-i18n-key="import-apis_">Import from API Catalog</div>
             </div>
             <div class="row">
               <hr>
@@ -37,7 +37,7 @@
                   <span apiman-i18n-key="step-1" class="apiman-label-faded">Step 1</span>
                 </div>
                 <div class="step-title">
-                  <span apiman-i18n-key="find-apis">Find APIs</span>
+                  <span apiman-i18n-key="select-apis">Select APIs</span>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@
           <!-- Find APIs Page -->
           <div class="apiman-wizard-page" ng-show="currentPage == 'find-apis'">
             <div class="col-md-12">
-              <h1 apiman-i18n-key="find-apis">Find APIs</h1>
+              <h1 apiman-i18n-key="select-apis">Select APIs</h1>
               <p apiman-i18n-key="import-apis.overview.find-apis">
                 The first step in the wizard is to search for and find the APIs you wish to
                 import. The location of this data is dependent on how API Management is configured, but
