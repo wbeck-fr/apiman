@@ -50,7 +50,7 @@ pipeline {
                     }
 
                 }
-                archiveArtifacts artifacts: 'distro/tomcat8/target/E2EBridgeGateway*.zip'
+                archiveArtifacts artifacts: 'distro/tomcat8/target/Scheer-PAS-API-Management*.zip'
             }
         }
         stage('Archive release') {
@@ -61,7 +61,7 @@ pipeline {
                 dir('distro/tomcat8/target/') {
                     sh 'rename.ul -- "-overlay" "" *.zip'
                 }
-                archiveArtifacts artifacts: 'distro/tomcat8/target/E2EBridgeGateway*.zip'
+                archiveArtifacts artifacts: 'distro/tomcat8/target/Scheer-PAS-API-Management*.zip'
             }
         }
         stage('Publish NAS1') {
@@ -76,7 +76,7 @@ pipeline {
                         paramPublish: null, masterNodeName: '',
                         publishers: [[configName: 'NAS1', transfers:
                                 [
-                                        [sourceFiles    : 'distro/tomcat8/target/E2EBridgeGateway*.zip',
+                                        [sourceFiles    : 'distro/tomcat8/target/Scheer-PAS-API-Management*.zip',
                                          removePrefix   : 'distro/tomcat8/target',
                                          remoteDirectory: 'gateway']
                                 ]

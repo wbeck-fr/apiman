@@ -22,7 +22,7 @@
     <!-- The Tomcat 8 version of APIMan -->
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>E2EBridgeGateway</artifactId>
+      <artifactId>Scheer-PAS-API-Management</artifactId>
       <type>zip</type>
       <classifier>overlay</classifier>
     </dependency>

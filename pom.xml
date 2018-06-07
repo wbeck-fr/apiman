@@ -594,7 +594,7 @@
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
-        <artifactId>E2EBridgeGateway</artifactId>
+        <artifactId>Scheer-PAS-API-Management</artifactId>
         <version>${project.version}</version>
         <type>zip</type>
         <classifier>overlay</classifier>

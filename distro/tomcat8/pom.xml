@@ -7,7 +7,7 @@
     <version>7.0.0-rc1</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>E2EBridgeGateway</artifactId>
+  <artifactId>Scheer-PAS-API-Management</artifactId>
   <packaging>pom</packaging>
   <name>apiman-distro-tomcat8</name>
 
