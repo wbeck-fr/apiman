@@ -30,7 +30,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a id="navbar-about" href="{{ pluginName }}/about" apiman-i18n-key="about-apiman">About Bridge Gateway</a>
+                            <a id="navbar-about" href="{{ pluginName }}/about" apiman-i18n-key="about-apiman">About API Management</a>
                         </li>
                         <li class="divider"></li>
                         <li>
