@@ -414,3 +414,8 @@ a:hover {
     flex-wrap: wrap;
     overflow-wrap: break-word;
 }
+
+.container-pf-nav-pf-vertical {
+    padding-left: 5vw;
+    padding-right: 5vw;
+}

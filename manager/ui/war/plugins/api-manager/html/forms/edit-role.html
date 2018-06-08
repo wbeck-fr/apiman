@@ -7,7 +7,7 @@
 
   <body>
     <div ng-include="headerInclude"></div>   
-    <div ng-controller="Apiman.EditRoleController" id="form-page" class="container apiman-edit-role apiman-entity-new page" data-field="page" ng-cloak="" ng-show="pageState == 'loaded'">
+    <div ng-controller="Apiman.EditRoleController" id="form-page" class="container-pf-nav-pf-vertical container-fluid apiman-edit-role apiman-entity-new page" data-field="page" ng-cloak="" ng-show="pageState == 'loaded'">
       <div class="row">
         <h2 class="title"><span apiman-i18n-key="edit-role">Edit Role</span></h2>
       </div>
@@ -56,7 +56,7 @@
         <dl>
           <dt apiman-i18n-key="permissions">Permissions</dt>
           <dd>
-            <div class="container">
+            <div class="container-pf-nav-pf-vertical container-fluid">
               <div class="row" data-field="permissions">
                 <div class="col-md-3">
                   <div class="checkbox">
@@ -144,6 +144,6 @@
 
       <div ng-include="'plugins/api-manager/html/modals/confirmModal.html'"></div>
 
-    </div> <!-- /container -->
+    </div> <!-- /container-pf-nav-pf-vertical container-fluid -->
   </body>
 </html>

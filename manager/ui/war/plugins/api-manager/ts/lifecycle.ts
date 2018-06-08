@@ -200,19 +200,6 @@ module ApimanPageLifecycle {
                         })
                     };
 
-                    angular.element(document).ready(function () {
-                        // Reload page if isVertical == true, else we have an infinite reload loop
-                        if($rootScope.isVertical == undefined){
-                            // Initialize the vertical navigation, timeout for firefox
-                            setTimeout(() => {
-                                (<any>$()).setupVerticalNavigation(true);
-                            }, 100);
-                            $rootScope.isVertical = true;
-                        } else if ($rootScope.isVertical == true){
-                            $window.location.reload();
-                        }
-                    });
-
                     // If some additional page data is requested, merge it into the common data
                     if (pageData) {
                         allData = angular.extend({}, commonData, pageData);

@@ -2,7 +2,7 @@
 module Apiman {
 
     export var NavbarController = _module.controller("Apiman.NavbarController",
-        ['$scope', 'Logger', 'Configuration', ($scope, Logger, Configuration) => {
+        ['$scope', '$rootScope', 'Logger', 'Configuration', ($scope, $rootScope, Logger, Configuration) => {
             Logger.log("Current user is {0}.", Configuration.user.username);
             $scope.username = Configuration.user.username;
             $scope.logoutUrl = Configuration.apiman.logoutUrl;
@@ -31,5 +31,36 @@ module Apiman {
                     }
                 })
             });
+
+            $scope.toggleNavBar = function () {
+                if ($rootScope.toggle == true){
+                    angular.element('.nav-pf-vertical').addClass('collapsed');
+                    angular.element('.container-pf-nav-pf-vertical').addClass('collapsed-nav');
+                } else {
+                    angular.element('.nav-pf-vertical').removeClass('collapsed');
+                    angular.element('.container-pf-nav-pf-vertical').removeClass('collapsed-nav');
+                }
+                // angular.element('.container').addClass('container-pf-nav-pf-vertical');
+                // angular.element('.container').addClass('container-fluid');
+                // angular.element('.container').removeClass('container');
+
+            };
+
+            $scope.userToggle = function(){
+                $rootScope.toggle = ($rootScope.toggle != true);
+                $scope.toggleNavBar();
+            };
+
+            $scope.onMouseEnter = function(event){
+                angular.element('.nav-pf-vertical').addClass('hover-secondary-nav-pf');
+                let item = angular.element(event.target);
+                item.closest('li').addClass('is-hover');
+            };
+
+            $scope.onMouseLeave = function(){
+                angular.element('.nav-pf-vertical').removeClass('hover-secondary-nav-pf');
+                // remove the class "is-hover" from whole document so we can't have more than one sub vertical menu
+                angular.element('.is-hover').removeClass('is-hover');
+            };
         }]);
 }

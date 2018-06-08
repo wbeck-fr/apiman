@@ -8,7 +8,7 @@
   <body>
     
     <div ng-include="headerInclude"></div>   
-    <div ng-controller="Apiman.NewPluginController" id="form-page" class="container apiman-entity-new page" data-field="page" ng-cloak="" ng-show="pageState == 'loaded'">
+    <div ng-controller="Apiman.NewPluginController" id="form-page" class="container-pf-nav-pf-vertical container-fluid apiman-entity-new page" data-field="page" ng-cloak="" ng-show="pageState == 'loaded'">
     <div id="form-page" class="" data-field="page">
       <div class="row">
         <h2 class="title" apiman-i18n-key="new-plugin">Add Plugin</h2>
@@ -73,6 +73,6 @@
         <button id="add-plugin" ng-disabled="!isValid" apiman-action-btn="" class="btn btn-primary" data-field="addButton" apiman-i18n-key="add-plugin" placeholder="Adding..." data-icon="fa-cog" ng-click="addPlugin()">Add Plugin</button>
         <a id="cancel" href="javascript:window.history.back()" class="btn btn-default btn-cancel" data-field="cancelButton" apiman-i18n-key="cancel">Cancel</a>
       </div>
-    </div> <!-- /container -->
+    </div> <!-- /container-pf-nav-pf-vertical container-fluid -->
   </body>
 </html>

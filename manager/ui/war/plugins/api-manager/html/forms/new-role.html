@@ -8,7 +8,7 @@
   <body>
     
     <div ng-include="headerInclude"></div>
-    <div ng-controller="Apiman.NewRoleController" id="form-page" class="container apiman-entity-new page" ng-cloak="" ng-show="pageState == 'loaded'">
+    <div ng-controller="Apiman.NewRoleController" id="form-page" class="container-pf-nav-pf-vertical container-fluid apiman-entity-new page" ng-cloak="" ng-show="pageState == 'loaded'">
       <div class="row">
         <h2 class="title" apiman-i18n-key="new-role">New Role</h2>
       </div>
@@ -141,6 +141,6 @@
         <button id="create-role" ng-disabled="!isValid" apiman-action-btn="" class="btn btn-primary" data-field="createButton" apiman-i18n-key="create-role" placeholder="Creating..." data-icon="fa-cog" ng-click="addRole()">Create Role</button>
         <a id="cancel" href="javascript:window.history.back()" class="btn btn-default btn-cancel" data-field="cancelButton" apiman-i18n-key="cancel">Cancel</a>
       </div>
-    </div> <!-- /container -->
+    </div> <!-- /container-pf-nav-pf-vertical container-fluid -->
   </body>
 </html>

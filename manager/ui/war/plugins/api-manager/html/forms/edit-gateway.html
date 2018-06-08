@@ -9,7 +9,7 @@
   <div>
     
     <div ng-include="headerInclude"></div>   
-    <div ng-controller="Apiman.EditGatewayController" id="form-page" class="container apiman-edit-gateway apiman-entity-new page" data-field="page" ng-cloak="" ng-show="pageState == 'loaded'">
+    <div ng-controller="Apiman.EditGatewayController" id="form-page" class="container-pf-nav-pf-vertical container-fluid apiman-edit-gateway apiman-entity-new page" data-field="page" ng-cloak="" ng-show="pageState == 'loaded'">
       <fieldset>
       <div class="row">
         <h2 class="title" apiman-i18n-key="edit-gateway">Edit Gateway</h2>
@@ -115,7 +115,7 @@
         <button id="delete-gateway" apiman-action-btn="" class="btn btn-danger" style="margin-left: 100px;" data-field="deleteButton" apiman-i18n-key="delete-gateway" placeholder="Deleting..." data-icon="fa-cog" ng-click="deleteGateway()">Delete Gateway</button>
       </div>
   	  </fieldset>
-    </div> <!-- /container -->
+    </div> <!-- /container-pf-nav-pf-vertical container-fluid -->
 
     <div ng-include="'plugins/api-manager/html/modals/confirmModal.html'"></div>
   </div>
