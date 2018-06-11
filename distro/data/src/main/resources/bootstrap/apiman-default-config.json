@@ -100,6 +100,7 @@
     "description" : "A user with this role has the permission to edit.",
     "createdBy" : "admin",
     "createdOn" : "2018-05-09T12:00:00Z",
+    "autoGrant" : true,
     "permissions" : [ "orgEdit", "planEdit", "planAdmin", "planView", "clientView", "clientAdmin", "apiEdit", "apiView", "apiAdmin", "orgView", "clientEdit" ]
   }, {
     "id" : "Organization-User-Manager",
