@@ -127,6 +127,8 @@ module ApimanModals {
                             'value': '%' + $scope.searchText + '%',
                             'operator': 'like'
                         });
+                        body.page = 1;
+                        body.pageSize = 0x7fffffff; // Java Interger.MAX_VALUE
 
                         var searchStr = angular.toJson(body);
 
