@@ -20,12 +20,6 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li>
-                            <a id="navbar-home" href="{{ pluginName }}/" apiman-i18n-key="home">Home</a>
-                        </li>
-                        <li>
-                            <a id="navbar-my-stuff" href="{{ pluginName }}/users/{{ username }}/orgs" apiman-i18n-key="my-stuff">My Stuff</a>
-                        </li>
-                        <li>
                             <a id="navbar-profile" href="{{ pluginName }}/profile" apiman-i18n-key="profile">Profile</a>
                         </li>
                         <li class="divider"></li>
@@ -45,73 +39,106 @@
 
     <div class="nav-pf-vertical nav-pf-vertical-with-sub-menus">
         <ul class="list-group">
-            <li class="list-group-item">
-                <a href="{{ pluginName }}">
-                    <span class="fa fa-home" data-toggle="tooltip" title="Home"></span>
-                    <span class="list-group-item-value" apiman-i18n-key="home">Home</span>
-                </a>
-            </li>
 
-            <li class="list-group-item secondary-nav-item-pf" data-target="#my_stuff-secondary" ng-mouseover="onMouseEnter($event)" ng-mouseleave="onMouseLeave()">
+            <!--APIs-->
+            <li class="list-group-item secondary-nav-item-pf" data-target="#apis-secondary" ng-mouseover="onMouseEnter($event)" ng-mouseleave="onMouseLeave()">
                 <a>
-                    <span class="fa fa-user" data-toggle="tooltip" title="My Stuff"></span>
-                    <span class="list-group-item-value" apiman-i18n-key="actions.my-stuff">My Stuff</span>
+                    <span class="fa fa-puzzle-piece" data-toggle="tooltip" title="APIs"></span>
+                    <span class="list-group-item-value" apiman-i18n-key="apis">APIs</span>
                 </a>
                 <div class="nav-pf-secondary-nav">
                     <div class="nav-item-pf-header">
                         <a class="secondary-collapse-toggle-pf" data-toggle="collapse-secondary-nav"></a>
-                        <span apiman-i18n-key="actions.my-stuff">My Stuff</span>
+                        <span apiman-i18n-key="apis">APIs</span>
                     </div>
                     <ul class="list-group">
-                        <li class="list-group-item" data-target="#my_stuff-my_apis-tertiary">
+                        <li class="list-group-item" data-target="#apis-my_apis-tertiary">
                             <a href="{{ pluginName }}/users/{{ username }}/apis">
                                 <span class="list-group-item-value" apiman-i18n-key="actions.my-apis">My APIs</span>
                             </a>
+                        </li>
+                        <li class="list-group-item" data-target="#apis-all_apis-tertiary">
+                            <a href="{{ pluginName }}/browse/apis">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.find-api">All APIs</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item" data-target="#apis-catalog-tertiary">
+                            <a href="{{ pluginName }}/catalog/api-catalog">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.browse-importable-apis">API Catalog</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item" data-target="#apis-new_api-tertiary">
                             <a href="{{ pluginName }}/new-api">
-                                <span class="list-group-item-value" style="margin-left:5px" apiman-i18n-key="actions.create-api">Create API</span>
-                            </a>
-                        </li>
-                        <li class="list-group-item" data-target="#my_stuff-my_organization-tertiary">
-                            <a href="{{ pluginName }}/users/{{ username }}/orgs">
-                                <span class="list-group-item-value" apiman-i18n-key="actions.my-orgs">My Organizations</span>
-                            </a>
-                            <a href="{{ pluginName }}/new-org" ng-hide="noCreateOrg || !isAdmin">
-                                <span class="list-group-item-value" style="margin-left:5px" apiman-i18n-key="actions.create-new-org">Create Organization</span>
-                            </a>
-                        </li>
-                        <li class="list-group-item" data-target="#my_stuff-my_clients-tertiary">
-                            <a href="{{ pluginName }}/users/{{ username }}/clients">
-                                <span class="list-group-item-value" apiman-i18n-key="actions.my-clients">My Clients</span>
-                            </a>
-                            <a href="{{ pluginName }}/new-client">
-                                <span class="list-group-item-value" style="margin-left:5px" data-field="createClient">Create Client</span>
+                                <span class="list-group-item-value" apiman-i18n-key="actions.create-api">New API</span>
                             </a>
                         </li>
                     </ul>
                 </div>
             </li>
 
-            <li class="list-group-item">
-                <a href="{{ pluginName }}/catalog/api-catalog">
-                    <span class="fa fa-book" data-toggle="tooltip" title="API Catalog"></span>
-                    <span class="list-group-item-value" apiman-i18n-key="actions.browse-importable-apis">API Catalog</span>
+            <!--Clients-->
+            <li class="list-group-item secondary-nav-item-pf" data-target="#clients-secondary" ng-mouseover="onMouseEnter($event)" ng-mouseleave="onMouseLeave()">
+                <a>
+                    <span class="fa fa-gears" data-toggle="tooltip" title="Clients"></span>
+                    <span class="list-group-item-value" apiman-i18n-key="client-apps">Clients</span>
                 </a>
+                <div class="nav-pf-secondary-nav">
+                    <div class="nav-item-pf-header">
+                        <a class="secondary-collapse-toggle-pf" data-toggle="collapse-secondary-nav"></a>
+                        <span apiman-i18n-key="client-apps">Clients</span>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item" data-target="#clients-my_clients-tertiary">
+                            <a href="{{ pluginName }}/users/{{ username }}/clients">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.my-clients">My Clients</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item" data-target="#apis-new_contract-tertiary">
+                            <a href="{{ pluginName }}/new-contract">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.new-contract">New Contract</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item" data-target="#apis-new_client-tertiary">
+                            <a href="{{ pluginName }}/new-client">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.new-client">New Client</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
 
-            <li class="list-group-item">
-                <a href="{{ pluginName }}/browse/apis">
-                    <span class="fa fa-gears" data-toggle="tooltip" title="Find APIs"></span>
-                    <span class="list-group-item-value" apiman-i18n-key="actions.find-api">Find APIs</span>
+            <!--Organizations-->
+            <li class="list-group-item secondary-nav-item-pf" data-target="#orgs-secondary" ng-mouseover="onMouseEnter($event)" ng-mouseleave="onMouseLeave()">
+                <a>
+                    <span class="fa fa-shield" data-toggle="tooltip" title="Organizations"></span>
+                    <span class="list-group-item-value" apiman-i18n-key="organizations">Organizations</span>
                 </a>
+                <div class="nav-pf-secondary-nav">
+                    <div class="nav-item-pf-header">
+                        <a class="secondary-collapse-toggle-pf" data-toggle="collapse-secondary-nav"></a>
+                        <span apiman-i18n-key="organizations">Organizations</span>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item" data-target="#clients-my_clients-tertiary">
+                            <a href="{{ pluginName }}/users/{{ username }}/orgs">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.my-orgs">My Organizations</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item" data-target="#apis-new_contract-tertiary">
+                            <a href="{{ pluginName }}/browse/orgs">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.browse-orgs">All Organizations</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item" data-target="#apis-new_client-tertiary">
+                            <a href="{{ pluginName }}/new-org" ng-hide="noCreateOrg || !isAdmin">
+                                <span class="list-group-item-value" apiman-i18n-key="actions.create-new-org">New Organization</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
 
-            <li class="list-group-item">
-                <a href="{{ pluginName }}/browse/orgs">
-                    <span class="fa fa-shield" data-toggle="tooltip" title="Find Organizations"></span>
-                    <span class="list-group-item-value" apiman-i18n-key="actions.browse-orgs">Find Organizations</span>
-                </a>
-            </li>
-
+            <!--Administration-->
             <li class="list-group-item secondary-nav-item-pf" data-target="#admin-secondary" ng-show="isAdmin" ng-mouseover="onMouseEnter($event)" ng-mouseleave="onMouseLeave()">
                 <a>
                     <span class="fa fa-gavel" data-toggle="tooltip" title="Administration"></span>
