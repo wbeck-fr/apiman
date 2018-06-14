@@ -51,9 +51,18 @@ import io.apiman.manager.api.exportimport.read.IImportReaderDispatcher;
 import io.apiman.manager.api.gateway.IGatewayLink;
 import io.apiman.manager.api.gateway.IGatewayLinkFactory;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import java.util.*;
 
 /**
  * Used to store imported entities into the {@link IStorage}.
