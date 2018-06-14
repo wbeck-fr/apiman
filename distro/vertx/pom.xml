@@ -11,6 +11,12 @@
   <packaging>pom</packaging>
   <name>apiman-distro-vertx</name>
 
+  <properties>
+    <docker.base-image>openjdk:8-alpine</docker.base-image>
+    <docker.target-image-name>api-mgmt/gateway:${project.version}</docker.target-image-name>
+    <docker.target-image-name.alias>api-mgmt/gateway:${project.version}</docker.target-image-name.alias>
+  </properties>
+
   <dependencies>
     <dependency>
         <groupId>io.apiman</groupId>
@@ -54,4 +60,59 @@
       </plugin>
     </plugins>
   </build>
+
+
+  <profiles>
+    <profile>
+      <id>docker</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>${version.docker.plugin}</version>
+            <executions>
+              <execution>
+                <id>docker-build</id>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <images>
+                <image>
+                  <name>${docker.target-image-name}</name>
+                  <alias>${docker.target-image-name.alias}</alias>
+                  <build>
+                    <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
+                    <assembly>
+                      <inline>
+                        <fileSets>
+                          <fileSet>
+                            <includes>
+                              <include>target/${project.artifactId}-${project.version}.zip</include>
+                            </includes>
+                            <filtered>false</filtered>
+                            <directoryMode>0755</directoryMode>
+                            <fileMode>0755</fileMode>
+                          </fileSet>
+                        </fileSets>
+                      </inline>
+                    </assembly>
+                  </build>
+                  <run>
+                    <ports>
+                      <port>8081:8081</port>
+                      <port>8082:8082</port>
+                    </ports>
+                  </run>
+                </image>
+              </images>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
