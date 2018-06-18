@@ -11,6 +11,14 @@
   <packaging>pom</packaging>
   <name>apiman-distro-tomcat8</name>
 
+  <properties>
+    <docker.wildfly.version>apiman-distro-tomcat8</docker.wildfly.version>
+    <docker.base-image>tomcat:8.5.31-alpine</docker.base-image>
+    <docker.keycloak-version>4.3.0.Final</docker.keycloak-version>
+    <docker.target-image-name>api-mgmt/ui:${project.version}</docker.target-image-name>
+    <docker.target-image-name.alias>api-mgmt/ui:${project.version}</docker.target-image-name.alias>
+  </properties>
+
   <dependencies>
     <!-- The Tomcat 8 version of APIMan -->
     <dependency>
@@ -75,41 +83,153 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources-1</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/keycloak-config-files</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources/keycloak-config-files</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          <execution>
+            <id>copy-resources-2</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/tomcat-config-files</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources/tomcat-config-files</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+       </executions>
+      </plugin>
     </plugins>
   </build>
 
-  <!-- <profiles>
+  <profiles>
     <profile>
-        <id>docker</id>
-        <build>
-            <finalName>${project.artifactId}</finalName>
-            <plugins>
+      <id>docker</id>
+      <build>
+        <plugins>
           <plugin>
-            <groupId>com.spotify</groupId>
+            <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
-            <version>0.1.1</version>
+            <version>${version.docker.plugin}</version>
             <executions>
               <execution>
-                <phase>package</phase>
+                <id>docker-build</id>
                 <goals>
                   <goal>build</goal>
                 </goals>
               </execution>
             </executions>
             <configuration>
-              <imageName>${project.artifactId}:${project.version}</imageName>
-              <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
-              <resources>
-                <resource>
-                  <targetPath>/</targetPath>
-                  <directory>${project.build.directory}</directory>
-                  <include>${project.artifactId}-overlay.zip</include>
-                </resource>
-              </resources>
+              <images>
+                <image>
+                  <name>${docker.target-image-name}</name>
+                  <alias>${docker.target-image-name.alias}</alias>
+                  <build>
+                    <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
+                    <assembly>
+                      <inline>
+                        <fileSets>
+                          <fileSet>
+                            <includes>
+                              <include>target/${project.artifactId}-${project.version}-overlay.zip</include>
+                              <include>target/keycloak-config-files/**/*</include>
+                              <include>target/tomcat-config-files/**/*</include>
+                            </includes>
+                            <filtered>false</filtered>
+                            <directoryMode>0755</directoryMode>
+                            <fileMode>0755</fileMode>
+                          </fileSet>
+                        </fileSets>
+                      </inline>
+                    </assembly>
+                  </build>
+                  <run>
+                    <ports>
+                      <port>8080:8080</port>
+                      <port>8443:8443</port>
+                    </ports>
+                  </run>
+                </image>
+              </images>
             </configuration>
           </plugin>
         </plugins>
       </build>
     </profile>
-  </profiles> -->
+
+    <profile>
+      <id>docker-dev</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <version>${version.docker.plugin}</version>
+            <executions>
+              <execution>
+                <id>docker-build</id>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <images>
+                <image>
+                  <name>api-mgmt/tomcat</name>
+                  <alias>api-mgmt/tomcat</alias>
+                  <build>
+                    <dockerFileDir>${project.basedir}/src/main/docker-with-gateway</dockerFileDir>
+                    <assembly>
+                      <inline>
+                        <fileSets>
+                          <fileSet>
+                            <includes>
+                              <include>target/${project.artifactId}-${project.version}-overlay.zip</include>
+                              <include>target/keycloak-config-files/**/*</include>
+                              <include>target/tomcat-config-files/**/*</include>
+                            </includes>
+                            <filtered>false</filtered>
+                            <directoryMode>0755</directoryMode>
+                            <fileMode>0755</fileMode>
+                          </fileSet>
+                        </fileSets>
+                      </inline>
+                    </assembly>
+                  </build>
+                  <run>
+                    <ports>
+                      <port>8080:8080</port>
+                      <port>8443:8443</port>
+                    </ports>
+                  </run>
+                </image>
+              </images>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
