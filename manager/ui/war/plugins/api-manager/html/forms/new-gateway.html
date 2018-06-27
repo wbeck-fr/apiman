@@ -15,7 +15,9 @@
       </div>
       <!-- Helpful hint -->
       <div class="row">
-        <p apiman-i18n-key="new-gateway-help-text" class="col-md-6 apiman-label-faded">Create a new API Gateway for use by APIs.  When publishing an API, at least one Gateway must be specified so that API configuration details can be published to the appropriate place.</p>
+        <p apiman-i18n-key="new-gateway-help-text" class="col-md-6 apiman-label-faded">Create a new API gateway for use
+          by APIs. When publishing an API, at least one gateway must be specified so that API configuration details can
+          be published to the appropriate place.</p>
       </div>
       <!-- HR -->
       <div class="row hr-row">
@@ -86,8 +88,8 @@
       <div class="row" ng-show="testResult == 'success'">
         <div class="alert alert-success description" style="margin-top: 10px">
           <span class="pficon pficon-ok"></span>
-          <strong apiman-i18n-key="gateway-config-valid.title">Gateway Configuration Valid</strong> 
-          <div apiman-i18n-key="gateway-config-valid.msg">Your Gateway configuration is correct.  Great job!</div>
+          <strong apiman-i18n-key="gateway-config-valid.title">Gateway Configuration Valid</strong>
+          <div apiman-i18n-key="gateway-config-valid.msg">Your gateway configuration is correct.</div>
         </div>
       </div>
       <div class="row" ng-show="testResult == 'error'">
@@ -97,7 +99,9 @@
             <span class="pficon pficon-error-exclamation"></span>
           </span>
           <strong apiman-i18n-key="gateway-config-invalid.title">Gateway Configuration Invalid</strong>
-          <div apiman-i18n-key="gateway-config-invalid.msg">Something has gone wrong when testing the Gateway.  Hopefully the details (below) will help you figure out what.</div>
+          <div apiman-i18n-key="gateway-config-invalid.msg">The test has not been successful. See details below for
+            further information.
+          </div>
           <div style="margin-top: 8px">
             <pre>{{ testErrorMessage }}</pre>
           </div>

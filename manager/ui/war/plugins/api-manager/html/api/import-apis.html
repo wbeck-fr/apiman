@@ -154,12 +154,12 @@
               <p apiman-i18n-key="import-apis.overview.choose-plans">
                 Once you have searched for and located the API or APIs you wish to import, the
                 second step is to choose whether these APIs should be "public" or should be offered
-                through one or more of the Plans defined by the Organization.
+                through one or more of the plans defined by the organization.
               </p>
               <hr>
               <h3 apiman-i18n-key="import-apis.public-apis">Public API(s)</h3>
               <div>
-                <span class="apiman-label-faded" apiman-i18n-key="import-apis.public-api-help">Select this option if you wish the imported APIs to be accessible directly, without using API Contracts.  Typically (but not always) this option is used instead of selecting Plan(s).</span>
+                <span class="apiman-label-faded" apiman-i18n-key="import-apis.public-api-help">Select this option if you wish the imported APIs to be accessible directly, without using API Contracts.  Typically (but not always) this option is used instead of selecting plan(s).</span>
               </div>
               <div style="padding: 8px; margin-bottom: 10px">
                 <input ng-model="importInfo.isPublic" type="checkbox" id="public-apis"></input>
@@ -167,12 +167,12 @@
               </div>
               <h3 apiman-i18n-key="available-plans">Available Plans</h3>
               <div>
-                <span apiman-i18n-key="available-plans-help">Choose which plans should be presented when Clients create a link (Contract) to this API. Note that only plans in a 'Locked' state show up in this list.</span>
+                <span apiman-i18n-key="available-plans-help">Choose which plans should be presented when clients create a contract to this API. Only plans in a Locked state show up in this list.</span>
               </div>
               <div class="apiman-divider-40" ng-show="plans.length == 0">
                 <div class="alert alert-warning">
                   <span class="pficon pficon-info"></span>
-                  <span apiman-i18n-key="import-apis.no-locked-plans-found">No locked plans were found in the Organization.  Please create and lock at least one plan before attempting to configure them here.  Or simply make your APIs "public" using the checkbox above!</span>
+                  <span apiman-i18n-key="import-apis.no-locked-plans-found">No locked plans were found in the organization. Please create and lock at least one plan before attempting to configure them here.  Or simply make your APIs "public" using the checkbox above!</span>
                 </div>
               </div>
               <!-- The plans to choose from -->
@@ -196,7 +196,7 @@
               <h1 apiman-i18n-key="confirm-import">Confirm Import</h1>
               <p apiman-i18n-key="import-apis.overview.import-apis">
                 Finally, you can confirm that you really do want to import the APIs. Once you click "Import",
-                each of the APIs you have chosen will be added to the Organization. Success or failure
+                each of the APIs you have chosen will be added to the organization. Success or failure
                 of each API import will be shown as it happens.
               </p>
               <hr>

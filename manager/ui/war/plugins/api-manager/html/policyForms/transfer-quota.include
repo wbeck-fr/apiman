@@ -54,10 +54,9 @@
   <hr/>
   <div>
     <p apiman-i18n-key="transfer-quota.headers-help">
-      Configure the transfer quota related response headers below - these headers will 
-      convey useful information to clients such as imposed limits and when the quota
-      period will be reset.  You may override the default header names by supplying 
-      your own in the fields below (or leave them blank to accept the defaults).
+        Configure the transfer quota related response headers below. These headers will convey useful information to
+        clients such as imposed limits and when to reset the quota period. Override the default header names by
+        supplying your own in the fields below.
     </p>
   </div>
   <div>

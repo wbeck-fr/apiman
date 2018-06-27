@@ -20,10 +20,11 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <h1 class="consumer-top-header" apiman-i18n-key="find-org">All Organization</h1>
+          <h1 class="consumer-top-header" apiman-i18n-key="find-org">All Organizations</h1>
         </div>
         <div class="col-md-6 no-phone">
-          <p class="description" apiman-i18n-key="find-org-description">Use this page to find Organizations.</p>
+          <p class="description" apiman-i18n-key="find-org-description">Use the search to filter the displayed list of
+            all organizations.</p>
         </div>
         <div class="col-md-6">
           <form ng-submit="searchOrg(orgName)">
@@ -60,7 +61,7 @@
                 <!-- 	          <div class="actions"> -->
                 <!-- 	            <button class="btn btn-default">Request Membership</button> -->
                 <!-- 	          </div> -->
-                <a apiman-i18n-key="is-member-badge" ng-show="org.isMember" href="{{ pluginName }}/orgs/{{ org.id }}" class="ismember" title="You are already a member of this Organization."></a>
+                <a apiman-i18n-key="is-member-badge" ng-show="org.isMember" href="{{ pluginName }}/orgs/{{ org.id }}" class="ismember" title="You are already a member of this organization."></a>
               </div>
             </div>
 

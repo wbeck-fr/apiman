@@ -47,8 +47,8 @@
               </select>
             </div>
             <div apiman-i18n-key="no-published-api-versions-found" class="alert alert-warning no-icon" ng-hide="versions.length > 0">
-              No versions of this API have been published.  You will not be able to
-              consume this API until it has been published by its owner!
+              No versions of this API have been published yet. You will not be able to consume this API until it has
+              been published by its owner.
             </div>
             <div ng-show="(version.definitionType == 'SwaggeJSON' || version.definitionType == 'SwaggerYAML') && hasSwagger">
               <div class="vspacer-10" />
@@ -65,15 +65,17 @@
           <div class="consumer-section">
           
             <div ng-show="version.status != 'Published'">
-              <p class="apiman-no-entities-description" apiman-i18n-key="version-not-published">This version of the selected API is not yet published.  You cannot create a contract until the API provider published this version of the API!</p>
+              <p class="apiman-no-entities-description" apiman-i18n-key="version-not-published">This version of the
+                selected API is not yet published. You will not be able to create a contract until the API provider
+                published this version of the API.</p>
             </div>
           
             <div id="managed-endpoint-wrap" ng-show="version.publicAPI && version.status == 'Published'">
               <h3 apiman-i18n-key="public-endpoint" class="consumer-header">Public Endpoint</h3>
               <p class="apiman-label-faded" apiman-i18n-key="consumer-api.public-api-warning">
                 Because this is a Public API, it is possible to invoke it directly, without
-                the need for an API Contract with a Client.  To directly invoke the
-                API, send requests to the API Gateway endpoint below.
+                the need for an API Contract with a client. To directly invoke the
+                API, send requests to the API gateway endpoint below.
               </p>
               <div class="input-group" style="width: 80%; margin: 25px 0 45px 0;">
                 <input readonly

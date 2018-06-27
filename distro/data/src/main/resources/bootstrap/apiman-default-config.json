@@ -89,7 +89,7 @@
   "Roles" : [ {
     "id" : "Viewer",
     "name" : "Viewer",
-    "description" : "A user with this role can only view things within an organization",
+    "description" : "A user with this role can only view things within an organization.",
     "createdBy" : "admin",
     "createdOn" : "2018-05-09T12:00:00Z",
     "autoGrant" : false,
@@ -105,7 +105,7 @@
   }, {
     "id" : "Organization-User-Manager",
     "name" : "Organization-User-Manager",
-    "description" : "A user with this role can manage members of this organization",
+    "description" : "A user with this role can manage members of this organization.",
     "createdBy" : "admin",
     "createdOn" : "2018-05-09T12:00:00Z",
     "autoGrant" : true,

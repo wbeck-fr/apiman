@@ -16,7 +16,8 @@
       </div>
       <!-- Helpful hint -->
       <div class="row">
-        <p apiman-i18n-key="edit-gateway-help-text" class="col-md-6 apiman-label-faded">Update this gateway's details, useful when a Gateway's endpoint or authentication information is changed.</p>
+        <p apiman-i18n-key="edit-gateway-help-text" class="col-md-6 apiman-label-faded">Update this gateway's details,
+          for example when a gateway's endpoint or authentication information has changed..</p>
       </div>
       <!-- HR -->
       <div class="row hr-row">
@@ -87,15 +88,17 @@
       <div class="row" ng-show="testResult == 'success'">
         <div class="alert alert-success description" style="margin-top: 10px">
           <span class="pficon pficon-ok"></span>
-          <strong apiman-i18n-key="gateway-configuration-valid.title">Gateway Configuration Valid</strong> 
-          <div apiman-i18n-key="gateway-configuration-valid.msg">Your Gateway configuration is correct.  Great job!</div>
+          <strong apiman-i18n-key="gateway-configuration-valid.title">Gateway Configuration Valid</strong>
+          <div apiman-i18n-key="gateway-configuration-valid.msg">Your gateway configuration is correct.</div>
         </div>
       </div>
       <div class="row" ng-show="testResult == 'error'">
         <div class="alert alert-danger description" style="margin-top: 10px">
           <span class="pficon pficon-error-circle-o"></span>
           <strong apiman-i18n-key="gateway-configuration-invalid.title">Gateway Configuration Invalid</strong>
-          <div apiman-i18n-key="gateway-configuration-invalid.msg">Something has gone wrong when testing the Gateway.  Hopefully the details (below) will help you figure out what.</div>
+          <div apiman-i18n-key="gateway-configuration-invalid.msg">The test has not been successful. See details below
+            for further information.
+          </div>
           <div style="margin-top: 8px">
             <pre>{{ testErrorMessage }}</pre>
           </div>

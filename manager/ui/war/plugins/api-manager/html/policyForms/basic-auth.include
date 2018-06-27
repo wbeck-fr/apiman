@@ -10,12 +10,14 @@
         <p class="apiman-label-faded">
           <span class="pficon pficon-info"></span>
           <span apiman-i18n-key="basic-auth.require-transport-security-explanation">
-          If this option is enabled, then requests will fail unless they come in to the API Gateway via SSL 
-          (https).  The API Gateway must accept inbound SSL connections for this to work.
+          If this option is enabled, then requests will fail unless they come in to the API gateway via SSL
+          (https).  The API gateway must accept inbound SSL connections for this to work.
           </span>
         </p>
         <input id="requireTS" type="checkbox" ng-model="config.requireTransportSecurity" ng-disabled="isEntityDisabled()"></input>
-        <label for="requireTS" apiman-i18n-key="basic-auth.transport-security-required" title="When enabled, requests must be received on a secure channel (e.g. SSL) otherwise they will fail.">Transport security required</label>
+        <label for="requireTS" apiman-i18n-key="basic-auth.transport-security-required"
+               title="When enabled, requests must be received on a secure channel (e.g. SSL) otherwise they will fail.">Transport
+          Security Required</label>
       </dd>
       <dt apiman-i18n-key="forward-authenticated-user">Forward Authenticated Username as HTTP Header</dt>
       <dd>
@@ -26,12 +28,11 @@
         <p class="apiman-label-faded">
           <span class="pficon pficon-info"></span>
           <span apiman-i18n-key="basic-auth.require-explanation">
-          If this option is enabled, then BASIC authentication is required for the request to succeed.  You
-          might disable this option if you want to support both BASIC auth and OAuth policies (for example).
+           For example, you might disable this option if you want to support both BASIC auth and OAuth policies.
           </span>
         </p>
         <input id="requireBasic" type="checkbox" ng-model="config.requireBasicAuth" ng-disabled="isEntityDisabled()"></input>
-        <label for="requireBasic" apiman-i18n-key="basic-auth.basic-auth-required" title="When enabled, requests *must* provide BASIC auth credentials, otherwise the request will fail.">Basic Auth required</label>
+        <label for="requireBasic" apiman-i18n-key="basic-auth.basic-auth-required" title="When enabled, requests *must* provide BASIC auth credentials, otherwise the request will fail.">Basic Auth Required</label>
       </dd>
       <hr />
       <dt apiman-i18n-key="identity-source">Identity Source</dt>
@@ -49,7 +50,8 @@
   <!-- Static Identity Source - Form Fields -->
   <div id="static-form-fields" class="sub-form-fields" style="clear:both" ng-show="identitySourceType == 'static'">
     <div class="alert alert-warning" role="alert no-icon">
-      <p apiman-i18n-key="basic-auth.static-type-warning">The "static" identity source is typically only useful for testing - you probably don't want to use it in production!</p>
+      <p apiman-i18n-key="basic-auth.static-type-warning">The Static identity source is useful for testing. It is
+        recommended to disable it in production.</p>
     </div>
     <div>
       <dt apiman-i18n-key="static-identities">Static Identities</dt>
@@ -125,7 +127,7 @@
         </dd>
         <dd>
           <input id="jdbc-extract-roles" type="checkbox" ng-model="config.jdbcIdentity.extractRoles" style="margin-top: 15px" ng-disabled="isEntityDisabled()"></input>
-          <label for="jdbc-extract-roles" apiman-i18n-key="basic-auth.extract-jdbc-roles" title="When enabled, roles can also be extracted from the database for use in the Authorization Policy (sold separately).">Also extract user roles from the DB</label>
+          <label for="jdbc-extract-roles" apiman-i18n-key="basic-auth.extract-jdbc-roles" title="When enabled, roles can also be extracted from the database for use in the Authorization Policy.">Also extract user roles from the DB</label>
         </dd>
         <dt ng-show="config.jdbcIdentity.extractRoles == true" apiman-i18n-key="roles-sql-query">Roles SQL Query</dt>
         <dd ng-show="config.jdbcIdentity.extractRoles == true">
@@ -175,7 +177,7 @@
         </div>
         <dd>
           <input id="ldap-extract-roles" type="checkbox" ng-model="config.ldapIdentity.extractRoles" style="margin-top: 15px" ng-disabled="isEntityDisabled()"></input>
-          <label for="ldap-extract-roles" apiman-i18n-key="basic-auth.extract-ldap-roles" title="When enabled, roles can also be extracted from the directory for use in the Authorization Policy (sold separately).">Also extract user roles from the directory</label>
+          <label for="ldap-extract-roles" apiman-i18n-key="basic-auth.extract-ldap-roles" title="When enabled, roles can also be extracted from the directory for use in the Authorization Policy.">Also extract user roles from the directory</label>
         </dd>
         <dt ng-show="config.ldapIdentity.extractRoles == true" apiman-i18n-key="ldap-membership-attr">Group Membership Attribute</dt>
         <dd ng-show="config.ldapIdentity.extractRoles == true">

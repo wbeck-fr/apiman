@@ -27,37 +27,35 @@
           <div class="col-md-12">
             <h1 apiman-i18n-key="client-details">Client Details</h1>
             <p apiman-i18n-key="client-overview.client-description">
-              This is the Client details page.  Use this page to modify the Client's meta-data,
-              policies, and contracts.  There is no need to follow the tabs in order, but note that
-              you will need to fill out a minimum amount of data before the Client can be registered
-              with the Gateway.  In particular, the Client must have at least one API Contract
-              (see the "Contracts" tab).
+              Use the client details to modify the client's metadata, policies and contracts. There is no need to follow
+              the tabs in order, but you will need to fill out a minimum amount of data before the client can be
+              registered with the gateway. In particular, the client must have at least one API contract (see tab
+              <b>Contracts</b>).
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/contracts" apiman-i18n-key="contracts">Contracts</a></h2>
             <p apiman-i18n-key="client-overview.contracts-description">
-              The 'Contracts' tab is where you can manage all of the API Contracts for this 
-              Client.  A API Contract is simply a link between this Client and a provided
-              API the the Client consumes.
+              In the <b>Contracts</b> tab you can manage all API contracts for this client. An API contract is a link between
+              this client and a provided API the client consumes.
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/policies" apiman-i18n-key="policies">Policies</a></h2>
             <p apiman-i18n-key="client-overview.policies-description">
-              The 'Policies' tab allows you to manage the Client-level policies that should
-              be applied whenever a request is made to any API consumed by this Client.
+              The <b>Policies</b> tab allows you to manage the client-level policies that should be applied whenever a request
+              is made to any API consumed by this client.
             </p>
 
             <h2 apiman-status="Registered"><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/apis" apiman-i18n-key="apis">APIs</a></h2>
             <p apiman-i18n-key="client-overview.apis-description" apiman-status="Registered">
-              The 'APIs' tab lists all of the APIs consumed by this Client, including
-              showing the API Key and live endpoint for each.  Go here if you want to figure out
-              how to invoke an API once you have a Contract for it.
+              The <b>APIs</b> tab lists all APIs consumed by this client. Use the list to display also the API Key and live
+              endpoint for each API. Use this tab to figure out how to invoke an API once you have created a contract
+              for it.
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/activity" apiman-i18n-key="activity">Change Log</a></h2>
             <p apiman-i18n-key="client-overview.activity-description">
-              The 'Change Log' tab shows a history of all the changes made to the Client.  Essentially
-              it is an audit log.
+              The <b>Change Log</b> tab shows a history of all the changes made to the client. Essentially this is an audit
+              log.
             </p>
           </div>
         </div>

@@ -5,7 +5,7 @@ module Apiman {
         ['$scope', 'PageLifecycle', 'CurrentUser', 'Configuration',
         ($scope, PageLifecycle, CurrentUser, Configuration) => {
             PageLifecycle.loadPage('About', undefined, undefined, $scope, function() {
-                $scope.site = "https://e2ebridge.com";
+                $scope.site = "https://www.scheer-pas.com/";
                 $scope.userGuide = "https://doc.scheer-group.com/API+Management+Guide";
                 // not used for now
                 // $scope.tutorials = "http://www.apiman.io/latest/tutorials.html";
