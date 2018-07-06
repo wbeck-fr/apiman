@@ -19,7 +19,7 @@
     "id" : 1525251146014100,
     "groupId" : "io.apiman.plugins",
     "artifactId" : "apiman-plugins-apikey-policy",
-    "version" : "${version}",
+    "version" : "7.0.0",
     "name" : "API Key Policy Plugin",
     "description" : "This plugin provides a policy that can help pass the API Key through to the back-end service.",
     "createdBy" : "admin",
@@ -29,7 +29,7 @@
     "id" : 1525082739277104,
     "groupId" : "io.apiman.plugins",
     "artifactId" : "apiman-plugins-jsonp-policy",
-    "version" : "${version}",
+    "version" : "7.0.0",
     "name" : "JSONP Policy Plugin",
     "description" : "A plugin that contributes a policy that turns a standard RESTful endpoint into a JSONP compatible endpoint.",
     "createdBy" : "admin",
@@ -39,7 +39,7 @@
     "id" : 1525077673624100,
     "groupId" : "io.apiman.plugins",
     "artifactId" : "apiman-plugins-http-security-policy",
-    "version" : "${version}",
+    "version" : "7.0.0",
     "name" : "HTTP Security Policy Plugin",
     "description" : "Security-related HTTP headers can be set which can help mitigate a range of common security vulnerabilities.",
     "createdBy" : "admin",
@@ -49,7 +49,7 @@
     "id" : 1525077804362102,
     "groupId" : "io.apiman.plugins",
     "artifactId" : "apiman-plugins-keycloak-oauth-policy",
-    "version" : "${version}",
+    "version" : "7.0.0",
     "name" : "Keycloak OAuth Policy Plugin",
     "description" : "This plugin offers an OAuth2 policy which leverages the Keycloak authentication platform as the identity and access provider.",
     "createdBy" : "admin",
@@ -59,7 +59,7 @@
     "id" : 1525082764110106,
     "groupId" : "io.apiman.plugins",
     "artifactId" : "apiman-plugins-simple-header-policy",
-    "version" : "${version}",
+    "version" : "7.0.0",
     "name" : "HTTP Header Policy Plugin",
     "description" : "Offers a simple policy that allows request headers to be added or stripped from the HTTP request (outgoing) or HTTP response (incoming).",
     "createdBy" : "admin",
@@ -69,7 +69,7 @@
     "id" : 1525083003711108,
     "groupId" : "io.apiman.plugins",
     "artifactId" : "apiman-plugins-jwt-policy",
-    "version" : "${version}",
+    "version" : "7.0.0",
     "name" : "JWT Policy",
     "description" : "Validating JWTs.",
     "createdBy" : "admin",
@@ -79,7 +79,7 @@
     "id" : 1525250623765100,
     "groupId" : "io.apiman.plugins",
     "artifactId" : "apiman-plugins-soap-authorization-policy",
-    "version" : "${version}",
+    "version" : "7.0.0",
     "name" : "SOAP Authorization Policy Plugin",
     "description" : "An implementation of our out-of-the-box Authorization Policy Plugin, with the difference that this one accepts a single SOAPAction field in the request header.",
     "createdBy" : "admin",
@@ -113,7 +113,7 @@
   } ],
   "PolicyDefinitions" : [ {
     "id" : "keycloak-oauth-policy",
-    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-keycloak-oauth-policy:${version}:war/io.apiman.plugins.keycloak_oauth_policy.KeycloakOauthPolicy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-keycloak-oauth-policy:7.0.0:war/io.apiman.plugins.keycloak_oauth_policy.KeycloakOauthPolicy",
     "name" : "Keycloak OAuth Policy",
     "description" : "A Keycloak specific OAuth policy to regulate access to APIs. Configuration required.",
     "icon" : "lock",
@@ -170,7 +170,7 @@
     "deleted" : false
   }, {
     "id" : "apikey-policy",
-    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-apikey-policy:${version}:war/io.apiman.plugins.apikey_policy.ApiKeyPolicy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-apikey-policy:7.0.0:war/io.apiman.plugins.apikey_policy.ApiKeyPolicy",
     "name" : "API Key Policy",
     "description" : "A policy used to pass the apiman API Key through to the back-end service.",
     "icon" : "mail-forward",
@@ -203,7 +203,7 @@
     "deleted" : false
   }, {
     "id" : "simple-header-policy",
-    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-simple-header-policy:${version}:war/io.apiman.plugins.simpleheaderpolicy.SimpleHeaderPolicy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-simple-header-policy:7.0.0:war/io.apiman.plugins.simpleheaderpolicy.SimpleHeaderPolicy",
     "name" : "Simple Header Policy",
     "description" : "Allows the granular addition and removal of headers.",
     "icon" : "header",
@@ -216,7 +216,7 @@
     "deleted" : false
   }, {
     "id" : "jwt-policy",
-    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-jwt-policy:${version}:war/io.apiman.plugins.jwt.JWTPolicy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-jwt-policy:7.0.0:war/io.apiman.plugins.jwt.JWTPolicy",
     "name" : "JWT Policy",
     "description" : "Generic JWT authentication policy.",
     "icon" : "lock",
@@ -229,7 +229,7 @@
     "deleted" : false
   }, {
     "id" : "soap-authorization-policy",
-    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-soap-authorization-policy:${version}:war/io.apiman.plugins.soap_authorization_policy.SoapAuthorizationPolicy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-soap-authorization-policy:7.0.0:war/io.apiman.plugins.soap_authorization_policy.SoapAuthorizationPolicy",
     "name" : "SOAP Authorization Policy",
     "description" : "Enables fine grained authorization to API resources based on authenticated user roles. Allows a single SOAPAction in the header.",
     "icon" : "code",
@@ -264,7 +264,7 @@
     "deleted" : false
   }, {
     "id" : "http-security-policy",
-    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-http-security-policy:${version}:war/io.apiman.plugins.httpsecuritypolicy.HttpSecurityPolicy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-http-security-policy:7.0.0:war/io.apiman.plugins.httpsecuritypolicy.HttpSecurityPolicy",
     "name" : "HTTP Security Policy",
     "description" : "Security-related HTTP headers can be set, such as HSTS, CSP and XSS protection.",
     "icon" : "bullhorn",
@@ -277,7 +277,7 @@
     "deleted" : false
   }, {
     "id" : "jsonp-policy",
-    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-jsonp-policy:${version}:war/io.apiman.plugins.jsonp_policy.JsonpPolicy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-jsonp-policy:7.0.0:war/io.apiman.plugins.jsonp_policy.JsonpPolicy",
     "name" : "JSONP Policy",
     "description" : "Turns an endpoint into a JSONP compatible endpoint.",
     "icon" : "bars",
