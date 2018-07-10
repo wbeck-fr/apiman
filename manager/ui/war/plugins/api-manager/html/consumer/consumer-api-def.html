@@ -62,65 +62,9 @@
             </div>
         </div>
 
-        <div class="row">
+        <div id="apiman-swagger" class="row swagger-section" ng-show="hasDefinition">
             <div class="col-md-12">
-                <div class="panel panel-default" style="margin-top:10px;" ng-show="hasPublicPublishedAPI || hasContract">
-                    <div class="panel-body">
-                        <form ng-submit="addAuthCredentials()">
-                            <table class="form-table swagger-ui-form-table">
-                                <tr>
-                                    <td>
-                                        <span class="">API-Key&#58;</span>
-                                    </td>
-                                    <td>
-                                        <input class="apiman-form-control form-control" type="text"
-                                               placeholder="API-Key"
-                                               ng-model="authCredentials.api_key"/>
-                                    </td>
-                                    <td>
-                                        <input class="apiman-form-control form-control" type="text"
-                                               placeholder="Value"
-                                               ng-model="authCredentials.api_key_value"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="">Basic-Auth&#58;</span>
-                                    </td>
-                                    <td>
-                                        <input class="apiman-form-control form-control" type="text"
-                                               ng-model="authCredentials.username"
-                                               placeholder="Username"/>
-                                    </td>
-                                    <td>
-                                        <input class="apiman-form-control form-control" type="password"
-                                               ng-model="authCredentials.password"
-                                               placeholder="Password"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td align="right" colspan="3">
-                                        <button ng-disabled="!isDirty"
-                                                apiman-action-btn=""
-                                                type="submit"
-                                                class="btn btn-primary"
-                                                data-field="saveButton"
-                                                apiman-i18n-key="save"
-                                                placeholder="Saving..."
-                                                data-icon="fa-cog">Save
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <div id="apiman-swagger" class="row swagger-section" ng-show="hasDefinition">
-                <div class="col-md-12">
-                    <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
-                </div>
+                <div id="swagger-ui-container"></div>
             </div>
         </div>
     </div> <!-- /container-pf-nav-pf-vertical container-fluid -->

@@ -32,12 +32,6 @@ module Apiman {
             $scope.params = $routeParams;
             $scope.chains = {};
             
-            $scope.hasSwagger = false;
-            try {
-                var swagger = SwaggerUi;
-                $scope.hasSwagger = true;
-            } catch (e) {}
-            
             $scope.getPolicyChain = function(plan) {
                 var planId = plan.planId;
                 if (!$scope.chains[planId]) {
@@ -139,40 +133,32 @@ module Apiman {
                 })
             };
 
-            $scope.addAuthCredentials = function(){
-                // Set API-Key
-                var key = $scope.authCredentials.api_key;
-                var keyValue = $scope.authCredentials.api_key_value;
-                var apiKey = new SwaggerClient.ApiKeyAuthorization(key, keyValue, "header");
-                $window.swaggerUi.api.clientAuthorizations.add(key, apiKey);
-
-                // Set Basic Auth
-                var username = $scope.authCredentials.username;
-                var password = $scope.authCredentials.password;
-                var apiKeyAuth = new SwaggerClient.PasswordAuthorization(username, password);
-                $window.swaggerUi.api.clientAuthorizations.add("apimanauth", apiKeyAuth);
-
-                $rootScope.isDirty = false;
+            const DisableTryItOutPlugin = function() {
+                return {
+                    statePlugins: {
+                        spec: {
+                            wrapSelectors: {
+                                allowTryItOutFor: () => () => false
+                            }
+                        }
+                    }
+                }
             };
 
-            var checkDirty = function(){
-                var dirty = false;
-                if ($scope.authCredentials.api_key){
-                    dirty = $scope.authCredentials.api_key_value ? true : false;
+            // SwaggerUI Plugins
+            const DisableAuthorizePlugin = function() {
+                return {
+                    wrapComponents: {
+                        authorizeBtn: () => () => null
+                    }
                 }
-                if ($scope.authCredentials.username){
-                    dirty = $scope.authCredentials.password ? true : false;
-                }
-                $rootScope.isDirty = dirty;
             };
-
-            $scope.$watch('authCredentials', checkDirty, true);
 
             $scope.$on("$locationChangeStart", function(event, new_url, old_url){
                 //check if new requested url contains /def
                 //If not remove X-API-Key
                 if (new_url.indexOf("/def") == -1){
-                    console.log("Success");
+                    // console.log("Success");
                     SwaggerUIContractService.removeXAPIKey();
                 }
             });
@@ -182,65 +168,42 @@ module Apiman {
                 $scope.org = $scope.api.organization;
                 $scope.hasError = false;
 
-                $scope.hasPublicPublishedAPI = ($scope.version.publicAPI && $scope.version.status == "Published") ? true : false;
-                $scope.hasContract = (SwaggerUIContractService.getXAPIKey() && $scope.version.status == "Published") ? true : false;
+                let hasPublicPublishedAPI = ($scope.version.publicAPI && $scope.version.status == "Published") ? true : false;
+                let hasContract = (SwaggerUIContractService.getXAPIKey() && $scope.version.status == "Published") ? true : false;
 
                 PageLifecycle.setPageTitle('consumer-api-def', [ $scope.api.name ]);
-                
-                var hasSwagger = false;
-                try {
-                    var swagger = SwaggerUi;
-                    hasSwagger = true;
-                } catch (e) {}
 
-                if (($scope.version.definitionType == 'SwaggerJSON' || $scope.version.definitionType == 'SwaggerYAML') && hasSwagger) {
+                if (($scope.version.definitionType == 'SwaggerJSON' || $scope.version.definitionType == 'SwaggerYAML') && SwaggerUIBundle) {
                     var url = ApiDefinitionSvcs.getApiDefinitionUrl($scope.params.org, $scope.params.api, $scope.params.version);
                     Logger.debug("!!!!! Using definition URL: {0}", url);
 
-                    var authHeader = Configuration.getAuthorizationHeader();
-                    
                     $scope.definitionStatus = 'loading';
-                    var swaggerOptions = {
+                    let ui;
+                    let swaggerOptions = <any>{
                         url: url,
-                        dom_id:"swagger-ui-container",
-                        validatorUrl:null,
+                        dom_id: "#swagger-ui-container",
+                        validatorUrl: "https://online.swagger.io/validator",
+                        presets: [
+                            SwaggerUIBundle.presets.apis
+                        ],
+                        layout: "BaseLayout",
                         sorter : "alpha",
-                        authorizations: {
-                            apimanauth: new SwaggerClient.ApiKeyAuthorization("Authorization", authHeader, "header"),
+
+                        requestInterceptor: function(request) {
+                            // Only add auth header to requests where the URL matches the one specified above.
+                            if (request.url === url) {
+                                request.headers.Authorization = Configuration.getAuthorizationHeader();
+                            }
+                            return request;
                         },
                         onComplete: function() {
-                            // Remove Swagger-UI-Try-Out-Button if the requested API is not public/has no contract and NOT published
-                            if(!($scope.hasPublicPublishedAPI || $scope.hasContract)){
-                                $('#swagger-ui-container a').each(function(idx, elem) {
-                                    var href = $(elem).attr('href');
-                                    if (href[0] == '#') {
-                                        $(elem).removeAttr('href');
-                                    }
-                                });
-                                $('#swagger-ui-container div.sandbox_header').each(function(idx, elem) {
-                                    $(elem).remove();
-                                });
-                                $('#swagger-ui-container li.operation div.auth').each(function(idx, elem) {
-                                    $(elem).remove();
-                                });
-                                $('#swagger-ui-container li.operation div.access').each(function(idx, elem) {
-                                    $(elem).remove();
-                                });
-                            } else if ($scope.hasPublicPublishedAPI || $scope.hasContract){
-                                // If the requested API is public/has contract and published then
-                                // ignore the host that is specified in swagger-file and use the gateway as host
-                                $window.swaggerUi.api.setHost($scope.publicEndpoint.managedEndpoint.replace(/^https?:\/\//, ''));
-                                $window.swaggerUi.api.setBasePath('');
-                            }
-
                             $scope.$apply(function(error) {
                                 $scope.definitionStatus = 'complete';
                             });
-                            
+
                             if (SwaggerUIContractService.getXAPIKey()){
-                                var apiKey = new SwaggerClient.ApiKeyAuthorization("X-API-Key", SwaggerUIContractService.getXAPIKey(), "header");
-                                $window.swaggerUi.api.clientAuthorizations.add("X-API-Key", apiKey);
-                            };
+                                ui.preauthorizeApiKey("X-API-Key", SwaggerUIContractService.getXAPIKey());
+                            }
                         },
                         onFailure: function() {
                             $scope.$apply(function(error) {
@@ -250,8 +213,14 @@ module Apiman {
                             });
                         }
                     };
-                    $window.swaggerUi = new SwaggerUi(swaggerOptions);
-                    $window.swaggerUi.load();
+
+                    // Remove try-out and authorize if the API is not public or has no contract
+                    if (!(hasContract || hasPublicPublishedAPI)){
+                        swaggerOptions.plugins = [];
+                        swaggerOptions.plugins.push(DisableTryItOutPlugin, DisableAuthorizePlugin);
+                    }
+
+                    ui = SwaggerUIBundle(swaggerOptions);
                     $scope.hasDefinition = true;
                 } else {
                     $scope.hasDefinition = false;

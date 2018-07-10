@@ -21,7 +21,7 @@ module Apiman {
         return {
             setXAPIKey: setXAPIKey,
             getXAPIKey: getXAPIKey,
-            removeXAPIKey: removeXAPIKey,
+            removeXAPIKey: removeXAPIKey
         }
     });
 }

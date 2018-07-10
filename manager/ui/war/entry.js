@@ -26,9 +26,9 @@ var ngRoute = require('angular-route');
 var URI = require('urijs');
 var ngSchemaForm = require('angular-schema-form');
 var angularScrollableTable = require('angular-scrollable-table/angular-scrollable-table.js');
-global.SwaggerUi = require('swagger-ui-browserify');
+global.SwaggerUIBundle = require('swagger-ui-dist/swagger-ui-bundle.js');
 global.SwaggerClient = require('swagger-client');
-global.SwaggerAuthorizations = require('swagger-ui-browserify/node_modules/swagger-ui/dist/lib/swagger-oauth.js');
+
 
 var sugar = require('sugar');
 var ngFileUpload = require('ng-file-upload');
