@@ -279,65 +279,6 @@ module Apiman {
                     $scope.hasError = false;
 
                     PageLifecycle.setPageTitle('api-catalog-def', [$scope.params.name]);
-
-                    var hasSwagger = false;
-
-                    try {
-                        var swagger = SwaggerUi;
-                        hasSwagger = true;
-                    } catch (e) {
-                    }
-
-                    var definitionUrl = $scope.api.definitionUrl;
-                    if ($scope.api.routeDefinitionUrl != null) definitionUrl = $scope.api.routeDefinitionUrl;
-                    var definitionType = $scope.api.definitionType;
-
-                    if ((definitionType == 'SwaggerJSON' || definitionType == 'SwaggerYAML') && hasSwagger) {
-                        var authHeader = Configuration.getAuthorizationHeader();
-
-                        $scope.definitionStatus = 'loading';
-                        var swaggerOptions = {
-                            url: definitionUrl,
-                            dom_id: "swagger-ui-container",
-                            validatorUrl: null,
-                            sorter: "alpha",
-
-                            onComplete: function () {
-                                $('#swagger-ui-container a').each(function (idx, elem) {
-                                    var href = $(elem).attr('href');
-                                    if (href[0] == '#') {
-                                        $(elem).removeAttr('href');
-                                    }
-                                });
-                                $('#swagger-ui-container div.sandbox_header').each(function (idx, elem) {
-                                    $(elem).remove();
-                                });
-                                $('#swagger-ui-container li.operation div.auth').each(function (idx, elem) {
-                                    $(elem).remove();
-                                });
-                                $('#swagger-ui-container li.operation div.access').each(function (idx, elem) {
-                                    $(elem).remove();
-                                });
-                                $scope.$apply(function (error) {
-                                    $scope.definitionStatus = 'complete';
-                                });
-                            },
-                            onFailure: function () {
-                                $scope.$apply(function (error) {
-                                    $scope.definitionStatus = 'error';
-                                    $scope.hasError = true;
-                                    $scope.error = error;
-                                });
-                            }
-                        };
-
-                        $window.swaggerUi = new SwaggerUi(swaggerOptions);
-                        $window.swaggerUi.load();
-
-                        $scope.hasDefinition = true;
-                    } else {
-                        $scope.hasDefinition = false;
-                    }
                 });
             }
         ]);
