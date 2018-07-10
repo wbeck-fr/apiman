@@ -19,4 +19,4 @@ RUN unzip apiman-plugins-repository-7.0.0.zip && rm apiman-plugins-repository-7.
 EXPOSE 8081 8082
 
 WORKDIR /usr/src/apiman/${project.artifactId}
-CMD ["./apiman-gateway.sh", "--conf", "configs/conf-es.json"]
+CMD ["./apiman-gateway.sh", "--conf", "configs/conf-production.json"]
