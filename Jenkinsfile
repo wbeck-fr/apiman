@@ -31,7 +31,17 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'mvn clean install -U'
+                sh 'mvn clean install'
+            }
+        }
+        stage('Build docker images') {
+            steps {
+                sh 'mvn package docker:build -P docker -pl !distro/wildfly10,!distro/wildfly11,!distro/eap7'
+                script {
+                   MAVEN_VERSION = readMavenPom().getVersion()
+                }
+                sh "docker image save api-mgmt/ui:${MAVEN_VERSION} -o api-mgmt-ui-${MAVEN_VERSION}-overlay.tar"
+                sh "docker image save api-mgmt/gateway:${MAVEN_VERSION} -o api-mgmt-gateway-${MAVEN_VERSION}-overlay.tar"
             }
         }
         stage('Archive') {
@@ -48,9 +58,10 @@ pipeline {
                     dir('distro/tomcat8/target/') {
                         sh "rename.ul overlay ${commitIDShort} *.zip"
                     }
-
+                    sh "rename.ul overlay ${commitIDShort} *.tar"
                 }
                 archiveArtifacts artifacts: 'distro/tomcat8/target/Scheer-PAS-API-Management*.zip'
+                archiveArtifacts artifacts: '*.tar'
             }
         }
         stage('Archive release') {
@@ -61,7 +72,9 @@ pipeline {
                 dir('distro/tomcat8/target/') {
                     sh 'rename.ul -- "-overlay" "" *.zip'
                 }
+                sh 'rename.ul -- "-overlay" "" *.tar'
                 archiveArtifacts artifacts: 'distro/tomcat8/target/Scheer-PAS-API-Management*.zip'
+                archiveArtifacts artifacts: '*.tar'
             }
         }
         stage('Publish NAS1') {
@@ -76,11 +89,17 @@ pipeline {
                         paramPublish: null, masterNodeName: '',
                         publishers: [[configName: 'NAS1', transfers:
                                 [
-                                        [sourceFiles    : 'distro/tomcat8/target/Scheer-PAS-API-Management*.zip',
-                                         removePrefix   : 'distro/tomcat8/target',
-                                         remoteDirectory: 'gateway']
+                                    [sourceFiles    : 'distro/tomcat8/target/Scheer-PAS-API-Management*.zip',
+                                     removePrefix   : 'distro/tomcat8/target',
+                                     remoteDirectory: 'gateway'],
+                                    [sourceFiles    : 'api-mgmt-ui*.tar',
+                                     removePrefix   : '',
+                                     remoteDirectory: 'gateway/docker'],
+                                    [sourceFiles    : 'api-mgmt-gateway*.tar',
+                                     removePrefix   : '',
+                                     remoteDirectory: 'gateway/docker']
                                 ]
-                             ]]
+                           ]]
             }
         }
     }
