@@ -15,7 +15,7 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>apiman-common-es</artifactId>
     </dependency>
-
+    
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>apiman-common-config</artifactId>
@@ -37,8 +37,8 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
-
-
+  
+  
   <build>
      <resources>
        <resource>
@@ -50,7 +50,7 @@
          <filtering>true</filtering>
        </resource>
      </resources>
-
+  
     <finalName>apiman-es</finalName>
     <plugins>
       <plugin>
@@ -80,13 +80,13 @@
                   <type>zip</type>
                   <overWrite>true</overWrite>
                   <!-- Ensure this correlates correctly with entry in embedded-elastic.properties  -->
-                  <outputDirectory>target/apiman-es/WEB-INF</outputDirectory>
+                  <outputDirectory>target/apiman-es/WEB-INF</outputDirectory> 
                 </artifactItem>
               </artifactItems>
             </configuration>
           </execution>
         </executions>
-      </plugin>
+      </plugin>      
     </plugins>
   </build>
 
