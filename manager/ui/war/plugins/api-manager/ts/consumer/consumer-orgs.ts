@@ -8,9 +8,17 @@ module Apiman {
             if (params.q) {
                 $scope.orgName = params.q;
             }
-            
+
+            // search in elasticseach
             $scope.searchOrg = function(value) {
                 $location.search('q', value);
+            };
+
+            // filter at client side
+            $scope.filterOrgs = function (searchText) {
+                $scope.criteria = {
+                    name: searchText
+                };
             };
             
             var pageData = {
@@ -35,9 +43,6 @@ module Apiman {
                 if ($scope.orgs.length == 0) {
                     $scope.searchOrg('*');
                 }
-                $('#apiman-search').val(function (index, value) {
-                    return value.replace('*','');
-                });
             }
 
             PageLifecycle.loadPage('ConsumerOrgs', undefined, pageData, $scope, function() {
@@ -47,7 +52,6 @@ module Apiman {
                     angular.forEach($scope.orgs, function(org) {
                         org.isMember = CurrentUser.isMember(org.id);
                     });
-                    $('#apiman-search').focus();
                 });
             });
         }]);
