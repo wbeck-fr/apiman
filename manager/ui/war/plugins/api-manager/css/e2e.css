@@ -176,6 +176,16 @@ a:hover {
     background-color: var(--e2e-dropdown-hover-color);
 }
 
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item {
+    background-color: var(--e2e-grey-button);
+    border-color: var(--e2e-grey-button-border);
+}
+
+.ui-select-multiple.ui-select-bootstrap .ui-select-match-item .close {
+    color: #ffffff;
+    opacity: 1;
+}
+
 .table-hover > tbody > tr:hover > td {
     background-color: transparent;
     border-bottom: transparent;
