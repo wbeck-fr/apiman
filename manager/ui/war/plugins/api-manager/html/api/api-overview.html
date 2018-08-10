@@ -58,16 +58,24 @@
               requests to the API, regardless of which user, client, or plan is being used.
             </p>
 
-            <h2><a href="{{ pluginName }}/orgs/{{ api.organization.id }}/apis/{{ api.id }}/{{ version.version }}/contracts" apiman-i18n-key="contracts">Contracts</a></h2>
+            <h2 apiman-status="Ready,Created,Retired" apiman-i18n-key="contracts">Contracts</h2>
+            <h2 apiman-status="Published"><a href="{{ pluginName }}/orgs/{{ api.organization.id }}/apis/{{ api.id }}/{{ version.version }}/contracts" apiman-i18n-key="contracts">Contracts</a></h2>
             <p apiman-i18n-key="api-overview.contracts-description">
               The <b>Contracts</b> tab shows all of the registered consumers of the API. If the API is marked as Public, this
               tab will likely be empty.
             </p>
 
-            <h2><a href="{{ pluginName }}/orgs/{{ api.organization.id }}/apis/{{ api.id }}/{{ version.version }}/endpoint" apiman-i18n-key="endpoint">Endpoint</a></h2>
+            <h2 apiman-status="Ready,Created,Retired" apiman-i18n-key="endpoint">Endpoint</h2>
+            <h2 apiman-status="Published"><a href="{{ pluginName }}/orgs/{{ api.organization.id }}/apis/{{ api.id }}/{{ version.version }}/endpoint" apiman-i18n-key="endpoint">Endpoint</a></h2>
             <p apiman-i18n-key="api-overview.endpoint-description">
               The <b>Endpoint</b> tab will show you information about how to invoke the API once it is published to the API
               gateway.
+            </p>
+
+            <h2 ng-show="showMetrics" apiman-status="Ready,Created,Retired" apiman-i18n-key="metrics">Metrics</h2>
+            <h2 ng-show="showMetrics" apiman-status="Published"><a href="{{ pluginName }}/orgs/{{ api.organization.id }}/apis/{{ api.id }}/{{ version.version }}/metrics" apiman-i18n-key="metrics">Metrics</a></h2>
+            <p apiman-i18n-key="api-overview.metrics-description">
+              The <b>Metrics</b> tab contains basic analytic information for the API. Use this tab to monitor the usage of the API.
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ api.organization.id }}/apis/{{ api.id }}/{{ version.version }}/activity" apiman-i18n-key="activity">Change Log</a></h2>

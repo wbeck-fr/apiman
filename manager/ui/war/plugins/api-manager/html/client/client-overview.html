@@ -45,11 +45,18 @@
               is made to any API consumed by this client.
             </p>
 
+            <h2 apiman-status="Ready,Created,Retired" apiman-i18n-key="apis">APIs</h2>
             <h2 apiman-status="Registered"><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/apis" apiman-i18n-key="apis">APIs</a></h2>
-            <p apiman-i18n-key="client-overview.apis-description" apiman-status="Registered">
+            <p apiman-i18n-key="client-overview.apis-description">
               The <b>APIs</b> tab lists all APIs consumed by this client. Use the list to display also the API Key and live
               endpoint for each API. Use this tab to figure out how to invoke an API once you have created a contract
               for it.
+            </p>
+
+            <h2 ng-show="showMetrics" apiman-status="Ready,Created,Retired" apiman-i18n-key="metrics">Metrics</h2>
+            <h2 ng-show="showMetrics" apiman-status="Registered"><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/metrics" apiman-i18n-key="metrics">Metrics</a></h2>
+            <p apiman-i18n-key="client-overview.metrics-description">
+              The <b>Metrics</b> tab contains basic analytic information for the client. Use this tab to monitor the client's activity.
             </p>
 
             <h2><a href="{{ pluginName }}/orgs/{{ org.id }}/clients/{{ client.id }}/{{version.version}}/activity" apiman-i18n-key="activity">Change Log</a></h2>
