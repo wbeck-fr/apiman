@@ -85,6 +85,16 @@
     "createdBy" : "admin",
     "createdOn" : "2018-05-09T12:00:00Z",
     "deleted" : false
+  }, {
+    "id" : 1535105685860100,
+    "groupId" : "io.apiman.plugins",
+    "artifactId" : "apiman-plugins-cors-policy",
+    "version" : "7.0.0",
+    "name" : "CORS Policy Plugin",
+    "description" : "This plugin implements CORS (Cross-origin resource sharing): A method of controlling access to resources outside of an originating domain.",
+    "createdBy" : "admin",
+    "createdOn" : "2018-08-24T10:14:45Z",
+    "deleted" : false
   } ],
   "Roles" : [ {
     "id" : "Viewer",
@@ -296,6 +306,19 @@
       "template" : "Requests matching any of the ${rules.size()} regular expressions provided will receive a 404 error code."
     } ],
     "formType" : "Default",
+    "deleted" : false
+  }, {
+    "id" : "cors-policy",
+    "policyImpl" : "plugin:io.apiman.plugins:apiman-plugins-cors-policy:1.5.0.Final:war/io.apiman.plugins.cors_policy.CorsPolicy",
+    "name" : "CORS Policy",
+    "description" : "CORS regulates access resource requests from outside of an originating domain. Configuration required.",
+    "icon" : "gavel",
+    "templates" : [ {
+      "template" : "Cross-origin requests from @if{allowOrigin.contains(\"*\")} any @else{} @{allowOrigin.size()} @end{} origin(s) will be permitted upon satisfying method, header and credential constraints. @if{errorOnCorsFailure} Denied requests will be terminated. @end{} Preflight requests will be cached for @{maxAge} delta seconds."
+    } ],
+    "pluginId" : 1535105685860100,
+    "formType" : "JsonSchema",
+    "form" : "schemas/cors-policyDef.schema",
     "deleted" : false
   } ],
   "Orgs" : [ ]
