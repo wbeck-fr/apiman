@@ -267,7 +267,7 @@
       // Paste and overwrite your Keycloak config here.
       "realm": "apiman",
       "realm-public-key": "${keycloak.realm-public-key}",
-      "auth-server-url": "https://${keycloak.host}:8445/auth",
+      "auth-server-url": "https://${keycloak.host}:${keycloak.port}/auth",
       "ssl-required": "all",
       "disable-trust-manager": "${devMode}",
       "allow-any-hostname" : "${allowAnyHost}",
