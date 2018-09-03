@@ -2,23 +2,29 @@
 E2E-Stylesheet
 ----------------------------------------------------------*/
 
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,700');
 
 :root {
     --e2e-bg-color:                     #06618e; /*Mittelblau*/
-    --e2e-border-color:                 #689c40;
     --e2e-dropdown-hover-color:         #e8e8e8;
 
-    --e2e-button-color:                 #06618e;
-    --e2e-button-border-color:          #055076;
-    --e2e-button-hover-color:           #2695cc; /*Royalblau*/
+    --e2e-button-bg:                    #2996cc;
+    --e2e-button-border-color:          #2996cc;
+    /*hover is also used as dark blue border for dropdown entries*/
+    --e2e-button-hover-color:           #06628e;
+
     --e2e-button-active-color:          #043953;
     --e2e-button-active-border:         #033249;
-    --e2e-button-selected-color:        #689c40;
-    --e2e-button-selected-border-color: #46692b;
 
     --e2e-grey-button:                  #bbb6b9; /*Rosengrau*/
     --e2e-grey-button-border:           #6a7480; /*Schiefergrau*/
+
+    --navbar-bg-color:                  #c8c9cc;
+    --navbar-color:                     #6a747f;
+    --navbar-color-active:              #2996cc;
+
+    --alert-color:                      #d03237; /*rgba(208, 50, 55, 1)*/
+    --alert-color-hover:                #ac1e1c;
 }
 
 * {
@@ -70,7 +76,7 @@ a:hover {
 .btn-primary, .btn-danger, .btn-default {
     /*Same style for .btn-danger because of E2E Corporate Design*/
     background-image: none;
-    background-color: var(--e2e-button-color);
+    background-color: var(--e2e-button-bg);
     border-color: var(--e2e-button-border-color);
     color: #ffffff;
 }
@@ -83,6 +89,23 @@ a:hover {
 .btn-primary:active, .btn-primary:active, .btn-danger:active, .btn-danger:active {
     background-color: var(--e2e-button-active-color);
     border-color: var(--e2e-button-active-border);
+}
+
+.btn-warning {
+    background-color: var(--alert-color);
+    border-color: var(--alert-color);
+}
+
+.btn-warning:hover, .btn-warning:active, .btn-warning:focus, .btn-warning:active:focus {
+    background-color: var(--alert-color-hover);
+    border-color: var(--alert-color-hover);
+}
+
+.btn[disabled], .btn-primary[disabled], .btn-primary[disabled]:hover{
+    /*!important is needed here, because the framework that is used by apiman uses it also*/
+    background-color: #ffffff !important;
+    border-color: var(--e2e-button-border-color) !important;
+    color: var(--e2e-button-bg) !important;
 }
 
 .nav  li  a:hover, .nav  li  a:focus {
@@ -100,9 +123,8 @@ a:hover {
 }
 
 .dropdown-menu  li  a:active {
-    background-color: var(--e2e-button-selected-color);
-    border-color: var(--e2e-button-selected-border-color);
-    /*color: #363636 !important;*/
+    background-color: var(--e2e-button-bg);
+    border-color: var(--e2e-button-hover-color);
 }
 
 .dropdown-menu  li  a:focus{
@@ -113,8 +135,8 @@ a:hover {
 
 .bootstrap-select.btn-group .dropdown-menu .selected a {
     /*!important is needed here, because the framework that is used by apiman uses it also*/
-    background-color: var(--e2e-button-selected-color) !important;
-    border-color: var(--e2e-button-selected-border-color) !important;
+    background-color: var(--e2e-button-bg) !important;
+    border-color: var(--e2e-button-hover-color) !important;
     color: #ffffff !important;
 }
 
@@ -142,11 +164,11 @@ a:hover {
     color: #ffffff;
 }
 .nav-pills  li.active a {
-    background-color: var(--e2e-button-selected-color);
+    background-color: var(--e2e-button-bg);
 }
 
 .nav-pills  li.active a:hover {
-    background-color: var(--e2e-button-selected-color);
+    background-color: var(--e2e-button-bg);
 }
 
 .nav-pills  li a:active {
@@ -291,7 +313,7 @@ a:hover {
 /*Vertical Styling*/
 .navbar-pf-vertical {
     border-bottom: 1px #FFFFFF;
-    background-color: #054869;
+    background-color: var(--navbar-bg-color);
 }
 
 .nav-pf-vertical {
@@ -306,7 +328,7 @@ a:hover {
     /*force 1px border with top*/
     top: 61px;
     border: none;
-    background: rgba(7,98,142,0.6);
+    background: #669dbb;
     box-shadow: inset 10px 0px 10px -5px rgba(7,98,142,0.6);
 }
 
@@ -341,25 +363,58 @@ a:hover {
     background: #FFFFFF;
 }
 
+/*The follwing section is for the icons on right side in the navbar*/
+/*Section start*/
+.navbar-pf-vertical .nav .nav-item-iconic,
 .navbar-pf-vertical .nav .nav-item-iconic .caret,
 .navbar-pf-vertical .nav .nav-item-iconic .fa,
 .navbar-pf-vertical .nav .nav-item-iconic .pficon {
-    color: #FFFFFF;
+    color: var(--navbar-color);
     font-size: 16px;
+    padding-right: 5px;
 }
+
+.navbar-pf-vertical .nav .nav-item-iconic:hover,
+.navbar-pf-vertical .nav .nav-item-iconic:hover .caret,
+.navbar-pf-vertical .nav .nav-item-iconic:focus,
+.navbar-pf-vertical .nav .nav-item-iconic:focus .caret,
+.navbar-pf-vertical .nav .nav-item-iconic:active,
+.navbar-pf-vertical .nav .nav-item-iconic:active .caret,
+.navbar-pf-vertical .nav .nav-item-iconic:hover .fa,
+.navbar-pf-vertical .nav .nav-item-iconic:focus .fa,
+.navbar-pf-vertical .nav .nav-item-iconic:active .fa {
+    color: var(--navbar-color-active);
+    background: transparent;
+}
+
+.navbar-pf-vertical .nav .open > .nav-item-iconic .fa,
+.navbar-pf-vertical .nav .open > .nav-item-iconic .caret,
+.navbar-pf-vertical .nav .open > .nav-item-iconic:hover .fa,
+.navbar-pf-vertical .nav .open > .nav-item-iconic:hover .caret,
+.navbar-pf-vertical .nav .open > .nav-item-iconic:focus .fa,
+.navbar-pf-vertical .nav .open > .nav-item-iconic:focus .caret{
+    color: var(--navbar-color-active);
+    background: transparent;
+}
+/*Section ende*/
 
 .secondary-nav-item-pf a:after {
      color: #FFFFFF;
  }
 
 .navbar-pf-vertical .navbar-toggle .icon-bar {
-    /*white hamburger menu icon*/
-    background: #FFFFFF;
+    /*grey hamburger menu icon*/
+    background: var(--navbar-color);
 }
 
-.navbar-pf-vertical .nav .nav-item-iconic {
-    /*username*/
-    color: #FFFFFF;
+.navbar-pf-vertical .navbar-toggle:hover .icon-bar,
+.navbar-pf-vertical .navbar-toggle:focus .icon-bar {
+     /*grey hamburger menu icon*/
+     background: var(--navbar-color-active);
+ }
+
+.navbar-pf-vertical .navbar-brand {
+    padding: 19px 0;
 }
 
 /*angulr-scrollable-table*/
@@ -428,4 +483,12 @@ a:hover {
 .container-pf-nav-pf-vertical {
     padding-left: 5vw;
     padding-right: 5vw;
+}
+
+#logo {
+    height: 20px;
+    width: 170px;
+    background-image: url(../img/ScheerPASLogo.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
 }

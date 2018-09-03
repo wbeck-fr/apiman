@@ -79,9 +79,9 @@
     border: 1px solid transparent;
   }
   .apiman-entitytabs .nav-tabs li.active a, .apiman-entitytabs .nav-tabs li.active a:hover {
-    border-top: 1px var(--e2e-button-selected-border-color);
-    border-bottom: 1px var(--e2e-button-selected-border-color);
-    background-color: var(--e2e-button-selected-color);
+    border-top: 1px var(----e2e-button-hover-color);
+    border-bottom: 1px var(----e2e-button-hover-color);
+    background-color: var(--e2e-button-bg);
     color: white;
   }
   
