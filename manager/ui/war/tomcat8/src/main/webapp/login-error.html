@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>Log in to Scheer PAS API Management</title>
     <link rel="icon" href="favicon.ico" />
     <link href="dist/deps.css" rel="stylesheet" />
@@ -11,70 +11,71 @@
 </head>
 
 <body class="">
+<div class="login-pf-page">
+    <div id="kc-header" class="login-pf-page-header">
+        <div id="kc-header-wrapper" class=""><div class="kc-logo-text"><span>API Management</span></div></div>
+    </div>
 
-    <div id="kc-container" class="">
-        <div id="kc-container-wrapper" class="">
+    <!--Scheer E2E AG - Login Section-->
+    <div class="center">
+        <div class="login-dialog">
 
-            <div id="kc-header" class="col-xs-12 col-sm-7 col-md-6 col-lg-5">
-                <div id="kc-header-wrapper" class="">        Log in to <strong>Scheer PAS API Management</strong>
-</div>
+            <div id="scheer_logo_container" class="card-pf ">
+                <div id=scheer_logo></div>
             </div>
 
-                <div id="kc-feedback" class="feedback-error col-xs-12 col-sm-5 col-md-6 col-lg-7">
-                    <div id="kc-feedback-wrapper">
-                        <span class="kc-feedback-text">Invalid username or password.</span>
-                    </div>
-                </div>
+            <div class="card-pf ">
+                <header class="login-pf-header">
+                    <h1 id="kc-page-title">        Log In
 
-
-            <div id="kc-content" class="col-sm-12 col-md-12 col-lg-12 container">
-                <div id="kc-content-wrapper" class="row">
-                    <div id="kc-form" class="col-xs-12 col-sm-8 col-md-8 col-lg-6 login">
-                        <div id="kc-form-wrapper" class="">
-            <form id="kc-form-login" class="form-horizontal" action="j_security_check" method="post">
-                <div class="form-group">
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-                        <label for="username" class="control-label">Username</label>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-                            <input id="username" class="form-control" name="j_username" value="" type="text" autofocus />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-                        <label for="password" class="control-label">Password</label>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-                        <input id="password" class="form-control" name="j_password" type="password" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div id="kc-form-options" class="col-xs-4 col-sm-5 col-md-offset-4 col-md-4 col-lg-offset-3 col-lg-5">
-                        <div class="">
+                    </h1>
+                </header>
+                <div id="kc-content">
+                    <div id="kc-content-wrapper">
+                        <div class="alert alert-error">
+                            <span class="pficon pficon-error-circle-o"></span>
+                            <span class="kc-feedback-text">Invalid username or password.</span>
                         </div>
                     </div>
+                    <div id="kc-form" >
+                        <div id="kc-form-wrapper" >
+                            <form id="kc-form-login" action="j_security_check" method="post">
+                                <div class="form-group">
+                                    <label for="username" class="control-label">Email</label>
 
-                    <div id="kc-form-buttons" class="col-xs-8 col-sm-7 col-md-4 col-lg-4 submit">
-                        <div class="">
-                            <input class="  " name="login" id="kc-login" type="submit" value="Log in"/>
-                        </div>
-                     </div>
-                </div>
-            </form>
+                                    <input tabindex="1" id="username" class="form-control" name="j_username" value=""  type="text" autofocus autocomplete="off" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password" class="control-label">Password</label>
+                                    <input tabindex="2" id="password" class="form-control" name="j_password" type="password" autocomplete="off" />
+                                </div>
+
+                                <div id="kc-form-buttons" class="form-group">
+                                    <input tabindex="4" class="btn btn-primary btn-block btn-lg" name="login" id="kc-login" type="submit" value="Log In"/>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                        <div id="kc-info" class="col-xs-12 col-sm-4 col-md-4 col-lg-6 details">
-                            <div id="kc-info-wrapper" class="">
-                            </div>
-                        </div>
                 </div>
             </div>
         </div>
+
+        <div class="login-dialog_2">
+            <div class="card-pf" id="scheer_links">
+                <ul class="link-list">
+                    <li><a href="https://www.scheer-group.com/en/imprint/">Imprint</a></li>
+                    <li>|</li>
+                    <li>
+                        <a href="https://www.scheer-pas.com/en/">About Scheer PAS</a>
+                    </li>
+                    <li>|</li>
+                    <li><a href="https://www.scheer-group.com/en/contact-form/">Contact</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
+</div>
 </body>
+
 </html>
