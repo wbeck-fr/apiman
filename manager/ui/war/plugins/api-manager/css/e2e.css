@@ -250,7 +250,7 @@ a:hover {
 }
 
 .dash-group.pull-right {
-    margin-right: 0px;
+    margin-right: 0;
 }
 
 .col-md-12.flex-container{
@@ -330,7 +330,7 @@ a:hover {
     top: 61px;
     border: none;
     background: #669dbb;
-    box-shadow: inset 10px 0px 10px -5px rgba(7,98,142,0.6);
+    box-shadow: inset 10px 0 10px -5px rgba(7,98,142,0.6);
 }
 
 .nav-pf-vertical.collapsed {
@@ -428,8 +428,7 @@ a:hover {
 
 /*Remove double border on first left element*/
 .scrollArea table th:first-of-type .box{
-    padding: 0 8px;
-    padding-right: 11px;
+    padding: 0 11px 0 8px;
     border-left: none
 }
 
