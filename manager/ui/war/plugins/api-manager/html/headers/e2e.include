@@ -24,7 +24,7 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li>mvn v
+                        <li>
                             <a id="navbar-profile" href="{{ pluginName }}/profile" apiman-i18n-key="profile">Profile</a>
                         </li>
                         <li class="divider"></li>
