@@ -1,17 +1,4 @@
-{ // Example ElasticSearch based config
-  "variables": {
-    "apiman": {
-      "es": {
-        "protocol": "http",
-        "host": "elasticsearch",
-        "port": 9200,
-        "username": null,
-        "password": null,
-        "timeout": 10000
-      }
-    }
-  },
-
+{
   "registry": {
     "class": "io.apiman.gateway.engine.es.PollCachingESRegistry",
     "config": {
