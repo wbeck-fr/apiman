@@ -17,22 +17,6 @@
     }
   },
 
-
-
-  // Gateway error writer
-  // A "trace" version of the error writer - comment out/remove this to suppress stack traces
-  // in the JSON/XML payload returned by the gateway when an error occurs.
-  "writers": {
-    "error": {
-      "class": "io.apiman.gateway.engine.impl.TracePolicyErrorWriter",
-      "config": {}
-    }//,
-    // "policy-failure": {
-    //   "class": "",
-    //   "config": {}
-    // }
-  },
-
   "encrypter": {
     "class": "io.apiman.gateway.engine.impl.DefaultDataEncrypter",
     "config": {}
