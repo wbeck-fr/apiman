@@ -1743,18 +1743,9 @@ html, body {height: 100%;}
 .apiman-card-table .card:hover .info, .apiman-card-table .card:hover .endpointType {
   visibility: visible;
 }
-.apiman-card-table .card .icon {
-  font-size: 32px;
-  margin-bottom: 5px;
-  /*temporarily disable e2e-logo*/
-  min-height: 32px;
-}
-.apiman-card-table .card .icon img {
-  height: 32px;
-  /*temporarily disable e2e-logo  */
-  display: none;
-}
+
 .apiman-card-table .card .name {
+  margin-top: 40px;
   font-size: 16px;
   overflow-wrap: break-word;
 }

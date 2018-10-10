@@ -135,10 +135,6 @@
                                    uib-tooltip="Endpoint&nbsp;Type:&nbsp;{{ api.endpointType }}"
                                    tooltip-trigger="mouseenter" tooltip-placement="top" href="{{ api.definitionUrl }}"
                                    class="endpointType" target="_blank"><i class="fa {{ api.ticon }}"></i></a>
-                                <div class="icon">
-                                    <i ng-show="!api.iconIsUrl" class="fa fa-{{ api.icon }}"></i>
-                                    <img ng-show="api.iconIsUrl" src="{{ api.icon }}"></img>
-                                </div>
                                 <div class="name"><a href="{{ apiEndpoint(api) }}"><span>{{ api.name}}</span></a></div>
                                 <div class="tags" ng-show="api.tags">
                                     <i class="fa fa-fw fa-tags"></i>
