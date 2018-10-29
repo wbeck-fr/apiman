@@ -37,7 +37,7 @@ public class ApimanHttpConnectorOptions extends AbstractOptions {
     private int connectionTimeout = HttpClientOptions.DEFAULT_CONNECT_TIMEOUT;
     private int idleTimeout = HttpClientOptions.DEFAULT_IDLE_TIMEOUT;
     private int requestTimeout = HttpClientOptions.DEFAULT_CONNECT_TIMEOUT * 2;
-    private boolean keepAlive = HttpClientOptions.DEFAULT_KEEP_ALIVE;
+    private boolean keepAlive = false;
     private boolean tryUseCompression = HttpClientOptions.DEFAULT_TRY_USE_COMPRESSION;
     private TLSOptions tlsOptions;
     private URI endpoint;
