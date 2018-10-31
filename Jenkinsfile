@@ -8,6 +8,10 @@ pipeline {
         }
     }
 
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/jdk1.8.0_191'
+    }
+
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
         disableConcurrentBuilds()
