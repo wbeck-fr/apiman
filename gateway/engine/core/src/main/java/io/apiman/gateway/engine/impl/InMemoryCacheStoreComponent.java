@@ -62,8 +62,16 @@ public class InMemoryCacheStoreComponent implements ICacheStoreComponent {
      */
     public InMemoryCacheStoreComponent(Map<String, String> config) {
         String mcs = config.get("maxCacheSize"); //$NON-NLS-1$
+        calculateCacheSize(mcs);
+    }
+
+    /**
+     * Calculate the maximum cache, so the user can enter the value in MB in the gateway configuration.
+     * @param mcs maximum cache size in MB
+     */
+    private void calculateCacheSize(String mcs) {
         if (mcs != null) {
-            maxCacheSize = new Long(mcs);
+            maxCacheSize = Integer.parseInt(mcs) * 1024 * 1024L;
         }
     }
 
