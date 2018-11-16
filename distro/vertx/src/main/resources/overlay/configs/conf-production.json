@@ -45,11 +45,11 @@
         "allowAnyHost": "${allowAnyHost}",
 
         // Trust store contains certificate(s) trusted by gateway.
-        "trustStore": "/usr/src/apiman/apiman-distro-vertx/apiman.jks",
+        "trustStore": "/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks",
         "trustStorePassword": "${apiman.truststore-password}",
 
         // Key store contains gateway's keys (including private components: keep it safe).
-        "keyStore": "/usr/src/apiman/apiman-distro-vertx/apiman.jks",
+        "keyStore": "/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks",
         "keyStorePassword": "${apiman.truststore-password}"
 
         // By default all keys can be used (will try all). If alias list provided, will only attempt to use listed keys.
@@ -201,11 +201,11 @@
   // SSL configuration to the gateway's *front end* (i.e. client <-> gateway).
   "ssl": {
     "keystore": {
-      "path": "/usr/src/apiman/apiman-distro-vertx/apiman.jks",
+      "path": "/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks",
       "password": "${apiman.truststore-password}"
     },
     "truststore": {
-      "path": "/usr/src/apiman/apiman-distro-vertx/apiman.jks",
+      "path": "/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks",
       "password": "${apiman.truststore-password}"
     }
   },
@@ -229,7 +229,7 @@
       "credentials": {
         "secret": "${keycloak.gateway.secret}"
       },
-      "truststore": "/usr/src/apiman/apiman-distro-vertx/apiman.jks",
+      "truststore": "/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks",
       "truststore-password": "${apiman.truststore-password}"
       // "client-keystore": "/usr/src/apiman/apiman-distro-vertx/apiman.jks",
       // "client-keystore-password": "secret"
