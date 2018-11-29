@@ -10,7 +10,16 @@ gwt-unitCache
 .DS_Store
 *~
 *.iml
-.idea
 npm-debug.log
 .metadata/*
 *.log
+/.idea/artifacts/
+/.idea/codeStyles/
+/.idea/libraries/
+/.idea/compiler.xml
+/.idea/typescript-compiler.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
+/.idea/encodings.xml
