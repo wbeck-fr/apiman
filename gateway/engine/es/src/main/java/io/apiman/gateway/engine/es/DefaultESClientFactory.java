@@ -148,7 +148,7 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
             httpClientConfig.defaultCredentials(username, password);
         }
 
-        if ("https".equals(config.get("protocol"))) { //$NON-NLS-1$ //$NON-NLS-2$
+        if ("https".equals(config.get("client.protocol"))) { //$NON-NLS-1$ //$NON-NLS-2$
             updateSslConfig(httpClientConfig, config);
         }
     }
@@ -160,10 +160,10 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
     @SuppressWarnings("nls")
     private void updateSslConfig(Builder httpConfig, Map<String, String> config) {
         try {
-            String clientKeystorePath = config.get("client-keystore");
-            String clientKeystorePassword = config.get("client-keystore.password");
-            String trustStorePath = config.get("trust-store");
-            String trustStorePassword = config.get("trust-store.password");
+            String clientKeystorePath = config.get("client.client-keystore");
+            String clientKeystorePassword = config.get("client.client-keystore.password");
+            String trustStorePath = config.get("client.trust-store");
+            String trustStorePassword = config.get("client.trust-store.password");
 
             SSLContext sslContext = SSLContext.getInstance("TLS");
             Info kPathInfo = new Info(clientKeystorePath, clientKeystorePassword);

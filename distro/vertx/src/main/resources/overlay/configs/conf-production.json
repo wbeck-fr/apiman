@@ -10,7 +10,11 @@
         "initialize": true,
         "username": "${apiman.es.username}",
         "password": "${apiman.es.password}",
-        "timeout": "${apiman.es.timeout}"
+        "timeout": "${apiman.es.timeout}",
+        "client-keystore":"/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks",
+        "client-keystore.password":"${apiman.truststore-password}",
+        "trust-store":"/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks",
+        "trust-store.password":"${apiman.truststore-password}"
         //"cache-polling-interval": 15
         //"index": ""
       }
@@ -88,7 +92,11 @@
         "initialize": true,
         "username": "${apiman.es.username}",
         "password": "${apiman.es.password}",
-        "timeout": "${apiman.es.timeout}"
+        "timeout": "${apiman.es.timeout}",
+        "client-keystore":"/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks",
+        "client-keystore.password":"${apiman.truststore-password}",
+        "trust-store":"/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks",
+        "trust-store.password":"${apiman.truststore-password}"
       }
     }
   },
