@@ -88,6 +88,10 @@
       <web-resource-name>apimanui-3</web-resource-name>
       <url-pattern>/rest/*</url-pattern>
     </web-resource-collection>
+    <web-resource-collection>
+      <web-resource-name>apimanui-4</web-resource-name>
+      <url-pattern>/api-manager/*</url-pattern>
+    </web-resource-collection>
     <auth-constraint>
       <role-name>apiuser</role-name>
     </auth-constraint>
