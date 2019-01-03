@@ -57,4 +57,21 @@ public class ApimanPathUtilsTest {
 
 	}
 
+	@Test
+	public void testJoinOfEndpointAndPath(){
+		// Hostname and port are not part of endpoint at this point
+		String matchingUrl = "testService/testResource?QueryParameter";
+
+		Assert.assertEquals(matchingUrl, ApimanPathUtils.join("testService", "/testResource?QueryParameter"));
+		Assert.assertEquals(matchingUrl, ApimanPathUtils.join("testService/", "/testResource?QueryParameter"));
+
+		Assert.assertEquals(matchingUrl, ApimanPathUtils.join("testService", "testResource?QueryParameter"));
+		Assert.assertEquals(matchingUrl, ApimanPathUtils.join("testService/", "testResource?QueryParameter"));
+
+		// If the query parameter is directly applied to the endpoint without a resource there must be no slash between otherwise the runtime can not handle it
+		matchingUrl = "testService?QueryParameter";
+
+		Assert.assertEquals(matchingUrl, ApimanPathUtils.join("testService", "?QueryParameter"));
+		Assert.assertEquals(matchingUrl, ApimanPathUtils.join("testService/", "?QueryParameter"));
+	}
 }

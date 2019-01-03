@@ -101,7 +101,9 @@ public class ApimanPathUtils {
 
         if (StringUtils.endsWith(endpoint, "/") && path.startsWith("/")) {
             return endpoint + path.substring(1);
-        } else if (StringUtils.endsWith(endpoint, "/") ^ path.startsWith("/")) {
+        } else if (StringUtils.endsWith(endpoint, "/") && path.startsWith("?")) {
+            return StringUtils.chop(endpoint) + path;
+        } else if (StringUtils.endsWith(endpoint, "/") ^ StringUtils.startsWithAny(path, new String [] {"/", "?"})) {
             return endpoint + path;
         }
         return endpoint + "/" + path;

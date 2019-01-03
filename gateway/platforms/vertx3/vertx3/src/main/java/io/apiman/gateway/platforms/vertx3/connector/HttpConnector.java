@@ -301,7 +301,7 @@ class HttpConnector implements IApiConnectionResponse, IApiConnection {
             for (Entry<String, String> entry : queryParams) {
                 sb.append(joiner);
                 sb.append(entry.getKey());
-                if (entry.getValue() != null) {
+                if (entry.getValue() != null && !entry.getValue().isEmpty()) {
                     sb.append("=");
                     sb.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
                 }
