@@ -12,9 +12,8 @@
   <name>apiman-distro-tomcat8</name>
 
   <properties>
-    <docker.wildfly.version>apiman-distro-tomcat8</docker.wildfly.version>
     <docker.base-image>tomcat:8.5.31-alpine</docker.base-image>
-    <docker.keycloak-version>4.6.0.Final</docker.keycloak-version>
+    <docker.keycloak-version>${version.org.keycloak}</docker.keycloak-version>
     <docker.target-image-name>api-mgmt/ui:${project.version}</docker.target-image-name>
     <docker.target-image-name.alias>api-mgmt/ui:${project.version}</docker.target-image-name.alias>
   </properties>
