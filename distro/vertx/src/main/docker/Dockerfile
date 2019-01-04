@@ -13,8 +13,8 @@ RUN mv $ARTIFACT ${project.artifactId}
 
 # Add plugins (version will not change)
 WORKDIR /root/.m2
-RUN wget "http://ci.e2e.ch/job/Apiman-Plugins-Pipeline/job/e2e_release/lastSuccessfulBuild/artifact/repository/target/apiman-plugins-repository-7.0.0.zip"
-RUN unzip apiman-plugins-repository-7.0.0.zip && rm apiman-plugins-repository-7.0.0.zip
+RUN wget "http://ci.e2e.ch/job/Apiman-Plugins-Pipeline/job/e2e_release/lastSuccessfulBuild/artifact/repository/target/api-mgmt-plugins-7.0.0.zip"
+RUN unzip api-mgmt-plugins-7.0.0.zip && rm api-mgmt-plugins-7.0.0.zip
 
 EXPOSE 8081 8082
 

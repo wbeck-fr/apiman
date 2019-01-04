@@ -1,6 +1,6 @@
 FROM ${docker.base-image}
 
-ENV ARTIFACT ${project.artifactId}-${project.version}
+ENV ARTIFACT ${project.build.finalName}
 ENV KEYCLOAK_VERSION ${docker.keycloak-version}
 
 COPY maven/target/$ARTIFACT-overlay.zip $CATALINA_HOME
@@ -24,8 +24,8 @@ RUN unzip apiman.war -n -d apiman && unzip apimanui.war -n -d apimanui
 
 # Add plugins (version will not change)
 WORKDIR /root/.m2
-RUN wget "http://ci.e2e.ch/job/Apiman-Plugins-Pipeline/job/e2e_release/lastSuccessfulBuild/artifact/repository/target/apiman-plugins-repository-7.0.0.zip"
-RUN unzip apiman-plugins-repository-7.0.0.zip && rm apiman-plugins-repository-7.0.0.zip
+RUN wget "http://ci.e2e.ch/job/Apiman-Plugins-Pipeline/job/e2e_release/lastSuccessfulBuild/artifact/repository/target/api-mgmt-plugins-7.0.0.zip"
+RUN unzip api-mgmt-plugins-7.0.0.zip && rm api-mgmt-plugins-7.0.0.zip
 
 # Get Keycloak Adapter
 WORKDIR $CATALINA_HOME

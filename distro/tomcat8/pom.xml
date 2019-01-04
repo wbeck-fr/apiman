@@ -7,7 +7,7 @@
     <version>7.3.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>Scheer-PAS-API-Management</artifactId>
+  <artifactId>apiman-distro-tomcat8</artifactId>
   <packaging>pom</packaging>
   <name>apiman-distro-tomcat8</name>
 
@@ -74,6 +74,7 @@
               <descriptors>
                 <descriptor>src/main/assembly/overlay.xml</descriptor>
               </descriptors>
+              <appendAssemblyId>true</appendAssemblyId>
               <archiverConfig>
                 <defaultDirectoryMode>0755</defaultDirectoryMode>
               </archiverConfig>
@@ -120,6 +121,7 @@
        </executions>
       </plugin>
     </plugins>
+    <finalName>api-mgmt-tomcat-${project.version}</finalName>
   </build>
 
   <profiles>
@@ -151,7 +153,7 @@
                         <fileSets>
                           <fileSet>
                             <includes>
-                              <include>target/${project.artifactId}-${project.version}-overlay.zip</include>
+                              <include>target/${project.build.finalName}-overlay.zip</include>
                               <include>target/keycloak-config-files/**/*</include>
                               <include>target/tomcat-config-files/**/*</include>
                             </includes>
