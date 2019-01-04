@@ -1,0 +1,99 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tomcat localhost (Example Config)" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.24" ALTERNATIVE_JRE_ENABLED="false">
+    <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8181/apimanui" />
+    <option name="UPDATING_POLICY" value="redeploy-artifacts" />
+    <deployment>
+      <artifact name="apiman-distro-es:war">
+        <settings>
+          <option name="CONTEXT_PATH" value="/apiman-es" />
+        </settings>
+      </artifact>
+      <artifact name="apiman-gateway-platforms-war-tomcat8-api:war">
+        <settings>
+          <option name="CONTEXT_PATH" value="/apiman-gateway-api" />
+        </settings>
+      </artifact>
+      <artifact name="apiman-manager-api-war-tomcat8:war">
+        <settings>
+          <option name="CONTEXT_PATH" value="/apiman" />
+        </settings>
+      </artifact>
+      <artifact name="apiman-gateway-platforms-war-tomcat8-gateway:war">
+        <settings>
+          <option name="CONTEXT_PATH" value="/apiman-gateway" />
+        </settings>
+      </artifact>
+      <artifact name="apiman-manager-ui-war-tomcat8:war">
+        <settings>
+          <option name="CONTEXT_PATH" value="/apimanui" />
+        </settings>
+      </artifact>
+    </deployment>
+    <server-settings>
+      <option name="BASE_DIRECTORY_NAME" value="Tomcat_(1)_apiman" />
+    </server-settings>
+    <predefined_log_file enabled="true" id="Tomcat" />
+    <predefined_log_file enabled="true" id="Tomcat Catalina" />
+    <predefined_log_file id="Tomcat Manager" />
+    <predefined_log_file id="Tomcat Host Manager" />
+    <predefined_log_file id="Tomcat Localhost Access" />
+    <RunnerSettings RunnerId="Debug">
+      <option name="DEBUG_PORT" value="61269" />
+    </RunnerSettings>
+    <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+      <option name="USE_ENV_VARIABLES" value="true" />
+      <STARTUP>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </STARTUP>
+      <SHUTDOWN>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </SHUTDOWN>
+    </ConfigurationWrapper>
+    <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+      <option name="USE_ENV_VARIABLES" value="true" />
+      <STARTUP>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </STARTUP>
+      <SHUTDOWN>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </SHUTDOWN>
+    </ConfigurationWrapper>
+    <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+      <option name="USE_ENV_VARIABLES" value="true" />
+      <STARTUP>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </STARTUP>
+      <SHUTDOWN>
+        <option name="USE_DEFAULT" value="true" />
+        <option name="SCRIPT" value="" />
+        <option name="VM_PARAMETERS" value="" />
+        <option name="PROGRAM_PARAMETERS" value="" />
+      </SHUTDOWN>
+    </ConfigurationWrapper>
+    <method v="2">
+      <option name="Make" enabled="true" />
+      <option name="BuildArtifacts" enabled="true">
+        <artifact name="apiman-distro-es:war" />
+        <artifact name="apiman-gateway-platforms-war-tomcat8-api:war" />
+        <artifact name="apiman-manager-api-war-tomcat8:war" />
+        <artifact name="apiman-gateway-platforms-war-tomcat8-gateway:war" />
+        <artifact name="apiman-manager-ui-war-tomcat8:war" />
+      </option>
+    </method>
+  </configuration>
+</component>
