@@ -165,66 +165,6 @@
                       </inline>
                     </assembly>
                   </build>
-                  <run>
-                    <ports>
-                      <port>8080:8080</port>
-                      <port>8443:8443</port>
-                    </ports>
-                  </run>
-                </image>
-              </images>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
-      <id>docker-dev</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>io.fabric8</groupId>
-            <artifactId>docker-maven-plugin</artifactId>
-            <version>${version.docker.plugin}</version>
-            <executions>
-              <execution>
-                <id>docker-build</id>
-                <goals>
-                  <goal>build</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <images>
-                <image>
-                  <name>api-mgmt/tomcat</name>
-                  <alias>api-mgmt/tomcat</alias>
-                  <build>
-                    <dockerFileDir>${project.basedir}/src/main/docker-with-gateway</dockerFileDir>
-                    <assembly>
-                      <inline>
-                        <fileSets>
-                          <fileSet>
-                            <includes>
-                              <include>target/${project.artifactId}-${project.version}-overlay.zip</include>
-                              <include>target/keycloak-config-files/**/*</include>
-                              <include>target/tomcat-config-files/**/*</include>
-                            </includes>
-                            <filtered>false</filtered>
-                            <directoryMode>0755</directoryMode>
-                            <fileMode>0755</fileMode>
-                          </fileSet>
-                        </fileSets>
-                      </inline>
-                    </assembly>
-                  </build>
-                  <run>
-                    <ports>
-                      <port>8080:8080</port>
-                      <port>8443:8443</port>
-                    </ports>
-                  </run>
                 </image>
               </images>
             </configuration>
