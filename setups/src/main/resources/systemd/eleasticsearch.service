@@ -1,0 +1,12 @@
+[Unit]
+Description=Elasticsearch for Scheer PAS API Management
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=admin
+ExecStart=/home/admin/DemoBridgeGateway/elasticsearch-5.6.9/bin/elasticsearch
+ExecStop=/bin/kill -15 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

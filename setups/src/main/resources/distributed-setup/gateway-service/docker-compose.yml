@@ -1,0 +1,40 @@
+version: '3'
+services:
+  gateway:
+    image: 'api-mgmt/gateway:${docker-compose.api-mgmt.gateway.version}'
+    container_name: gateway
+    environment:
+      - >-
+        APIMAN_GATEWAY_OPTS=-Dapiman.es.host=${ELASTICSEARCH_HOST}
+        -Dapiman.es.protocol=https
+        -Dapiman.es.port=${ELASTICSEARCH_PORT}
+        -Dapiman.es.timeout=10000
+        -Dapiman.es.username=${ELASTICSEARCH_USERNAME}
+        -Dapiman.es.password=${ELASTICSEARCH_PASSWORD}
+        -Dapiman.truststore-password=${TRUSTSTORE_KEYSTORE_PASSWORD}
+        -Dapiman.public-endpoint=${ENDPOINT}
+        -Dkeycloak.host=${KEYCLOAK_HOST}
+        -Dkeycloak.port=${KEYCLOAK_PORT}
+        -DdevMode=${SELF_SIGNED}
+        -DallowSelfSigned=${SELF_SIGNED}
+        -DallowAnyHost=${SELF_SIGNED}
+        -Dkeycloak.realm-public-key=${KEYCLOAK_REALM_PUBLIC_KEY}
+        -Dkeycloak.gateway.secret=${KEYCLOAK_GATEWAY_SECRET}
+        -Dverticles.https.port=${GATEWAY_PORT}
+        -DcachingPolicy.maxCacheSize=${MAX_CACHE_SIZE_IN_MB}
+    ports:
+      - '${GATEWAY_PORT}:${GATEWAY_PORT}'
+      - '${GATEWAY_MANAGEMENT_PORT}:8081'
+    volumes:
+      - 'gateway_logs:/usr/src/apiman/apiman-distro-vertx/logs'
+      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks'
+      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks'
+      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks'
+      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks'
+      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks'
+      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks'
+      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks'
+    restart: always
+volumes:
+  gateway_logs:
+    driver: local

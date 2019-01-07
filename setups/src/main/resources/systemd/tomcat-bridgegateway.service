@@ -1,0 +1,25 @@
+# Systemd unit file for tomcat on CentOS7 by digitalocean
+[Unit]
+Description=Scheer PAS API Management on Tomcat8+
+After=syslog.target network.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/usr
+Environment=CATALINA_PID=/home/admin/DemoBridgeGateway/apache-tomcat-8.5.31/tomcat.pid
+Environment=CATALINA_HOME=/home/admin/DemoBridgeGateway/apache-tomcat-8.5.31
+Environment=CATALINA_BASE=/home/admin/DemoBridgeGateway/apache-tomcat-8.5.31
+Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+
+ExecStart=/home/admin/DemoBridgeGateway/apache-tomcat-8.5.31/bin/startup.sh
+ExecStop=/home/admin/DemoBridgeGateway/apache-tomcat-8.5.31/bin/shutdown.sh
+
+User=admin
+UMask=0007
+RestartSec=10
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

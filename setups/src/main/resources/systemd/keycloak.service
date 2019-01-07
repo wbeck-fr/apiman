@@ -1,0 +1,12 @@
+[Unit]
+Description=Keycloak Auth Service for Scheer PAS API Management
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=admin
+ExecStart=/home/admin/DemoBridgeGateway/keycloak-4.0.0.Final/bin/standalone.sh -b 0.0.0.0 -Djboss.socket.binding.port-offset=100
+ExecStop=/bin/kill -15 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

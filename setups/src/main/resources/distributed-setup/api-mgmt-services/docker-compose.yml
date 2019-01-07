@@ -1,0 +1,108 @@
+version: '3'
+services:
+  mysql:
+    image: 'mysql:${docker-compose.api-mgmt.mysql.version}'
+    container_name: mysql
+    environment:
+      - 'MYSQL_DATABASE=keycloak'
+      - 'MYSQL_USER=keycloak'
+      - 'MYSQL_PASSWORD=${MYSQL_PASSWORD}'
+      - 'MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}'
+    volumes:
+      - 'mysql_data:/var/lib/mysql'
+      - 'mysql_logs:/var/log/mysql'
+    restart: always
+  keycloak:
+    image: 'api-mgmt/keycloak:${docker-compose.api-mgmt.keycloak.version}'
+    container_name: keycloak
+    environment:
+      - 'DB_PASSWORD=${MYSQL_PASSWORD}'
+      - 'KEYCLOAK_USER=${KEYCLOAK_ADMIN_USERNAME}'
+      - 'KEYCLOAK_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}'
+      - 'KEYCLOAK_IMPORT=/tmp/realm.json'
+      - 'JDBC_PARAMS=useSSL=false' # No need for SSL between MySQL <-> Keycloak in a docker network
+    ports:
+      - '${KEYCLOAK_PORT}:8443'
+    depends_on:
+      - mysql
+    volumes:
+      - 'keycloak_logs:/opt/jboss/keycloak/standalone/log'
+      - '$PWD/../../configs/tls.crt:/etc/x509/https/tls.crt'
+      - '$PWD/../../configs/tls.key:/etc/x509/https/tls.key'
+    restart: always
+  elasticsearch:
+    image: 'elasticsearch:${docker-compose.api-mgmt.elasticsearch.version}'
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms${ELASTICSEARCH_JAVA_MEMORY} -Xmx${ELASTICSEARCH_JAVA_MEMORY}
+      - VIRTUAL_HOST=${ENDPOINT}
+      - VIRTUAL_PORT=9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+      nproc:
+        soft: 4096
+        hard: 4096
+    volumes:
+      - 'elasticsearch_data:/usr/share/elasticsearch/data'
+    depends_on:
+      - nginx-proxy
+    restart: always
+  ui:
+    image: 'api-mgmt/ui:${docker-compose.api-mgmt.ui.version}'
+    container_name: ui
+    environment:
+      - >-
+        CATALINA_OPTS=-Dbridge.url=${BRIDGE_URL}
+        -Dapiman.es.protocol=http
+        -Dapiman.es.port=9200
+        -Dapiman.es.timeout=10000
+        -Dapiman.es.host=elasticsearch
+        -Dbridge.username=${BRIDGE_USERNAME}
+        -Dbridge.password=${BRIDGE_PASSWORD}
+        -Dbridge.port=${BRIDGE_PORT}
+        -Dkeycloak.host=${ENDPOINT}
+        -Dkeycloak.port=${KEYCLOAK_PORT}
+        -Dkeycloak.truststore-password=${TRUSTSTORE_KEYSTORE_PASSWORD}
+        -Dkeycloak.apiman.secret=${KEYCLOAK_APIMAN_SECRET}
+        -Dkeycloak.apimanui.secret=${KEYCLOAK_APIMANUI_SECRET}
+        -DkeystorePassword=${TRUSTSTORE_KEYSTORE_PASSWORD}
+    ports:
+      - '${UI_PORT}:8443'
+    depends_on:
+      - elasticsearch
+      - keycloak
+    volumes:
+      - 'ui_logs:/usr/local/tomcat/logs'
+      - '$PWD/../../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
+    restart: always
+  nginx-proxy:
+    image: 'jwilder/nginx-proxy:latest'
+    container_name: nginx-proxy
+    # Create a user for nginx proxy if es-users.htpasswd has not more than one line (comment), then run the default entrypoint and cmd from jwilder/nginx-proxy Dockerfile
+    entrypoint: ["sh", "-c", "if [ $$(wc -l < /etc/nginx/htpasswd/${ENDPOINT}) -le 1 ]; then echo ${ELASTICSEARCH_USERNAME}:$$(openssl passwd -crypt ${ELASTICSEARCH_PASSWORD}) >> /etc/nginx/htpasswd/${ENDPOINT}; fi && /app/docker-entrypoint.sh forego start -r"]
+    ports:
+      - '${ELASTICSEARCH_PORT}:443'
+    volumes:
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+      - '$PWD/../../configs/tls.key:/etc/nginx/certs/${ENDPOINT}.key'
+      - '$PWD/../../configs/tls.crt:/etc/nginx/certs/${ENDPOINT}.crt'
+      - '$PWD/../../configs/nginx-proxy/es-users.htpasswd:/etc/nginx/htpasswd/${ENDPOINT}'
+      - '$PWD/../../configs/nginx-proxy/nginx.conf:/etc/nginx/conf.d/my_proxy.conf'
+volumes:
+  mysql_data:
+    driver: local
+  mysql_logs:
+    driver: local
+  keycloak_logs:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  ui_logs:
+    driver: local

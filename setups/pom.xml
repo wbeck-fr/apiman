@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.apiman</groupId>
+    <artifactId>apiman</artifactId>
+    <version>7.3.0</version>
+  </parent>
+  <artifactId>apiman-docker-setups</artifactId>
+  <packaging>jar</packaging>
+  <name>apiman-docker-setups</name>
+
+  <properties>
+    <docker-compose.api-mgmt.ui.version>${project.version}</docker-compose.api-mgmt.ui.version>
+    <docker-compose.api-mgmt.gateway.version>${project.version}</docker-compose.api-mgmt.gateway.version>
+    <docker-compose.api-mgmt.keycloak.version>${project.version}</docker-compose.api-mgmt.keycloak.version>
+    <docker-compose.api-mgmt.mysql.version>5.7.24</docker-compose.api-mgmt.mysql.version>
+    <docker-compose.api-mgmt.elasticsearch.version>${version.org.elasticsearch}</docker-compose.api-mgmt.elasticsearch.version>
+  </properties>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>overlay</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>true</attach>
+              <descriptors>
+                <descriptor>src/main/assembly/overlay.xml</descriptor>
+              </descriptors>
+              <appendAssemblyId>true</appendAssemblyId>
+              <archiverConfig>
+                <defaultDirectoryMode>0755</defaultDirectoryMode>
+              </archiverConfig>
+              <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <finalName>api-mgmt-${project.version}</finalName>
+  </build>
+</project>
