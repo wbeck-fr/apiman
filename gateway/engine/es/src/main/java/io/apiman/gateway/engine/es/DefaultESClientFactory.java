@@ -28,6 +28,8 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.http.HttpHost;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.nio.conn.SchemeIOSessionStrategy;
@@ -78,9 +80,12 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
      */
     protected JestClient createJestClient(Map<String, String> config, String indexName, String defaultIndexName) {
         String host = config.get("client.host"); //$NON-NLS-1$
-        String port = config.get("client.port"); //$NON-NLS-1$
+        Integer port = NumberUtils.toInt(config.get("client.port"), 9200); //$NON-NLS-1$
         String protocol = config.get("client.protocol"); //$NON-NLS-1$
         String initialize = config.get("client.initialize"); //$NON-NLS-1$
+        String username = config.get("client.username"); //$NON-NLS-1$
+        String password = config.get("client.password"); //$NON-NLS-1$
+        Integer timeout = NumberUtils.toInt(config.get("client.timeout"), 10000); //$NON-NLS-1$
 
         if (initialize == null) {
             initialize = "true"; //$NON-NLS-1$
@@ -89,13 +94,10 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
         if (StringUtils.isBlank(host)) {
             throw new RuntimeException("Missing client.host configuration for ESRegistry."); //$NON-NLS-1$
         }
-        if (StringUtils.isBlank(port)) {
-            throw new RuntimeException("Missing client.port configuration for ESRegistry."); //$NON-NLS-1$
-        }
         if (StringUtils.isBlank(protocol)) {
             protocol = "http"; //$NON-NLS-1$
         }
-        
+
         String clientKey = "jest:" + host + ':' + port + '/' + indexName; //$NON-NLS-1$
         synchronized (clients) {
             if (clients.containsKey(clientKey)) {
@@ -106,15 +108,28 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
                 builder.append("://"); //$NON-NLS-1$
                 builder.append(host);
                 builder.append(":"); //$NON-NLS-1$
-                builder.append(String.valueOf(port));
+                builder.append(port);
                 String connectionUrl = builder.toString();
 
+
                 JestClientFactory factory = new JestClientFactory();
-                Builder httpClientConfig = new HttpClientConfig.Builder(connectionUrl);
-                updateHttpConfig(httpClientConfig, config);
+                Builder httpClientConfig = new HttpClientConfig.Builder(connectionUrl)
+                        .connTimeout(timeout)
+                        .readTimeout(timeout)
+                        .maxTotalConnection(75)
+                        .defaultMaxTotalConnectionPerRoute(75)
+                        .multiThreaded(true);
+
+                if (!StringUtils.isBlank(username)) {
+                    httpClientConfig.defaultCredentials(username, password).setPreemptiveAuth(new HttpHost(connectionUrl, port, protocol));
+                }
+
+                if ("https".equals(config.get("client.protocol"))) { //$NON-NLS-1$ //$NON-NLS-2$
+                    updateSslConfig(httpClientConfig, config);
+                }
+
                 factory.setHttpClientConfig(httpClientConfig.build());
-                updateJestClientFactory(factory, config);
-                
+
                 JestClient client = factory.getObject();
                 clients.put(clientKey, client);
                 if ("true".equals(initialize)) { //$NON-NLS-1$
@@ -122,34 +137,6 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
                 }
                 return client;
             }
-        }
-    }
-
-    /**
-     * Update the http client config.
-     * @param httpClientConfig
-     * @param config 
-     */
-    protected void updateHttpConfig(Builder httpClientConfig, Map<String, String> config) {
-        String username = config.get("client.username"); //$NON-NLS-1$
-        String password = config.get("client.password"); //$NON-NLS-1$
-        String timeout = config.get("client.timeout"); //$NON-NLS-1$
-        if (StringUtils.isBlank(timeout)) {
-            timeout = "10000"; //$NON-NLS-1$
-        }
-
-        httpClientConfig
-            .connTimeout(new Integer(timeout))
-            .readTimeout(new Integer(timeout))
-            .maxTotalConnection(75)
-            .defaultMaxTotalConnectionPerRoute(75)
-            .multiThreaded(true);
-        if (!StringUtils.isBlank(username)) {
-            httpClientConfig.defaultCredentials(username, password);
-        }
-
-        if ("https".equals(config.get("client.protocol"))) { //$NON-NLS-1$ //$NON-NLS-2$
-            updateSslConfig(httpClientConfig, config);
         }
     }
 
@@ -181,13 +168,4 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
             throw new RuntimeException(e);
         }
     }
-    
-    /**
-     * Update the jest client factory with any settings.
-     * @param factory
-     * @param config 
-     */
-    protected void updateJestClientFactory(JestClientFactory factory, Map<String, String> config) {
-    }
-
 }

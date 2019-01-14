@@ -28,6 +28,8 @@ import java.util.Map;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
+import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.http.HttpHost;
 import org.apache.http.conn.ssl.DefaultHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.nio.conn.SchemeIOSessionStrategy;
@@ -66,8 +68,11 @@ public class DefaultEsClientFactory implements IEsClientFactory {
             protocol = "http"; //$NON-NLS-1$
         }
         String host = config.get("host"); //$NON-NLS-1$
-        String port = config.get("port"); //$NON-NLS-1$
-        
+        Integer port = NumberUtils.toInt(config.get("port"), 9200); //$NON-NLS-1$
+        String username = config.get("username"); //$NON-NLS-1$
+        String password = config.get("password"); //$NON-NLS-1$
+        Integer timeout = NumberUtils.toInt(config.get("timeout"), 10000); //$NON-NLS-1$
+
         StringBuilder builder = new StringBuilder();
         builder.append(protocol);
         builder.append("://"); //$NON-NLS-1$
@@ -77,32 +82,13 @@ public class DefaultEsClientFactory implements IEsClientFactory {
         String connectionUrl = builder.toString();
         
         Builder httpConfig = new HttpClientConfig.Builder(connectionUrl).multiThreaded(true);
-        updateHttpConfig(httpConfig);
-        
-        JestClientFactory factory = new JestClientFactory();
-        factory.setHttpClientConfig(httpConfig.build());
-        updateJestClientFactory(factory);
-        
-        return factory.getObject();
-    }
 
-    /**
-     * @param httpConfig
-     */
-    protected void updateHttpConfig(Builder httpConfig) {
-        String username = config.get("username"); //$NON-NLS-1$
-        String password = config.get("password"); //$NON-NLS-1$
-        String timeout = config.get("timeout"); //$NON-NLS-1$
         if (username != null) {
-            httpConfig.defaultCredentials(username, password);
+            httpConfig.defaultCredentials(username, password).setPreemptiveAuth(new HttpHost(connectionUrl, port, protocol));
         }
-        if (timeout == null) {
-            timeout = "10000"; //$NON-NLS-1$
-        }
-        
-        int t = new Integer(timeout);
-        httpConfig.connTimeout(t);
-        httpConfig.readTimeout(t);
+
+        httpConfig.connTimeout(timeout);
+        httpConfig.readTimeout(timeout);
         httpConfig.maxTotalConnection(75);
         httpConfig.defaultMaxTotalConnectionPerRoute(75);
         httpConfig.multiThreaded(true);
@@ -110,6 +96,11 @@ public class DefaultEsClientFactory implements IEsClientFactory {
         if ("https".equals(getConfig().get("protocol"))) { //$NON-NLS-1$ //$NON-NLS-2$
             updateSslConfig(httpConfig);
         }
+
+        JestClientFactory factory = new JestClientFactory();
+        factory.setHttpClientConfig(httpConfig.build());
+        
+        return factory.getObject();
     }
 
     /**
@@ -139,11 +130,4 @@ public class DefaultEsClientFactory implements IEsClientFactory {
             throw new RuntimeException(e);
         }
     }
-
-    /**
-     * @param factory
-     */
-    protected void updateJestClientFactory(JestClientFactory factory) {
-    }
-
 }
