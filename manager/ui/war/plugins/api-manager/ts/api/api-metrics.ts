@@ -24,7 +24,9 @@ module Apiman {
             
             var getTimeSeriesFormat = function() {
                 var format = '%Y-%m-%d';
-                if ($scope.metricsRange == '7days' || $scope.metricsRange == '24hours' || $scope.metricsRange == 'hour') {
+                if ($scope.metricsRange == '7days') {
+                    format = '%Y-%m-%d %H:%M';
+                } else if ($scope.metricsRange == '24hours' || $scope.metricsRange == 'hour') {
                     format = '%H:%M';
                 }
                 return format;

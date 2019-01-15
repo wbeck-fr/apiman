@@ -492,3 +492,7 @@ a:hover {
     background-repeat: no-repeat;
     background-size: contain;
 }
+
+.c3-tooltip td {
+    color: rgb(54, 54, 54);
+}
