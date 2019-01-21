@@ -34,6 +34,12 @@ services:
       - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks'
       - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks'
       - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
     restart: always
 volumes:
   gateway_logs:

@@ -11,6 +11,12 @@ services:
     volumes:
       - 'mysql_data:/var/lib/mysql'
       - 'mysql_logs:/var/log/mysql'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
     restart: always
   keycloak:
     image: 'api-mgmt/keycloak:${docker-compose.api-mgmt.keycloak.version}'
@@ -29,6 +35,12 @@ services:
       - 'keycloak_logs:/opt/jboss/keycloak/standalone/log'
       - '$PWD/../../configs/tls.crt:/etc/x509/https/tls.crt'
       - '$PWD/../../configs/tls.key:/etc/x509/https/tls.key'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
     restart: always
   elasticsearch:
     image: 'elasticsearch:${docker-compose.api-mgmt.elasticsearch.version}'
@@ -53,6 +65,12 @@ services:
       - 'elasticsearch_data:/usr/share/elasticsearch/data'
     depends_on:
       - nginx-proxy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
     restart: always
   ui:
     image: 'api-mgmt/ui:${docker-compose.api-mgmt.ui.version}'
@@ -81,6 +99,12 @@ services:
     volumes:
       - 'ui_logs:/usr/local/tomcat/logs'
       - '$PWD/../../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
     restart: always
   nginx-proxy:
     image: 'jwilder/nginx-proxy:latest'
@@ -95,6 +119,13 @@ services:
       - '$PWD/../../configs/tls.crt:/etc/nginx/certs/${ENDPOINT}.crt'
       - '$PWD/../../configs/nginx-proxy/es-users.htpasswd:/etc/nginx/htpasswd/${ENDPOINT}'
       - '$PWD/../../configs/nginx-proxy/nginx.conf:/etc/nginx/conf.d/my_proxy.conf'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
+    restart: always
 volumes:
   mysql_data:
     driver: local
