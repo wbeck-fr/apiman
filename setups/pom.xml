@@ -17,6 +17,13 @@
     <docker-compose.api-mgmt.elasticsearch.version>${version.org.elasticsearch}</docker-compose.api-mgmt.elasticsearch.version>
   </properties>
 
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>apiman-distro-data</artifactId>
+    </dependency>
+  </dependencies>
+
   <build>
     <resources>
       <resource>

@@ -22,6 +22,9 @@ RUN rm -rf docs && rm -rf examples && rm -rf host-manager && rm -rf manager
 
 RUN unzip apiman.war -n -d apiman && unzip apimanui.war -n -d apimanui
 
+# Disable initial configuration per default
+RUN touch /usr/local/tomcat/data/bootstrap/apiman-default-config.json.imported
+
 # Add plugins (version will not change)
 WORKDIR /root/.m2
 RUN wget "http://ci.e2e.ch/job/Apiman-Plugins-Pipeline/job/e2e_release/lastSuccessfulBuild/artifact/repository/target/api-mgmt-plugins-7.0.0.zip"
