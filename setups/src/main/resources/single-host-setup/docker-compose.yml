@@ -95,8 +95,6 @@ services:
     volumes:
       - 'ui_logs:/usr/local/tomcat/logs'
       - '$PWD/../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
-      # Uncomment the following line if you perform an update:
-      #- '$PWD/../configs/bootstrap:/usr/local/tomcat/data/bootstrap'
     logging:
       driver: "json-file"
       options:
