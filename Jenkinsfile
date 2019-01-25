@@ -57,7 +57,7 @@ pipeline {
         stage('Archive builds') {
             when {
                 not {
-                    branch 'e2e_release'
+                    branch '**/e2e_release'
                 }
             }
             steps {
@@ -86,7 +86,7 @@ pipeline {
                     sh 'rename.ul -- "-overlay" "" api-mgmt-tomcat*.zip'
                 }
                 dir('setups/target/') {
-                    sh "rename.ul overlay ${GIT_COMMIT_SHORT} api-mgmt*.zip"
+                    sh 'rename.ul -- "-overlay" "" api-mgmt*.zip'
                 }
                 sh 'rename.ul -- "-overlay" "" *.tar'
                 archiveArtifacts artifacts: 'distro/tomcat8/target/api-mgmt-tomcat*.zip'
