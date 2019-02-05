@@ -5,7 +5,7 @@
   <parent>
     <groupId>io.apiman</groupId>
     <artifactId>apiman-manager-api</artifactId>
-    <version>7.3.0</version>
+    <version>7.4.0</version>
   </parent>
   <artifactId>apiman-manager-api-export-import-api</artifactId>
   <packaging>bundle</packaging>
