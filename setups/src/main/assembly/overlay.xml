@@ -30,9 +30,8 @@
       <directory>src/main/resources</directory>
       <outputDirectory>api-mgmt</outputDirectory>
       <includes>
-        <include>configs/apiman.jks</include>
-        <include>configs/tls.crt</include>
-        <include>configs/tls.key</include>
+        <include>configs/**</include>
+        <include>distributed-setup/**</include>
         <include>single-host-setup/**</include>
       </includes>
       <filtered>true</filtered>
