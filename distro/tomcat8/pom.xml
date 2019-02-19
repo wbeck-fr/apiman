@@ -12,7 +12,7 @@
   <name>apiman-distro-tomcat8</name>
 
   <properties>
-    <docker.base-image>tomcat:8.5.31-alpine</docker.base-image>
+    <docker.base-image>tomcat:8.5.38-alpine</docker.base-image>
     <docker.keycloak-version>${version.org.keycloak}</docker.keycloak-version>
     <docker.target-image-name>api-mgmt/ui:${project.version}</docker.target-image-name>
     <docker.target-image-name.alias>api-mgmt/ui:${project.version}</docker.target-image-name.alias>
