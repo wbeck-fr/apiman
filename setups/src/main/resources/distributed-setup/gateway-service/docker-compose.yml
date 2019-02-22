@@ -27,13 +27,13 @@ services:
       - '${GATEWAY_MANAGEMENT_PORT}:8081'
     volumes:
       - 'gateway_logs:/usr/src/apiman/apiman-distro-vertx/logs'
-      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks'
-      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks'
-      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks'
-      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks'
-      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks'
-      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks'
-      - '$PWD/../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks'
+      - './../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks'
+      - './../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks'
+      - './../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks'
+      - './../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks'
+      - './../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks'
+      - './../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks'
+      - './../../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks'
     logging:
       driver: "json-file"
       options:

@@ -33,8 +33,8 @@ services:
       - mysql
     volumes:
       - 'keycloak_logs:/opt/jboss/keycloak/standalone/log'
-      - '$PWD/../configs/tls.crt:/etc/x509/https/tls.crt'
-      - '$PWD/../configs/tls.key:/etc/x509/https/tls.key'
+      - './../configs/tls.crt:/etc/x509/https/tls.crt'
+      - './../configs/tls.key:/etc/x509/https/tls.key'
     logging:
       driver: "json-file"
       options:
@@ -94,7 +94,7 @@ services:
       - keycloak
     volumes:
       - 'ui_logs:/usr/local/tomcat/logs'
-      - '$PWD/../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
+      - './../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
     logging:
       driver: "json-file"
       options:
@@ -129,11 +129,11 @@ services:
       - keycloak
     volumes:
       - 'gateway_logs:/usr/src/apiman/apiman-distro-vertx/logs'
-      - '$PWD/../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks'
-      - '$PWD/../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks'
-      - '$PWD/../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks'
-      - '$PWD/../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks'
-      - '$PWD/../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks'
+      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks'
+      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks'
+      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks'
+      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks'
+      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks'
     logging:
       driver: "json-file"
       options:

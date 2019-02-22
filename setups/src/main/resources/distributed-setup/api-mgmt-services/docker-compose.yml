@@ -33,8 +33,8 @@ services:
       - mysql
     volumes:
       - 'keycloak_logs:/opt/jboss/keycloak/standalone/log'
-      - '$PWD/../../configs/tls.crt:/etc/x509/https/tls.crt'
-      - '$PWD/../../configs/tls.key:/etc/x509/https/tls.key'
+      - './../../configs/tls.crt:/etc/x509/https/tls.crt'
+      - './../../configs/tls.key:/etc/x509/https/tls.key'
     logging:
       driver: "json-file"
       options:
@@ -98,7 +98,7 @@ services:
       - keycloak
     volumes:
       - 'ui_logs:/usr/local/tomcat/logs'
-      - '$PWD/../../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
+      - './../../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
     logging:
       driver: "json-file"
       options:
@@ -115,10 +115,10 @@ services:
       - '${ELASTICSEARCH_PORT}:443'
     volumes:
       - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - '$PWD/../../configs/tls.key:/etc/nginx/certs/${ENDPOINT}.key'
-      - '$PWD/../../configs/tls.crt:/etc/nginx/certs/${ENDPOINT}.crt'
-      - '$PWD/../../configs/nginx-proxy/es-users.htpasswd:/etc/nginx/htpasswd/${ENDPOINT}'
-      - '$PWD/../../configs/nginx-proxy/nginx.conf:/etc/nginx/conf.d/my_proxy.conf'
+      - './../../configs/tls.key:/etc/nginx/certs/${ENDPOINT}.key'
+      - './../../configs/tls.crt:/etc/nginx/certs/${ENDPOINT}.crt'
+      - './../../configs/nginx-proxy/es-users.htpasswd:/etc/nginx/htpasswd/${ENDPOINT}'
+      - './../../configs/nginx-proxy/nginx.conf:/etc/nginx/conf.d/my_proxy.conf'
     logging:
       driver: "json-file"
       options:
