@@ -65,12 +65,20 @@
                   <build>
                     <dockerFileDir>${project.basedir}/src/main/docker</dockerFileDir>
                     <assembly>
+                      <!--https://maven.fabric8.io/#build-assembly-->
+                      <mode>tar</mode>
                       <inline>
                         <fileSets>
                           <fileSet>
                             <includes>
                               <include>target/resources/apiman/**/*</include>
                               <include>target/resources/realm.json</include>
+                            </includes>
+                            <filtered>false</filtered>
+                          </fileSet>
+                          <fileSet>
+                            <includes>
+                              <include>target/resources/create-self-signed-certificates.sh</include>
                             </includes>
                             <filtered>false</filtered>
                             <directoryMode>0755</directoryMode>

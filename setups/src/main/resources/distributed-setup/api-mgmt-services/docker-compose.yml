@@ -25,8 +25,11 @@ services:
       - 'DB_PASSWORD=${MYSQL_PASSWORD}'
       - 'KEYCLOAK_USER=${KEYCLOAK_ADMIN_USERNAME}'
       - 'KEYCLOAK_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}'
-      - 'KEYCLOAK_IMPORT=/tmp/realm.json'
+      - 'KEYCLOAK_IMPORT=/opt/api-mgmt/realm.json'
       - 'JDBC_PARAMS=useSSL=false' # No need for SSL between MySQL <-> Keycloak in a docker network
+      # Following variables are used to create self-signed certificates
+      - 'ENDPOINT=${ENDPOINT}'
+      - 'TRUSTSTORE_KEYSTORE_PASSWORD=${TRUSTSTORE_KEYSTORE_PASSWORD}'
     ports:
       - '${KEYCLOAK_PORT}:8443'
     depends_on:
@@ -35,6 +38,8 @@ services:
       - 'keycloak_logs:/opt/jboss/keycloak/standalone/log'
       - './../../configs/tls.crt:/etc/x509/https/tls.crt'
       - './../../configs/tls.key:/etc/x509/https/tls.key'
+      # Following mount is used to create self-signed certificates
+      - './../../configs:/configs'
     logging:
       driver: "json-file"
       options:
