@@ -127,6 +127,12 @@ services:
         -Dkeycloak.gateway.secret=${KEYCLOAK_GATEWAY_SECRET}
         -Dverticles.https.port=${GATEWAY_PORT}
         -DcachingPolicy.maxCacheSize=${MAX_CACHE_SIZE_IN_MB}
+        -Dapiman.gateway-backend-keystore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_BACKEND_KEYSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
+        -Dapiman.gateway-backend-truststore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_BACKEND_TRUSTSTORE:-}
+        -Dapiman.gateway-client-keystore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_CLIENT_KEYSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
+        -Dapiman.gateway-client-truststore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_CLIENT_TRUSTSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
+        -Dapiman.gateway-keycloak-keystore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_KEYCLOAK_KEYSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
+        -Dapiman.gateway-keycloak-truststore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_KEYCLOAK_TRUSTSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
     ports:
       - '${GATEWAY_PORT}:${GATEWAY_PORT}'
     depends_on:
@@ -134,11 +140,7 @@ services:
       - keycloak
     volumes:
       - 'gateway_logs:/usr/src/apiman/apiman-distro-vertx/logs'
-      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks'
-      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks'
-      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks'
-      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks'
-      - './../configs/apiman.jks:/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks'
+      - './../configs:${KEYSTORE_TRUSTSTORE_PATH:-/usr/src/apiman/apiman-distro-vertx/certs}'
     logging:
       driver: "json-file"
       options:

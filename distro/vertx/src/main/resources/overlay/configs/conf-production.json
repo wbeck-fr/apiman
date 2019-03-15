@@ -11,9 +11,9 @@
         "username": "${apiman.es.username}",
         "password": "${apiman.es.password}",
         "timeout": "${apiman.es.timeout}",
-        "client-keystore":"/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks",
+        "client-keystore":"${apiman.gateway-es-keystore}",
         "client-keystore.password":"${apiman.truststore-password}",
-        "trust-store":"/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks",
+        "trust-store":"${apiman.gateway-es-truststore}",
         "trust-store.password":"${apiman.truststore-password}"
         //"cache-polling-interval": 15
         //"index": ""
@@ -49,11 +49,11 @@
         "allowAnyHost": "${allowAnyHost}",
 
         // Trust store contains certificate(s) trusted by gateway.
-        "trustStore": "/usr/src/apiman/apiman-distro-vertx/GatewayBackendTruststore.jks",
+        "trustStore": "${apiman.gateway-backend-truststore}",
         "trustStorePassword": "${apiman.truststore-password}",
 
         // Key store contains gateway's keys (including private components: keep it safe).
-        "keyStore": "/usr/src/apiman/apiman-distro-vertx/GatewayBackendKeystore.jks",
+        "keyStore": "${apiman.gateway-backend-keystore}",
         "keyStorePassword": "${apiman.truststore-password}"
 
         // By default all keys can be used (will try all). If alias list provided, will only attempt to use listed keys.
@@ -93,9 +93,9 @@
         "username": "${apiman.es.username}",
         "password": "${apiman.es.password}",
         "timeout": "${apiman.es.timeout}",
-        "client-keystore":"/usr/src/apiman/apiman-distro-vertx/EsKeystore.jks",
+        "client-keystore":"${apiman.gateway-es-keystore}",
         "client-keystore.password":"${apiman.truststore-password}",
-        "trust-store":"/usr/src/apiman/apiman-distro-vertx/EsTruststore.jks",
+        "trust-store":"${apiman.gateway-es-truststore}",
         "trust-store.password":"${apiman.truststore-password}"
       }
     }
@@ -209,11 +209,11 @@
   // SSL configuration to the gateway's *front end* (i.e. client <-> gateway).
   "ssl": {
     "keystore": {
-      "path": "/usr/src/apiman/apiman-distro-vertx/GatewayClientKeystore.jks",
+      "path": "${apiman.gateway-client-keystore}",
       "password": "${apiman.truststore-password}"
     },
     "truststore": {
-      "path": "/usr/src/apiman/apiman-distro-vertx/GatewayClientTruststore.jks",
+      "path": "${apiman.gateway-client-truststore}",
       "password": "${apiman.truststore-password}"
     }
   },
@@ -237,10 +237,10 @@
       "credentials": {
         "secret": "${keycloak.gateway.secret}"
       },
-      "truststore": "/usr/src/apiman/apiman-distro-vertx/GatewayKeycloakTruststore.jks",
-      "truststore-password": "${apiman.truststore-password}"
-      // "client-keystore": "/usr/src/apiman/apiman-distro-vertx/apiman.jks",
-      // "client-keystore-password": "secret"
+      "truststore": "${apiman.gateway-keycloak-truststore}",
+      "truststore-password": "${apiman.truststore-password}",
+      "client-keystore": "${apiman.gateway-keycloak-keystore}",
+      "client-keystore-password": "${apiman.truststore-password}"
       // End paste here
     }
   },
