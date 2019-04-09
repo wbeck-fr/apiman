@@ -227,7 +227,6 @@ module Apiman {
                 for (let i = 0; i < $scope.orgApis.length; i++){
                     if ($scope.orgApis[i].name == api.name){
                         return true;
-                        break;
                     }
                 }
             };

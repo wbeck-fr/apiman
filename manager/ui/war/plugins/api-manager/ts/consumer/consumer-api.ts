@@ -194,6 +194,14 @@ module Apiman {
                             if (request.url === url) {
                                 request.headers.Authorization = Configuration.getAuthorizationHeader();
                             }
+
+                            // Send the API-Key always as parameter if the URL is not the URL whrere the SwaggerFile comes from
+                            // to avoid CORS Problems with the backend
+                            if (SwaggerUIContractService.getXAPIKey() && request.url !== url){
+                                let requestUrl = new URL(request.url);
+                                requestUrl.searchParams.set("apikey", SwaggerUIContractService.getXAPIKey());
+                                request.url = requestUrl.toString();
+                            }
                             return request;
                         },
                         onComplete: function() {

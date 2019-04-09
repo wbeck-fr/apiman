@@ -133,6 +133,7 @@ services:
         -Dapiman.gateway-client-truststore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_CLIENT_TRUSTSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
         -Dapiman.gateway-keycloak-keystore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_KEYCLOAK_KEYSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
         -Dapiman.gateway-keycloak-truststore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_KEYCLOAK_TRUSTSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
+        -Dallowed_cors_origin=https://${ENDPOINT}:${UI_PORT}
     ports:
       - '${GATEWAY_PORT}:${GATEWAY_PORT}'
     depends_on:

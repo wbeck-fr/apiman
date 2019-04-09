@@ -43,6 +43,8 @@ public class HttpPolicyAdapter {
     private final Logger log = LoggerFactory.getLogger(HttpPolicyAdapter.class);
     private final boolean isTls;
 
+    private String allowedCorsOrigin = System.getProperty("allowedCorsOrigin");
+
     public HttpPolicyAdapter(HttpServerRequest req,
                       IPolicyFailureWriter policyFailureWriter,
                       IPolicyErrorWriter policyErrorWriter,
@@ -116,6 +118,9 @@ public class HttpPolicyAdapter {
         // Everything worked
         if (engineResult.isResponse()) {
             ApiResponse response = engineResult.getApiResponse();
+
+            setCorsHeadersForSwaggerUi(request, response);
+
             HttpApiFactory.buildResponse(vertxResponse, response, vertxRequest.version());
 
             if (!response.getHeaders().containsKey("Content-Length")) { //$NON-NLS-1$
@@ -130,6 +135,24 @@ public class HttpPolicyAdapter {
         } else { // Policy failure (i.e. denial - it's not an exception).
             log.debug(String.format("Failed with policy failure (denial): %s", engineResult.getPolicyFailure())); //$NON-NLS-1$
             handlePolicyFailure(request, engineResult.getPolicyFailure(), vertxResponse);
+        }
+    }
+
+    private void setCorsHeadersForSwaggerUi(ApiRequest request, ApiResponse response) {
+        if (request.getHeaders().containsKey("Origin") && request.getHeaders().get("Origin").equals(allowedCorsOrigin)){
+            // check if response already contains CORS Headers - we don't overwrite existing CORS Headers from API or CORS Policy
+            if (!response.getHeaders().containsKey("Access-Control-Allow-Origin")){
+                // Check if the request from the UI is a preflight request
+                if (request.getType().equals("OPTIONS")) {
+                    response.getHeaders().clear();
+                    // we allow all requested methods and headers from the UI
+                    response.getHeaders().add("Access-Control-Allow-Methods", request.getHeaders().get("Access-Control-Request-Method"));
+                    response.getHeaders().add("Access-Control-Allow-Headers", request.getHeaders().get("Access-Control-Request-Headers"));
+                    response.setCode(200);
+                    response.setMessage("OK");
+                }
+                response.getHeaders().add("Access-Control-Allow-Origin", allowedCorsOrigin);
+            }
         }
     }
 
