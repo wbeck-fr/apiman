@@ -70,6 +70,10 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
@@ -80,6 +84,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.cert.X509Certificate;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.StreamSupport;
@@ -99,6 +104,21 @@ public class OrganizationResourceImpl implements IOrganizationResource {
     private static final long ONE_DAY_MILLIS = 1 * 24 * 60 * 60 * 1000L;
     private static final long ONE_WEEK_MILLIS = 7 * 24 * 60 * 60 * 1000L;
     private static final long ONE_MONTH_MILLIS = 30 * 24 * 60 * 60 * 1000L;
+
+    // This TrustManager will trust all certificates
+    private TrustManager[] trustAllCerts = new TrustManager[] {
+            new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+                public void checkClientTrusted(
+                        java.security.cert.X509Certificate[] certs, String authType) {
+                }
+                public void checkServerTrusted(
+                        java.security.cert.X509Certificate[] certs, String authType) {
+                }
+            }
+    };
 
     @Inject IStorage storage;
     @Inject IStorageQuery query;
@@ -1704,7 +1724,16 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         if (bean.getDefinitionUrl() != null) {
             InputStream definition = null;
             try {
-                definition = new URL(bean.getDefinitionUrl()).openStream();
+                if (isSelfSignedIsAllowed() && definitionUrlIsHttps(bean)){
+                    // Create one connection that trust all certificates
+                    SSLContext sslContext = SSLContext.getInstance("SSL");
+                    sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+                    HttpsURLConnection connection = (HttpsURLConnection) new URL(bean.getDefinitionUrl()).openConnection();
+                    connection.setSSLSocketFactory(sslContext.getSocketFactory());
+                    definition = connection.getInputStream();
+                } else {
+                    definition = new URL(bean.getDefinitionUrl()).openStream();
+                }
                 storage.updateApiDefinition(newVersion, definition);
             } catch (Exception e) {
                 log.error("Unable to store API definition from: " + bean.getDefinitionUrl(), e); //$NON-NLS-1$
@@ -1714,6 +1743,14 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         }
 
         return newVersion;
+    }
+
+    private boolean isSelfSignedIsAllowed() {
+        return System.getProperty("allowSelfSigned", "false").equals("true");
+    }
+
+    private boolean definitionUrlIsHttps(NewApiVersionBean bean){
+        return bean.getDefinitionUrl().contains("https");
     }
 
     /**
