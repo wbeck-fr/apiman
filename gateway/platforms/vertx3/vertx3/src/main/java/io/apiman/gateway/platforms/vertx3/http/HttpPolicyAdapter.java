@@ -43,7 +43,7 @@ public class HttpPolicyAdapter {
     private final Logger log = LoggerFactory.getLogger(HttpPolicyAdapter.class);
     private final boolean isTls;
 
-    private String allowedCorsOrigin = System.getProperty("allowedCorsOrigin");
+    private String allowedCorsOrigin = System.getProperty("allowed_cors_origin");
 
     public HttpPolicyAdapter(HttpServerRequest req,
                       IPolicyFailureWriter policyFailureWriter,
