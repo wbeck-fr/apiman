@@ -150,6 +150,54 @@ services:
         max-file: "10"
         mode: non-blocking
     restart: always
+  kibana:
+    image: 'kibana:${docker-compose.api-mgmt.kibana.version}'
+    container_name: kibana
+    depends_on:
+      - elasticsearch
+      - kibana-proxy
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
+    restart: always
+  kibana-proxy:
+    image: 'keycloak/keycloak-gatekeeper:${docker-compose.api-mgmt.keycloak-gatekeeper.version}'
+    container_name: kibana-proxy
+    depends_on:
+      - keycloak
+    entrypoint:
+      - /opt/keycloak-gatekeeper
+      - --listen=0.0.0.0:443
+      - --upstream-url=http://kibana:5601
+      - --client-id=kibana
+      - --client-secret=${KEYCLOAK_KIBANA_SECRET}
+      - --discovery-url=https://${ENDPOINT}:${KEYCLOAK_PORT}/auth/realms/apiman
+      - --skip-openid-provider-tls-verify=${SELF_SIGNED}
+      - --enable-refresh-tokens=true
+      - --tls-cert=/opt/tls.crt
+      - --tls-private-key=/opt/tls.key
+      - --enable-encrypted-token=true
+      - --enable-authorization-cookies=false
+      - --enable-authorization-header=false
+      - --encryption-key=${KIBANA_ENCRYPTION_KEY}
+      - --resources=uri=/*|roles=kibanauser
+    ports:
+      - '${KIBANA_PORT}:443'
+    volumes:
+      - './../configs/tls.crt:/opt/tls.crt'
+      - './../configs/tls.key:/opt/tls.key'
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
+    restart: always
 volumes:
   mysql_data:
     driver: local
