@@ -15,8 +15,6 @@
  */
 package io.apiman.gateway.engine.es;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.apiman.gateway.engine.DependsOnComponents;
 import io.apiman.gateway.engine.async.AsyncResultImpl;
 import io.apiman.gateway.engine.async.IAsyncHandler;
@@ -26,6 +24,7 @@ import io.apiman.gateway.engine.components.ICacheStoreComponent;
 import io.apiman.gateway.engine.io.IApimanBuffer;
 import io.apiman.gateway.engine.io.ISignalReadStream;
 import io.apiman.gateway.engine.io.ISignalWriteStream;
+import io.apiman.gateway.engine.storage.model.CacheEntry;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Get;
 import io.searchbox.core.Index;
@@ -35,6 +34,8 @@ import java.util.Map;
 
 import org.apache.commons.codec.binary.Base64;
 
+import static io.apiman.gateway.engine.storage.util.BackingStoreUtil.JSON_MAPPER;
+
 /**
  * An elasticsearch implementation of a cache store.
  *
@@ -42,12 +43,6 @@ import org.apache.commons.codec.binary.Base64;
  */
 @DependsOnComponents({ IBufferFactoryComponent.class })
 public class ESCacheStoreComponent extends AbstractESComponent implements ICacheStoreComponent {
-
-    private static final ObjectMapper mapper = new ObjectMapper();
-    static {
-        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    }
-
     private IBufferFactoryComponent bufferFactory;
 
     /**
@@ -70,10 +65,10 @@ public class ESCacheStoreComponent extends AbstractESComponent implements ICache
      */
     @Override
     public <T> void put(String cacheKey, T jsonObject, long timeToLive) throws IOException {
-        ESCacheEntry entry = new ESCacheEntry();
+        CacheEntry entry = new CacheEntry();
         entry.setData(null);
         entry.setExpiresOn(System.currentTimeMillis() + (timeToLive * 1000));
-        entry.setHead(mapper.writeValueAsString(jsonObject));
+        entry.setHead(JSON_MAPPER.writeValueAsString(entry));
         Index index = new Index.Builder(entry).refresh(false).index(getIndexName())
                 .type("cacheEntry").id(cacheKey).build(); //$NON-NLS-1$
         try {
@@ -88,9 +83,9 @@ public class ESCacheStoreComponent extends AbstractESComponent implements ICache
     @Override
     public <T> ISignalWriteStream putBinary(final String cacheKey, final T jsonObject, final long timeToLive)
             throws IOException {
-        final ESCacheEntry entry = new ESCacheEntry();
+        final CacheEntry entry = new CacheEntry();
         entry.setExpiresOn(System.currentTimeMillis() + (timeToLive * 1000));
-        entry.setHead(mapper.writeValueAsString(jsonObject));
+        entry.setHead(JSON_MAPPER.writeValueAsString(jsonObject));
         final IApimanBuffer data = bufferFactory.createBuffer();
         return new ISignalWriteStream() {
             boolean finished = false;
@@ -133,9 +128,9 @@ public class ESCacheStoreComponent extends AbstractESComponent implements ICache
         try {
             JestResult result = getClient().execute(get);
             if (result.isSucceeded()) {
-                ESCacheEntry cacheEntry = result.getSourceAsObject(ESCacheEntry.class);
+                CacheEntry cacheEntry = result.getSourceAsObject(CacheEntry.class);
                 try {
-                    T rval = (T) mapper.reader(type).readValue(cacheEntry.getHead());
+                    T rval = (T) JSON_MAPPER.reader(type).readValue(cacheEntry.getHead());
                     handler.handle(AsyncResultImpl.create(rval));
                 } catch (IOException e) {
                     // TODO log this error.
@@ -166,7 +161,7 @@ public class ESCacheStoreComponent extends AbstractESComponent implements ICache
             }
 
             // Is the cache entry expired?  If so return null.
-            ESCacheEntry cacheEntry = result.getSourceAsObject(ESCacheEntry.class);
+            CacheEntry cacheEntry = result.getSourceAsObject(CacheEntry.class);
             if (System.currentTimeMillis() > cacheEntry.getExpiresOn() ) {
                 // Cache item has expired.  Return null instead of the cached data.
                 handler.handle(AsyncResultImpl.create((ISignalReadStream<T>) null));
@@ -174,7 +169,7 @@ public class ESCacheStoreComponent extends AbstractESComponent implements ICache
             }
 
             try {
-                final T head = (T) mapper.reader(type).readValue(cacheEntry.getHead());
+                final T head = (T) JSON_MAPPER.reader(type).readValue(cacheEntry.getHead());
                 String b64Data = cacheEntry.getData();
                 final IApimanBuffer data = bufferFactory.createBuffer(Base64.decodeBase64(b64Data));
                 ISignalReadStream<T> rval = new ISignalReadStream<T>() {

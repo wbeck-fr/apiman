@@ -15,10 +15,11 @@
  */
 package io.apiman.gateway.engine.hazelcast;
 
-import com.hazelcast.config.Config;
-import io.apiman.gateway.engine.async.AsyncResultImpl;
-import io.apiman.gateway.engine.async.IAsyncResultHandler;
-import io.apiman.gateway.engine.components.ISharedStateComponent;
+import io.apiman.gateway.engine.IRequiresInitialization;
+import io.apiman.gateway.engine.hazelcast.common.HazelcastBackingStoreProvider;
+import io.apiman.gateway.engine.storage.component.AbstractSharedStateComponent;
+
+import java.util.Map;
 
 /**
  * Shared state component backed by a Hazelcast Map. This allows the shared state
@@ -26,70 +27,21 @@ import io.apiman.gateway.engine.components.ISharedStateComponent;
  *
  * @author Pete Cornish
  */
-public class HazelcastSharedStateComponent extends AbstractHazelcastComponent implements ISharedStateComponent {
-    private static final String STORE_NAME = "shared-state"; //$NON-NLS-1$
+public class HazelcastSharedStateComponent extends AbstractSharedStateComponent implements IRequiresInitialization {
+    private final Map<String, String> componentConfig;
 
     /**
      * Constructor.
      */
-    public HazelcastSharedStateComponent() {
-        super(STORE_NAME);
+    public HazelcastSharedStateComponent(Map<String, String> componentConfig) {
+        super(new HazelcastBackingStoreProvider());
+        this.componentConfig = componentConfig;
     }
 
-    /**
-     * Constructor.
-     *
-     * @param config the config
-     */
-    public HazelcastSharedStateComponent(Config config) {
-        super(STORE_NAME, config);
-    }
-
-    /**
-     * @see io.apiman.gateway.engine.components.ISharedStateComponent#getProperty(java.lang.String, java.lang.String, java.lang.Object, io.apiman.gateway.engine.async.IAsyncResultHandler)
-     */
-    @SuppressWarnings("unchecked")
     @Override
-    public <T> void getProperty(String namespace, String propertyName, T defaultValue, IAsyncResultHandler<T> handler) {
-        final String namespacedKey = buildNamespacedKey(namespace, propertyName);
-        if (getSharedState().containsKey(namespacedKey)) {
-            try {
-                T rval = (T) getSharedState().get(namespacedKey);
-                handler.handle(AsyncResultImpl.create(rval));
-            } catch (Exception e) {
-                handler.handle(AsyncResultImpl.create(e));
-            }
-
-        } else {
-            handler.handle(AsyncResultImpl.create(defaultValue));
-        }
-    }
-
-    /**
-     * @see io.apiman.gateway.engine.components.ISharedStateComponent#setProperty(java.lang.String, java.lang.String, java.lang.Object, io.apiman.gateway.engine.async.IAsyncResultHandler)
-     */
-    @Override
-    public <T> void setProperty(String namespace, String propertyName, T value, IAsyncResultHandler<Void> handler) {
-        final String namespacedKey = buildNamespacedKey(namespace, propertyName);
-        try {
-            getSharedState().put(namespacedKey, value);
-            handler.handle(AsyncResultImpl.create((Void) null));
-        } catch (Exception e) {
-            handler.handle(AsyncResultImpl.create(e));
-        }
-    }
-
-    /**
-     * @see io.apiman.gateway.engine.components.ISharedStateComponent#clearProperty(java.lang.String, java.lang.String, io.apiman.gateway.engine.async.IAsyncResultHandler)
-     */
-    @Override
-    public <T> void clearProperty(String namespace, String propertyName, IAsyncResultHandler<Void> handler) {
-        final String namespacedKey = buildNamespacedKey(namespace, propertyName);
-        try {
-            getSharedState().remove(namespacedKey);
-            handler.handle(AsyncResultImpl.create((Void) null));
-        } catch (Exception e) {
-            handler.handle(AsyncResultImpl.create(e));
+    public void initialize() {
+        if (Boolean.valueOf(componentConfig.get(HazelcastBackingStoreProvider.CONFIG_EAGER_INIT))) {
+            getStore();
         }
     }
 }
