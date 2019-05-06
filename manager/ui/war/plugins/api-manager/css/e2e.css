@@ -440,6 +440,7 @@ a:hover {
 .scrollableContainer {
     height: inherit;
     padding-top: 25px;
+    word-break: break-word;
 }
 
 .scrollableContainer .headerSpacer {
@@ -495,4 +496,26 @@ a:hover {
 
 .c3-tooltip td {
     color: rgb(54, 54, 54);
+}
+
+.tooltip-inner {
+    max-width: none;
+}
+
+.import-apis-api {
+    width: 15%;
+}
+.import-apis-id {
+    width: 20%;
+}
+.import-apis-type, .import-apis-circle, .import-apis-category, .import-apis-actions {
+    width: 10%;
+}
+
+.import-apis-api-endpoint-label {
+    width: 35%;
+}
+
+#import-apis-circle-td {
+    text-align: center;
 }

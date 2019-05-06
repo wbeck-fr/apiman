@@ -7,6 +7,9 @@ module Apiman {
         [ '$q', 'Logger', '$scope', '$rootScope', '$filter', '$timeout', 'ApiCatalogSvcs', 'PageLifecycle', '$uibModal', 'CurrentUserSvcs', '$location',
           ($q, Logger, $scope, $rootScope, $filter, $timeout, ApiCatalogSvcs, PageLifecycle, $uibModal, CurrentUserSvcs, $location) => {
 
+                // set a "rest" as default value for the dropdown
+                $scope.epType = "rest";
+
                 var body:any = {};
                 body.filters = [];
                 body.filters.push({"name": "name", "value": "*", "operator": "like"});

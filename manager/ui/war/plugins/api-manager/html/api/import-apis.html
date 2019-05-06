@@ -95,15 +95,21 @@
                         <table class="table table-striped table-bordered">
                           <thead>
                             <tr>
-                              <th apiman-i18n-key="api" style="width: 25%">API</th>
-                              <th apiman-i18n-key="description">Description</th>
-                              <th apiman-i18n-key="actions" style="width: 10%">Actions</th>
+                              <th apiman-i18n-key="api" class="import-apis-api">API</th>
+                              <th apiman-i18n-key="id" class="import-apis-id">ID</th>
+                              <th apiman-i18n-key="type" class="import-apis-type">Type</th>
+                              <th apiman-i18n-key="category" class="import-apis-category">Category</th>
+                              <th apiman-i18n-key="api-endpoint-label" class="import-apis-api-endpoint-label">Endpoint API</th>
+                              <th apiman-i18n-key="actions" class="import-apis-actions">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
                             <tr ng-repeat="api in apis | orderBy:'name'">
                               <td>{{ api.name }}</td>
                               <td>{{ api.description }}</td>
+                              <td>{{ api.endpointType | uppercase }}</td>
+                              <td>{{ api.tags[0] }}</td>
+                              <td>{{ api.endpoint }}</td>
                               <td>
                                   <a ng-hide="isApiSelected(api) || isAlreadyExisting(api)" href="#" ng-click="addApi(api)" apiman-i18n-key="add">Add</a>
                                   <i ng-show="isAlreadyExisting(api)" class=" fa fa-fw fa-warning" apiman-i18n-key="import-apis.already-existing" title="An API with the same name already exists in this organization!"></i>
@@ -128,15 +134,21 @@
                       <table class="table table-striped table-bordered">
                         <thead>
                           <tr>
-                            <th apiman-i18n-key="api" style="width: 25%">API</th>
-                            <th apiman-i18n-key="description">Description</th>
-                            <th apiman-i18n-key="actions" style="width: 10%">Actions</th>
+                            <th apiman-i18n-key="api" class="import-apis-api">API</th>
+                            <th apiman-i18n-key="id" class="import-apis-id">ID</th>
+                            <th apiman-i18n-key="type" class="import-apis-type">Type</th>
+                            <th apiman-i18n-key="category" class="import-apis-category">Category</th>
+                            <th apiman-i18n-key="api-endpoint-label" class="import-apis-api-endpoint-label">Endpoint API</th>
+                            <th apiman-i18n-key="actions" class="import-apis-actions">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr ng-repeat="api in importInfo.apis | orderBy:'name'">
                             <td>{{ api.name }}</td>
                             <td>{{ api.description }}</td>
+                            <td>{{ api.endpointType | uppercase }}</td>
+                            <td>{{ api.tags[0] }}</td>
+                            <td>{{ api.endpoint }}</td>
                             <td><a href="#" ng-click="removeApi(api)" apiman-i18n-key="remove">Remove</a></td>
                           </tr>
                         </tbody>
@@ -209,16 +221,22 @@
                     <table class="table table-striped table-bordered">
                       <thead>
                         <tr>
-                          <th style="width: 5%"></th>
-                          <th apiman-i18n-key="api" style="width: 25%">API</th>
-                          <th apiman-i18n-key="description">Description</th>
+                          <th class="import-apis-circle"></th>
+                          <th apiman-i18n-key="api" class="import-apis-api">API</th>
+                          <th apiman-i18n-key="id" class="import-apis-id">ID</th>
+                          <th apiman-i18n-key="type" class="import-apis-type">Type</th>
+                          <th apiman-i18n-key="category" class="import-apis-category">Category</th>
+                          <th apiman-i18n-key="api-endpoint-label" class="import-apis-api-endpoint-label">Endpoint API</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr ng-repeat="api in importInfo.apis | orderBy:'name'" ng-class="{'complete': api.status == 'imported', 'pending': !api.status, 'active': api.status == 'importing', 'error': api.status == 'error'}">
-                          <td width="1%"><i class="fa fa-fw" ng-class="{'fa-check-circle-o': api.status == 'imported', 'fa-dot-circle-o': api.status == 'importing', 'fa-warning': api.status == 'error'}"></i></td>
+                          <td  id="import-apis-circle-td"><i class="fa fa-fw" ng-class="{'fa-check-circle-o': api.status == 'imported', 'fa-dot-circle-o': api.status == 'importing', 'fa-warning': api.status == 'error'}"></i></td>
                           <td>{{ api.name }}</td>
                           <td>{{ api.description }}</td>
+                          <td>{{ api.endpointType | uppercase }}</td>
+                          <td>{{ api.tags[0] }}</td>
+                          <td>{{ api.endpoint }}</td>
                         </tr>
                       </tbody>
                     </table>

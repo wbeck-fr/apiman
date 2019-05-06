@@ -86,12 +86,13 @@
 
                         <!-- Filter: API Type -->
                         <select ng-model="epType"
+                                ng-init="epType='rest'"
                                 apiman-select-picker=""
                                 class="selectpicker api-type"
                                 data-style="btn-default">
-                            <option value="" apiman-i18n-key="show-all-api-types">Show All API Types</option>
                             <option value="rest" apiman-i18n-key="show-only-rest">Show REST only</option>
                             <option value="soap" apiman-i18n-key="show-only-soap">Show SOAP only</option>
+                            <option value="" apiman-i18n-key="show-all-api-types">Show All API Types</option>
                         </select>
 
                         <!-- Filter: Internal APIs -->
@@ -128,9 +129,6 @@
                         <div class="container-fluid cards">
                             <div ng-repeat="api in filteredApis=(apis | filter: criteria | filter: {endpointType: epType}| selectedTags: selected.tags  | filter:hideInternal:isInternal | orderBy: 'name':reverse)"
                                  class="card">
-                                <a ng-show="api.description" uib-tooltip="{{ api.description }}"
-                                   tooltip-trigger="mouseenter" tooltip-placement="top" href="#" class="info"><i
-                                        class="fa fa-info-circle"></i></a>
                                 <a ng-show="api.endpointType"
                                    uib-tooltip="Endpoint&nbsp;Type:&nbsp;{{ api.endpointType }}"
                                    tooltip-trigger="mouseenter" tooltip-placement="top" href="{{ api.definitionUrl }}"
@@ -145,13 +143,18 @@
                                             tagLabel(tag) }}</a></li>
                                     </ul>
                                 </div>
+                                <div ng-show="api.description">
+                                    <a><i class="fa fa-info-circle"></i>&nbsp;{{api.description }}</a>
+                                </div>
                                 <div>
                                     <hr/>
                                 </div>
                                 <div class="actions">
                                     <span class="apiman-action-divider" apiman-i18n-skip="">&nbsp;</span>
-                                    <a href="#" ng-click="importApi(api)"><i class="fa fa-cart-arrow-down"></i><span
-                                            style="margin-left: 5px" apiman-i18n-key="import">Import</span></a>
+                                    <a href="#" ng-click="importApi(api)" uib-tooltip="{{ api.endpoint }}" tooltip-trigger="mouseenter" tooltip-placement="top">
+                                        <i class="fa fa-cart-arrow-down"></i>
+                                        <span style="margin-left: 5px" apiman-i18n-key="import">Import</span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -208,7 +211,7 @@
                                 <dd>
                                     <input ng-model="api.name" type="text"
                                            class="apiman-form-control form-control entityname" id="apiman-entityname"
-                                           apiman-i18n-key="enter-api-name" placeholder="Enter API name..."></input>
+                                           apiman-i18n-key="enter-api-name" placeholder="Enter API name..."/>
                                 </dd>
                             </dl>
                         </div>
