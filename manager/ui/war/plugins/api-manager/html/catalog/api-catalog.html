@@ -132,15 +132,19 @@
                                 <a ng-show="api.endpointType"
                                    uib-tooltip="Endpoint&nbsp;Type:&nbsp;{{ api.endpointType }}"
                                    tooltip-trigger="mouseenter" tooltip-placement="top" href="{{ api.definitionUrl }}"
-                                   class="endpointType" target="_blank"><i class="fa {{ api.ticon }}"></i></a>
-                                <div class="name"><a href="{{ apiEndpoint(api) }}" target="_blank"><span>{{ api.name}}</span></a></div>
+                                   class="endpointType" target="_blank"><i class="fa {{ api.ticon }}"></i>
+                                </a>
+                                <div class="name">
+                                    <a href="{{ apiEndpoint(api) }}" target="_blank">
+                                        <span>{{ api.name}}</span>
+                                    </a>
+                                </div>
                                 <div class="tags" ng-show="api.tags">
                                     <i class="fa fa-fw fa-tags"></i>
                                     <ul>
-                                        <li ng-repeat="tag in api.tags | orderBy:tag"><a class="tagLink"
-                                                                                         title="{{tagTitle(tag)}}"
-                                                                                         ng-click="addTag(tag)">{{
-                                            tagLabel(tag) }}</a></li>
+                                        <li ng-repeat="tag in api.tags | orderBy:tag">
+                                            <a class="tagLink" title="{{tagTitle(tag)}}" ng-click="addTag(tag)">{{ tagLabel(tag) }}</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div ng-show="api.description">
@@ -150,7 +154,7 @@
                                     <hr/>
                                 </div>
                                 <div class="actions">
-                                    <span class="apiman-action-divider" apiman-i18n-skip="">&nbsp;</span>
+                                    <span class="apiman-action-divider" apiman-i18n-skip=""></span>
                                     <a href="#" ng-click="importApi(api)" uib-tooltip="{{ api.endpoint }}" tooltip-trigger="mouseenter" tooltip-placement="top">
                                         <i class="fa fa-cart-arrow-down"></i>
                                         <span style="margin-left: 5px" apiman-i18n-key="import">Import</span>
@@ -194,8 +198,9 @@
                                                 class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu">
-                                            <li ng-repeat="org in orgs"><a href="#" ng-click="setOrg( org )">{{ org.name
-                                                }}</a></li>
+                                            <li ng-repeat="org in orgs">
+                                                <a href="#" ng-click="setOrg( org )">{{ org.name }}</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </dd>
