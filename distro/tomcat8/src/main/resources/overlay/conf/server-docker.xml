@@ -11,7 +11,7 @@
     <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
                maxThreads="150" SSLEnabled="true" scheme="https" secure="true"
                keystoreFile="${catalina.home}/conf/apiman.jks" keystorePass="${keystorePassword}"
-               clientAuth="false" sslProtocol="TLS" />
+               clientAuth="false" sslProtocol="TLS" sslEnabledProtocols="${tomcat-sslEnabledProtocols}" />
 
     <Engine name="Catalina" defaultHost="localhost">
 
