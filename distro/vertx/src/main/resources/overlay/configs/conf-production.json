@@ -215,7 +215,8 @@
     "truststore": {
       "path": "${apiman.gateway-client-truststore}",
       "password": "${apiman.truststore-password}"
-    }
+    },
+    "allowedProtocols": "${apiman.gateway-allowedProtocols}"
   },
 
   // Gateway API Authentication. See documentation for further possibilities..
