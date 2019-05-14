@@ -30,6 +30,7 @@ services:
       # Following variables are used to create self-signed certificates
       - 'ENDPOINT=${ENDPOINT}'
       - 'TRUSTSTORE_KEYSTORE_PASSWORD=${TRUSTSTORE_KEYSTORE_PASSWORD}'
+      - 'TLS_ALLOWED_PROTOCOLS=${TLS_ALLOWED_PROTOCOLS:-}'
     ports:
       - '${KEYCLOAK_PORT}:8443'
     depends_on:

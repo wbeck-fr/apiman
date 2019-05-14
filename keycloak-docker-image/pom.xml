@@ -79,6 +79,7 @@
                           <fileSet>
                             <includes>
                               <include>target/resources/create-self-signed-certificates.sh</include>
+                              <include>target/resources/set-allowed-ssl-tls-protocols.sh</include>
                             </includes>
                             <filtered>false</filtered>
                             <directoryMode>0755</directoryMode>
