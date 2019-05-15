@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.apiman.gateway.engine.es;
+package io.apiman.common.es.util;
 
 import io.apiman.common.util.ssl.KeyStoreUtil;
 import io.apiman.common.util.ssl.KeyStoreUtil.Info;
@@ -22,6 +22,7 @@ import io.searchbox.client.JestClientFactory;
 import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.client.config.HttpClientConfig.Builder;
 
+import java.security.SecureRandom;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -40,20 +41,7 @@ import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
  *
  * @author eric.wittmann@redhat.com
  */
-public class DefaultESClientFactory extends AbstractClientFactory implements IESClientFactory {
-
-    /**
-     * Clears all the clients from the cache.  Useful for unit testing.
-     */
-    public static void clearClientCache() {
-        clients.clear();
-    }
-    
-    /**
-     * Constructor.
-     */
-    public DefaultESClientFactory() {
-    }
+public class DefaultEsClientFactory extends AbstractClientFactory implements IEsClientFactory {
 
     /**
      * Creates a client from information in the config map.
@@ -87,32 +75,24 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
         String password = config.get("client.password"); //$NON-NLS-1$
         Integer timeout = NumberUtils.toInt(config.get("client.timeout"), 10000); //$NON-NLS-1$
 
-        if (initialize == null) {
+        if (StringUtils.isBlank(protocol)) {
+            protocol = "http"; //$NON-NLS-1$
+        }
+
+        if (StringUtils.isBlank(initialize)) {
             initialize = "true"; //$NON-NLS-1$
         }
 
         if (StringUtils.isBlank(host)) {
             throw new RuntimeException("Missing client.host configuration for ESRegistry."); //$NON-NLS-1$
         }
-        if (StringUtils.isBlank(protocol)) {
-            protocol = "http"; //$NON-NLS-1$
-        }
 
-        String clientKey = "jest:" + host + ':' + port + '/' + indexName; //$NON-NLS-1$
         synchronized (clients) {
-            if (clients.containsKey(clientKey)) {
+            String clientKey = StringUtils.isNotBlank(indexName) ? "jest:" + host + ':' + port + '/' + indexName : null;
+            if (clientKey != null && clients.containsKey(clientKey)) {
                 return clients.get(clientKey);
             } else {
-                StringBuilder builder = new StringBuilder();
-                builder.append(protocol);
-                builder.append("://"); //$NON-NLS-1$
-                builder.append(host);
-                builder.append(":"); //$NON-NLS-1$
-                builder.append(port);
-                String connectionUrl = builder.toString();
-
-
-                JestClientFactory factory = new JestClientFactory();
+                String connectionUrl = protocol + "://" + host + ':' + port;
                 Builder httpClientConfig = new HttpClientConfig.Builder(connectionUrl)
                         .connTimeout(timeout)
                         .readTimeout(timeout)
@@ -120,46 +100,52 @@ public class DefaultESClientFactory extends AbstractClientFactory implements IES
                         .defaultMaxTotalConnectionPerRoute(75)
                         .multiThreaded(true);
 
-                if (!StringUtils.isBlank(username)) {
+                if (StringUtils.isNotBlank(username)) {
                     httpClientConfig.defaultCredentials(username, password).setPreemptiveAuth(new HttpHost(connectionUrl, port, protocol));
                 }
 
-                if ("https".equals(config.get("client.protocol"))) { //$NON-NLS-1$ //$NON-NLS-2$
+                if ("https".equals(protocol)) { //$NON-NLS-1$ //$NON-NLS-2$
                     updateSslConfig(httpClientConfig, config);
                 }
 
+                JestClientFactory factory = new JestClientFactory();
                 factory.setHttpClientConfig(httpClientConfig.build());
 
                 JestClient client = factory.getObject();
-                clients.put(clientKey, client);
-                if ("true".equals(initialize)) { //$NON-NLS-1$
-                    initializeClient(client, indexName, defaultIndexName);
+
+                if(clientKey != null) {
+                    clients.put(clientKey, client);
+                    if("true".equals(initialize)) { //$NON-NLS-1$
+                        initializeClient(client, indexName, defaultIndexName);
+                    }
                 }
+
                 return client;
             }
         }
     }
 
     /**
-     * @param httpConfig
-     * @param config 
+     * Configures the SSL connection to use certificates by setting the keystores
+     * @param httpConfig the http client configuration
+     * @param config the configuration
      */
     @SuppressWarnings("nls")
     private void updateSslConfig(Builder httpConfig, Map<String, String> config) {
         try {
-            String clientKeystorePath = config.get("client.client-keystore");
-            String clientKeystorePassword = config.get("client.client-keystore.password");
-            String trustStorePath = config.get("client.trust-store");
-            String trustStorePassword = config.get("client.trust-store.password");
+            String clientKeystorePath = config.get("client.keystore");
+            String clientKeystorePassword = config.get("client.keystore.password");
+            String trustStorePath = config.get("client.truststore");
+            String trustStorePassword = config.get("client.truststore.password");
 
             SSLContext sslContext = SSLContext.getInstance("TLS");
             Info kPathInfo = new Info(clientKeystorePath, clientKeystorePassword);
             Info tPathInfo = new Info(trustStorePath, trustStorePassword);
-            sslContext.init(KeyStoreUtil.getKeyManagers(kPathInfo), KeyStoreUtil.getTrustManagers(tPathInfo), null);
+            sslContext.init(KeyStoreUtil.getKeyManagers(kPathInfo), KeyStoreUtil.getTrustManagers(tPathInfo), new SecureRandom());
             HostnameVerifier hostnameVerifier = new DefaultHostnameVerifier();
             SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, hostnameVerifier);
             SchemeIOSessionStrategy httpsIOSessionStrategy = new SSLIOSessionStrategy(sslContext, hostnameVerifier);
-            
+
             httpConfig.defaultSchemeForDiscoveredNodes("https");
             httpConfig.sslSocketFactory(sslSocketFactory); // for sync calls
             httpConfig.httpsIOSessionStrategy(httpsIOSessionStrategy); // for async calls
