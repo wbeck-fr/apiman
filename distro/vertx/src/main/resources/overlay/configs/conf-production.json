@@ -11,10 +11,10 @@
         "username": "${apiman.es.username}",
         "password": "${apiman.es.password}",
         "timeout": "${apiman.es.timeout}",
-        "client-keystore":"${apiman.gateway-es-keystore}",
-        "client-keystore.password":"${apiman.truststore-password}",
-        "trust-store":"${apiman.gateway-es-truststore}",
-        "trust-store.password":"${apiman.truststore-password}"
+        "keystore":"${apiman.gateway-es-keystore}",
+        "keystore.password":"${apiman.truststore-password}",
+        "truststore":"${apiman.gateway-es-truststore}",
+        "truststore.password":"${apiman.truststore-password}"
         //"cache-polling-interval": 15
         //"index": ""
       }
@@ -93,10 +93,10 @@
         "username": "${apiman.es.username}",
         "password": "${apiman.es.password}",
         "timeout": "${apiman.es.timeout}",
-        "client-keystore":"${apiman.gateway-es-keystore}",
-        "client-keystore.password":"${apiman.truststore-password}",
-        "trust-store":"${apiman.gateway-es-truststore}",
-        "trust-store.password":"${apiman.truststore-password}"
+        "keystore":"${apiman.gateway-es-keystore}",
+        "keystore.password":"${apiman.truststore-password}",
+        "truststore":"${apiman.gateway-es-truststore}",
+        "truststore.password":"${apiman.truststore-password}"
       }
     }
   },
