@@ -15,7 +15,6 @@ services:
         -Dapiman.public-endpoint=${ENDPOINT}
         -Dkeycloak.host=${KEYCLOAK_HOST}
         -Dkeycloak.port=${KEYCLOAK_PORT}
-        -DdevMode=${SELF_SIGNED}
         -DallowSelfSigned=${SELF_SIGNED}
         -DallowAnyHost=${SELF_SIGNED}
         -Dkeycloak.realm-public-key=${KEYCLOAK_REALM_PUBLIC_KEY}

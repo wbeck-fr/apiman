@@ -40,7 +40,7 @@
       "tls": {
         // Enable devMode for HTTPS connections (gateway trusts any certificate).
         // This should *NOT* be used in production mode. *Use with great care.*
-        "devMode": "${devMode}",
+        "devMode": false,
 
         // Whether self-signed certificates should be automatically trusted. *Use with great care.*
         "allowSelfSigned": "${allowSelfSigned}",
@@ -230,7 +230,7 @@
       "realm-public-key": "${keycloak.realm-public-key}",
       "auth-server-url": "https://${keycloak.host}:${keycloak.port}/auth",
       "ssl-required": "all",
-      "disable-trust-manager": "${devMode}",
+      "disable-trust-manager": false,
       "allow-any-hostname" : "${allowAnyHost}",
       "resource": "apiman-gateway-api",
       // A limitation in the current OAuth2 implementation means a credentials section is required
