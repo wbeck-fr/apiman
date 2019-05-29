@@ -1730,6 +1730,8 @@ public class OrganizationResourceImpl implements IOrganizationResource {
                     sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
                     HttpsURLConnection connection = (HttpsURLConnection) new URL(bean.getDefinitionUrl()).openConnection();
                     connection.setSSLSocketFactory(sslContext.getSocketFactory());
+                    // add NOOP hostname verifier
+                    connection.setHostnameVerifier((s, sslSession) -> true);
                     definition = connection.getInputStream();
                 } else {
                     definition = new URL(bean.getDefinitionUrl()).openStream();
