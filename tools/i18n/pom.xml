@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.apiman</groupId>
     <artifactId>apiman-tools</artifactId>
-    <version>7.4.0</version>
+    <version>7.5.0</version>
   </parent>
   <artifactId>apiman-tools-i18n</artifactId>
   <name>apiman-tools-i18n</name>
