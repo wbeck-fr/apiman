@@ -10,7 +10,7 @@ OUTDIR_SINGLE_KEYSTORES="$OUTDIR/single-host-keystores"
 
 # Check if all files are created
 check_success(){
-if [[ -f "$OUTDIR"/apiman.jks || -f "$OUTDIR"/apiman.p12 || -f "$OUTDIR"/tls.crt || -f "$OUTDIR"/tls.key ]]; then
+if [[ -f "$OUTDIR"/apiman.jks || -f "$OUTDIR"/tls.crt || -f "$OUTDIR"/tls.key ]]; then
     printf "\nSelf signed certificates successfully created, see 'configs/self-signed-certs'. Please replace the example structure in your configs folder with the certificates from 'configs/self-signed-certs'\n"
     exit 0
 else
@@ -47,6 +47,8 @@ else
     openssl pkcs12 -in "$OUTDIR"/apiman.p12 -passin pass:$TRUSTSTORE_KEYSTORE_PASSWORD -nocerts -nodes -out "$OUTDIR"/tls.key
     # Export tls.crt
     openssl pkcs12 -in "$OUTDIR"/apiman.p12 -passin pass:$TRUSTSTORE_KEYSTORE_PASSWORD -nokeys -out "$OUTDIR"/tls.crt
+    # Remove apiman.p12 - because we need it only while generating the certs
+    rm "$OUTDIR"/apiman.p12
 fi
 
 
