@@ -23,9 +23,9 @@ fi
 # Add certificates to keystore, call generate_certificate CN SECRET ALIAS
 generate_certificate(){
     # Add all certificates in apiman.jks
-    keytool -genkeypair -keystore "$OUTDIR"/apiman.jks -dname "CN=$1, O=Snake Oil" -ext SAN=dns:$1 -keyalg RSA -alias $3 -keypass $2 -storepass $2
+    keytool -genkeypair -keystore "$OUTDIR"/apiman.jks -dname "CN=$1, O=Snake Oil" -ext SAN=dns:$1 -keyalg RSA -validity 1095 -alias $3 -keypass $2 -storepass $2
     # Create for each certificate an additional keystore
-    keytool -genkeypair -keystore "$OUTDIR_SINGLE_KEYSTORES"/"$1".jks -dname "CN=$1, O=Snake Oil" -ext SAN=dns:$1 -keyalg RSA -alias $3 -keypass $2 -storepass $2
+    keytool -genkeypair -keystore "$OUTDIR_SINGLE_KEYSTORES"/"$1".jks -dname "CN=$1, O=Snake Oil" -ext SAN=dns:$1 -keyalg RSA -validity 1095 -alias $3 -keypass $2 -storepass $2
 }
 
 
