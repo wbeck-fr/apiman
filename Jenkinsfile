@@ -94,7 +94,7 @@ pipeline {
                 archiveArtifacts artifacts: '*.tar'
             }
         }
-        stage('Publish nightly builds to NAS1') {
+        stage('Publish nightly builds to NAS1/Nexus') {
             when {
                 anyOf {
                     branch '**/e2e_master'
@@ -116,9 +116,13 @@ pipeline {
                                      remoteDirectory: "api-mgmt/nightlyBuilds/${PROJECT_VERSION}-${GIT_COMMIT_SHORT}"]
                                 ]
                          ]]
+
+                withDockerRegistry([credentialsId: 'nexus', url: "https://gitlab.scheer-group.com:8080"]) {
+                    sh './publishImages.sh ${PROJECT_VERSION}'
+                }
             }
         }
-        stage('Publish release builds to NAS1') {
+        stage('Publish release builds to NAS1/Nexus') {
             when {
                 anyOf {
                     branch '**/e2e_release'
@@ -140,6 +144,10 @@ pipeline {
                                          remoteDirectory: "api-mgmt/${PROJECT_VERSION}"]
                                 ]
                          ]]
+
+                withDockerRegistry([credentialsId: 'nexus', url: "https://gitlab.scheer-group.com:8080"]) {
+                    sh './publishImages.sh ${PROJECT_VERSION} release'
+                }
             }
         }
     }
