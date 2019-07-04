@@ -93,10 +93,10 @@ services:
         -Dbridge.port=${BRIDGE_PORT}
         -Dkeycloak.host=${ENDPOINT}
         -Dkeycloak.port=${KEYCLOAK_PORT}
-        -Dkeycloak.truststore-password=${TRUSTSTORE_KEYSTORE_PASSWORD}
+        -Dkeycloak.truststore-password='${TRUSTSTORE_KEYSTORE_PASSWORD}'
         -Dkeycloak.apiman.secret=${KEYCLOAK_APIMAN_SECRET}
         -Dkeycloak.apimanui.secret=${KEYCLOAK_APIMANUI_SECRET}
-        -DkeystorePassword=${TRUSTSTORE_KEYSTORE_PASSWORD}
+        -DkeystorePassword='${TRUSTSTORE_KEYSTORE_PASSWORD}'
         -DallowSelfSigned=${SELF_SIGNED}
         -Dtomcat-sslEnabledProtocols=${TLS_ALLOWED_PROTOCOLS:-TLSv1.1,TLSv1.2}
     ports:
