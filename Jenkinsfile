@@ -122,6 +122,18 @@ pipeline {
                 }
             }
         }
+
+        stage('Deployment to Apitest') {
+                when {
+                  branch 'e2e_master'
+                }
+                steps {
+                    script {
+                        sh 'ssh -i ~/.ssh/apiteste2ech apimgmt@apitest.e2e.ch "bash -s" < ~/autoDeploy/deployApiMgmt.sh "/home/apimgmt/api-mgmt/single-host-setup/" "${PROJECT_VERSION}" "${GIT_COMMIT_SHORT}"'
+                    }
+                }
+        }
+
         stage('Publish release builds to NAS1/Nexus') {
             when {
                 anyOf {
