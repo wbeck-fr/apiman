@@ -32,11 +32,11 @@ import io.apiman.gateway.engine.policy.IPolicyContext;
 public class CachingResourcesPolicy extends AbstractMappedDataPolicy<CachingResourcesConfig> implements IDataPolicy {
 
     private static final String KEY_SEPARATOR = ":"; //$NON-NLS-1$
-    private static final String SHOULD_CACHE_ATTR = CachingPolicy.class.getName() + ".should-cache"; //$NON-NLS-1$
-    private static final String CACHE_ID_ATTR = CachingPolicy.class.getName() + ".cache-id"; //$NON-NLS-1$
-    private static final String CACHED_RESPONSE = CachingPolicy.class.getName() + ".cached-response"; //$NON-NLS-1$
+    private static final String SHOULD_CACHE_ATTR = CachingResourcesPolicy.class.getName() + ".should-cache"; //$NON-NLS-1$
+    private static final String CACHE_ID_ATTR = CachingResourcesPolicy.class.getName() + ".cache-id"; //$NON-NLS-1$
+    private static final String CACHED_RESPONSE = CachingResourcesPolicy.class.getName() + ".cached-response"; //$NON-NLS-1$
 
-    private static final String CACHE_POSSIBLE_MATCHING_ENTRIES = CachingPolicy.class.getName() + ".possible-matching-entries";
+    private static final String CACHE_POSSIBLE_MATCHING_ENTRIES = CachingResourcesPolicy.class.getName() + ".possible-matching-entries";
 
     /**
      * Constructor.
