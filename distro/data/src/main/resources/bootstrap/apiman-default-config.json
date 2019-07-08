@@ -159,6 +159,20 @@
   ],
   "PolicyDefinitions": [
     {
+      "id": "CachingResourcesPolicy",
+      "policyImpl": "class:io.apiman.gateway.engine.policies.CachingResourcesPolicy",
+      "name": "Caching Resources Policy",
+      "description": "Allows caching of API responses in the Gateway to reduce overall traffic to the back-end API.",
+      "icon": "hdd-o",
+      "templates": [
+        {
+          "template" : "API responses will be cached for @{ttl} seconds."
+        }
+      ],
+      "formType": "Default",
+      "deleted": false
+    },
+    {
       "id": "keycloak-oauth-policy",
       "policyImpl": "plugin:io.apiman.plugins:apiman-plugins-keycloak-oauth-policy:7.0.0:war/io.apiman.plugins.keycloak_oauth_policy.KeycloakOauthPolicy",
       "name": "Keycloak OAuth Policy",
