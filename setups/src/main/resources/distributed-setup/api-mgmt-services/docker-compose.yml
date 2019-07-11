@@ -1,4 +1,4 @@
-version: '3'
+version: '3.3'
 services:
   mysql:
     image: 'mysql:${docker-compose.api-mgmt.mysql.version}'
@@ -9,8 +9,12 @@ services:
       - 'MYSQL_PASSWORD=${MYSQL_PASSWORD}'
       - 'MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}'
     volumes:
-      - 'mysql_data:/var/lib/mysql'
-      - 'mysql_logs:/var/log/mysql'
+      - type: volume
+        source: mysql_data
+        target: /var/lib/mysql
+      - type: volume
+        source: mysql_logs
+        target: /var/log/mysql
     logging:
       driver: "json-file"
       options:
@@ -36,11 +40,19 @@ services:
     depends_on:
       - mysql
     volumes:
-      - 'keycloak_logs:/opt/jboss/keycloak/standalone/log'
-      - './../../configs/tls.crt:/etc/x509/https/tls.crt'
-      - './../../configs/tls.key:/etc/x509/https/tls.key'
+      - type: volume
+        source: keycloak_logs
+        target: /opt/jboss/keycloak/standalone/log
+      - type: bind
+        source: ./../../configs/tls.crt
+        target: /etc/x509/https/tls.crt
+      - type: bind
+        source: ./../../configs/tls.key
+        target: /etc/x509/https/tls.key
       # Following mount is used to create self-signed certificates
-      - './../../configs:/configs'
+      - type: bind
+        source: ./../../configs
+        target: /configs
     logging:
       driver: "json-file"
       options:
@@ -68,7 +80,9 @@ services:
         soft: 4096
         hard: 4096
     volumes:
-      - 'elasticsearch_data:/usr/share/elasticsearch/data'
+      - type: volume
+        source: elasticsearch_data
+        target: /usr/share/elasticsearch/data
     depends_on:
       - nginx-proxy
     logging:
@@ -105,8 +119,12 @@ services:
       - elasticsearch
       - keycloak
     volumes:
-      - 'ui_logs:/usr/local/tomcat/logs'
-      - './../../configs/apiman.jks:/usr/local/tomcat/conf/apiman.jks'
+      - type: volume
+        source: ui_logs
+        target: /usr/local/tomcat/logs
+      - type: bind
+        source: ./../../configs/apiman.jks
+        target: /usr/local/tomcat/conf/apiman.jks
     logging:
       driver: "json-file"
       options:
@@ -122,11 +140,22 @@ services:
     ports:
       - '${ELASTICSEARCH_PORT}:443'
     volumes:
-      - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - './../../configs/tls.key:/etc/nginx/certs/${ENDPOINT}.key'
-      - './../../configs/tls.crt:/etc/nginx/certs/${ENDPOINT}.crt'
-      - './../../configs/nginx-proxy/es-users.htpasswd:/etc/nginx/htpasswd/${ENDPOINT}'
-      - './../../configs/nginx-proxy/nginx.conf:/etc/nginx/conf.d/my_proxy.conf'
+      - type: bind
+        source: /var/run/docker.sock
+        target: /tmp/docker.sock
+        read_only: true
+      - type: bind
+        source: ./../../configs/tls.key
+        target: /etc/nginx/certs/${ENDPOINT}.key
+      - type: bind
+        source: ./../../configs/tls.crt
+        target: /etc/nginx/certs/${ENDPOINT}.crt
+      - type: bind
+        source: ./../../configs/nginx-proxy/es-users.htpasswd
+        target: /etc/nginx/htpasswd/${ENDPOINT}
+      - type: bind
+        source: ./../../configs/nginx-proxy/nginx.conf
+        target: /etc/nginx/conf.d/my_proxy.conf
     logging:
       driver: "json-file"
       options:
@@ -173,8 +202,12 @@ services:
     ports:
       - '${KIBANA_PORT}:443'
     volumes:
-      - './../../configs/tls.crt:/opt/tls.crt'
-      - './../../configs/tls.key:/opt/tls.key'
+      - type: bind
+        source: ./../../configs/tls.crt
+        target: /opt/tls.crt
+      - type: bind
+        source: ./../../configs/tls.key
+        target: /opt/tls.key
     logging:
       driver: "json-file"
       options:
