@@ -21,6 +21,7 @@ pipeline {
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '1'))
         disableConcurrentBuilds()
+        lock('ApiMgmt-Build')
     }
 
     stages {
