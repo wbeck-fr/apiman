@@ -177,5 +177,11 @@ pipeline {
                      subject: '${DEFAULT_SUBJECT}',
                      body: '${DEFAULT_CONTENT}'
         }
+        fixed {
+          emailext to: 'florian.volk@scheer-group.com, benjamin.kihm@scheer-group.com',
+                   recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                   subject: '${DEFAULT_SUBJECT}',
+                   body: '${DEFAULT_CONTENT}'
+        }
     }
 }
