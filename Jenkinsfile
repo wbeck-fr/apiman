@@ -30,16 +30,43 @@ pipeline {
                 sh 'git clean -xdf'
             }
         }
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit '**/target/surefire-reports/*.xml'
+
+        stage('Tests') {
+            parallel {
+                stage('Test local'){
+                    steps {
+                        sh 'mvn clean test'
+                    }
+                    post {
+                        always {
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                    }
+                }
+
+                stage('ES tests in docker'){
+                    environment {
+                        JAVA_HOME = '/usr/local/openjdk-8'
+                    }
+                    agent {
+                        docker {
+                            image 'maven:3-jdk-8'
+                            args '-v $HOME/.m2:/root/.m2 --tmpfs /.cache'
+                            label 'docker'
+                        }
+                    }
+                    steps {
+                        sh 'mvn clean test -pl !gateway/engine/redis -Dapiman-test.type=es -Dapiman.gateway-test.config=servlet-es'
+                    }
+                    post {
+                        always {
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                    }
                 }
             }
         }
+
         stage('Build') {
             steps {
                 sh 'mvn clean install -DskipTests'
