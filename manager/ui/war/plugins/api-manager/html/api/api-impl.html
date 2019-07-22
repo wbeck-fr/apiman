@@ -8,7 +8,7 @@
 
   <body>
   <div>
-    
+
     <div ng-include="headerInclude"></div>
     <div ng-controller="Apiman.ApiImplController"
          class="page container-pf-nav-pf-vertical container-fluid"
@@ -49,7 +49,6 @@
             <div style="color: #ff0000" ng-show="invalidEndpoint === true">
               <p apiman-i18n-key="invalid-endpiont-msg">Please enter a valid endpoint that begins with http:// or https://.</p>
             </div>
-            <div style="margin-top: 10px" ng-show="developmentMode">
               <span class="clearfix"
                     apiman-i18n-key="api-type-label">API Type:</span>
               <ui-select ng-model="updatedApi.endpointType"
@@ -63,7 +62,6 @@
                   <span ng-bind="type.toUpperCase()"></span>
                 </ui-select-choices>
               </ui-select>
-            </div>
             <div style="margin-top: 10px">
               <span class="clearfix"
                     apiman-i18n-key="api-content-type-label">API Content Type:</span>
@@ -95,7 +93,7 @@
                 <span class="pficon pficon-info"></span>
               </a>
             </div>
-            
+
             <div class="" style="margin-top:10px;"
                  ng-show="updatedApi.parsePayload">
               <div class="alert alert-info">
@@ -103,7 +101,7 @@
                  <span apiman-i18n-key="api-impl.parse-payload-info">Note that enabling this option may result in additional performance overhead.  However, this feature is sometimes required for certain policies to work (in particular many SOAP policies).</span>
               </div>
             </div>
-            
+
             <div class="" style="margin-top:10px;">
               <span class="clearfix"
                     apiman-i18n-key="api-security-label">API Security:</span>
@@ -198,7 +196,7 @@
                 </table>
               </div>
             </div>
-            
+
             <div id="gateway-info"
                  ng-show="gateways.length > 1">
               <hr />
@@ -222,7 +220,7 @@
                 </select>
               </div>
             </div>
-            
+
             <div id="no-gateways-info"
                  ng-show="gateways.length == 0">
               <hr />
@@ -235,7 +233,7 @@
                   administrator - at least one API gateway must be configured!
               </div>
             </div>
-            
+
             <div id="new-gateway-info"
                  ng-show="autoGateway">
               <hr />
@@ -248,7 +246,7 @@
                   to make it stick.
               </div>
             </div>
-            
+
             <div apiman-permission="apiEdit"
                  ng-show="!isEntityDisabled()"
                  class="actions"

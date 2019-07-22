@@ -1,3 +1,8 @@
+<style>
+  .alert-warning-post {
+    margin-top: 60px;
+  }
+</style>
 <div class="form policy-config caching" data-field="form" ng-controller="Apiman.CachingResourcesFormController" style="margin-top: 10px">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -43,13 +48,15 @@
       </div>
     </div>
   </div>
-
   <div>
     <dl>
       <dt apiman-i18n-key="configured-cached-resources-rules">Cached Resources</dt>
     </dl>
   </div>
-
+  <div class="alert alert-warning alert-warning-post" ng-show="isPostRequestCached()">
+    <span apiman-i18n-key="cached-resources-rules-payload-inspection-warning">Ensure that stateful request payload inspection is enabled if you want to cache POST requests. (See </span>
+    <a href="{{ pluginName }}/orgs/{{ version.api.organization.id }}/apis/{{ version.api.id }}/{{ version.version }}/impl" target="_blank" apiman-i18n-key="cached-resources-rules-payload-inspection-warning-link-text">API Implementation</a>)
+  </div>
   <table class="table table-striped table-bordered">
     <thead>
     <tr>
@@ -77,5 +84,4 @@
     </tr>
     </tbody>
   </table>
-
 </div>

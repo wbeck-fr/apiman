@@ -722,6 +722,15 @@ module Apiman {
                 };
 
                 $scope.isEntityDisabled = EntityStatusSvc.isEntityDisabled;
+
+                $scope.isPostRequestCached = function () {
+                    if ($scope.config.cachingResourcesSettingsEntries != null) {
+                        return $scope.config.cachingResourcesSettingsEntries.some((e) => {
+                            return e.httpMethod === "POST" || e.httpMethod === "*";
+                        });
+                    }
+                    return false;
+                }
             }]);
 
     _module.controller('Apiman.URLRewritingFormController',
