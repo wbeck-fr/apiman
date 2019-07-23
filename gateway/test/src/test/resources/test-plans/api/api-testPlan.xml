@@ -23,7 +23,7 @@
   </testGroup>
   
   <testGroup name="List entities">
-    <test name="Wait 1" delay="5000" />
+    <test name="Wait for elasticsearch" delay="5000" />
     <!-- Orgs  -->
     <test name="List Orgs">test-plan-data/api/list/000-list-orgs.resttest</test>
     <!-- APIs  -->    

@@ -56,7 +56,9 @@ pipeline {
                         }
                     }
                     steps {
-                        sh 'mvn clean test -pl !gateway/engine/redis -Dapiman-test.type=es -Dapiman.gateway-test.config=servlet-es'
+                        retry(2) {
+                            sh 'mvn clean test -pl !gateway/engine/redis -Dapiman-test.type=es -Dapiman.gateway-test.config=servlet-es'
+                        }
                     }
                     post {
                         always {
