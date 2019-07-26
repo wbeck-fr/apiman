@@ -690,7 +690,7 @@ module Apiman {
 
                         // Check that TTL & Policy Definition ID are set
                         valid = ((config.ttl && config.ttl > 0) && ($scope.selectedDef && $scope.selectedDef.id != null));
-                        valid = valid && config.cachingResourcesSettingsEntries.length > 0;
+                        valid = valid && config.cachingResourcesSettingsEntries && config.cachingResourcesSettingsEntries.length > 0;
                     }
 
                     $scope.setValid(valid);

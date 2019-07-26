@@ -54,8 +54,13 @@
     </dl>
   </div>
   <div class="alert alert-warning alert-warning-post" ng-show="isPostRequestCached()">
-    <span apiman-i18n-key="cached-resources-rules-payload-inspection-warning">Ensure that stateful request payload inspection is enabled if you want to cache POST requests. (See </span>
-    <a href="{{ pluginName }}/orgs/{{ version.api.organization.id }}/apis/{{ version.api.id }}/{{ version.version }}/impl" target="_blank" apiman-i18n-key="cached-resources-rules-payload-inspection-warning-link-text">API Implementation</a>)
+    <span class="pficon pficon-warning-triangle-o"></span>
+    <span apiman-i18n-key="cached-resources-rules-payload-inspection-warning">Ensure that stateful request payload inspection is enabled if you want to cache POST requests.</span>
+    <span ng-show="pluginName && version.api.organization.id && version.api.id && version.version">
+      (<span apiman-i18n-key="cached-resources-rules-payload-inspection-warning-link-prefix">See</span> <a href="{{ pluginName }}/orgs/{{ version.api.organization.id }}/apis/{{ version.api.id }}/{{ version.version }}/impl" target="_blank" apiman-i18n-key="cached-resources-rules-payload-inspection-warning-link-text">API Implementation Tab</a>
+    )</span>
+    <span ng-show="!pluginName || !version.api.organization.id || !version.api.id || !version.version">
+      (<span apiman-i18n-key="cached-resources-rules-payload-inspection-warning-link-prefix">See</span> <span apiman-i18n-key="cached-resources-rules-payload-inspection-warning-link-text">API Implementation Tab</span>)</span>
   </div>
   <table class="table table-striped table-bordered">
     <thead>
