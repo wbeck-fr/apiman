@@ -234,6 +234,7 @@ public class ApiRequestExecutorImpl implements IApiRequestExecutor {
         requestMetric.setApiOrgId(request.getApiOrgId());
         requestMetric.setApiId(request.getApiId());
         requestMetric.setApiVersion(request.getApiVersion());
+        requestMetric.setRemoteAddr(request.getRemoteAddr());
 
         // Set request metric
         context.setAttribute(PolicyContextKeys.REQUEST_METRIC, requestMetric);

@@ -60,6 +60,7 @@ public class RequestMetric implements Serializable {
     private long bytesUploaded;
     private long bytesDownloaded;
     private Map<String, String> attributes = new HashMap<>();
+    private String remoteAddr;
 
     /**
      * Constructor.
@@ -461,4 +462,19 @@ public class RequestMetric implements Serializable {
         this.attributes = attributes;
     }
 
+    /**
+     *
+     * @return the remoteAddr
+     */
+    public String getRemoteAddr() {
+        return remoteAddr;
+    }
+
+    /**
+     *
+     * @param remoteAddr the remoteAddr to set
+     */
+    public void setRemoteAddr(String remoteAddr) {
+        this.remoteAddr = remoteAddr;
+    }
 }

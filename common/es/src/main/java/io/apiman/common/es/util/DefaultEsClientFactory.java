@@ -19,15 +19,18 @@ import io.apiman.common.util.ssl.KeyStoreUtil;
 import io.apiman.common.util.ssl.KeyStoreUtil.Info;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestClientFactory;
+import io.searchbox.client.JestResult;
 import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.client.config.HttpClientConfig.Builder;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 
+import io.searchbox.indices.mapping.GetMapping;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.http.HttpHost;
@@ -117,9 +120,9 @@ public class DefaultEsClientFactory extends AbstractClientFactory implements IEs
                     clients.put(clientKey, client);
                     if("true".equals(initialize)) { //$NON-NLS-1$
                         initializeClient(client, indexName, defaultIndexName);
+                        addNewMappingType(client, indexName, defaultIndexName);
                     }
                 }
-
                 return client;
             }
         }

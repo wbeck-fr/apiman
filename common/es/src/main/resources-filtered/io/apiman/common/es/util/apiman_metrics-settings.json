@@ -12,7 +12,8 @@
                "user": { "type" : "string", "index" : "not_analyzed" },
                "planId": { "type" : "string", "index" : "not_analyzed" },
                "responseCode": { "type" : "long", "index" : "not_analyzed" },
-               "failureCode": { "type" : "long", "index" : "not_analyzed" }
+               "failureCode": { "type" : "long", "index" : "not_analyzed" },
+               "remoteAddr": { "type" :  "ip", "index" : "not_analyzed" }
             }
          }
     }

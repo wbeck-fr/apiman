@@ -22,10 +22,13 @@ import io.searchbox.cluster.Health;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.IndicesExists;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.searchbox.indices.mapping.GetMapping;
+import io.searchbox.indices.mapping.PutMapping;
 import org.apache.commons.io.IOUtils;
 
 import com.google.gson.JsonArray;
@@ -132,4 +135,56 @@ public abstract class AbstractClientFactory {
         return false;
     }
 
+    /**
+     * General method to add new mapping types
+     * @param client the jest client
+     * @param indexName the name of the ES index to initialize
+     * @param settingsName the default ES index - used to determine which mapping types will be created
+     */
+    protected void addNewMappingType(JestClient client, String indexName, String settingsName) {
+        indexName = (indexName == null || indexName.isEmpty()) ? settingsName : indexName;
+        switch (settingsName) {
+            case "apiman_metrics":
+                synchronized (AbstractClientFactory.class) {
+                    addRemoteAddressMapping(client, indexName);
+                }
+                break;
+        }
+    }
+
+    /**
+     * Adds ip tpye mapping for new field remoteAddr
+     * @param client the jest client
+     * @param indexName the name of the ES index to initialize
+     */
+    private void addRemoteAddressMapping(JestClient client, String indexName) {
+        JestResult result = null;
+        try {
+            result = client.execute(new GetMapping.Builder().addIndex(indexName).build());
+            if (result.isSucceeded()) {
+                // Check if adding of mapping type 'remoteAddr' is needed
+                boolean addingNeeded = !result.getJsonObject().getAsJsonObject(indexName).getAsJsonObject("mappings").getAsJsonObject("request").getAsJsonObject("properties").has("remoteAddr");
+                if (addingNeeded) {
+                    String ipMappinng =
+                            "{\n" +
+                            "    \"request\": {\n" +
+                            "        \"properties\": {\n" +
+                            "            \"remoteAddr\": {\n" +
+                            "                \"type\": \"ip\",\n" +
+                            "                \"index\" : \"not_analyzed\"\n" +
+                            "            }\n" +
+                            "        }\n" +
+                            "    }\n" +
+                            "}";
+                    PutMapping putMapping = new PutMapping.Builder(indexName, "request", ipMappinng).build();
+                    result = client.execute(putMapping);
+                    if (!result.isSucceeded()) {
+                        throw new RuntimeException(result.getErrorMessage());
+                    }
+                }
+            }
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
 }
