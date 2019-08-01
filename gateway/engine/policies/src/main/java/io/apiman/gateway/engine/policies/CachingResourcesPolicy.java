@@ -9,6 +9,7 @@ import io.apiman.gateway.engine.async.IAsyncResultHandler;
 import io.apiman.gateway.engine.beans.ApiRequest;
 import io.apiman.gateway.engine.beans.ApiResponse;
 import io.apiman.gateway.engine.beans.exceptions.ComponentNotFoundException;
+import io.apiman.gateway.engine.beans.util.HeaderMap;
 import io.apiman.gateway.engine.components.ICacheStoreComponent;
 import io.apiman.gateway.engine.impl.CachedResponse;
 import io.apiman.gateway.engine.io.AbstractStream;
@@ -88,6 +89,7 @@ public class CachingResourcesPolicy extends AbstractMappedDataPolicy<CachingReso
                             } else {
                                 ISignalReadStream<ApiResponse> cacheEntry = result.getResult();
                                 if (cacheEntry != null) {
+                                    markCacheEntryAsCached(cacheEntry, config);
                                     context.setConnectorInterceptor(new CacheConnectorInterceptor(cacheEntry));
                                     context.setAttribute(SHOULD_CACHE_ATTR, Boolean.FALSE);
                                     context.setAttribute(CACHED_RESPONSE, cacheEntry.getHead());
@@ -101,6 +103,18 @@ public class CachingResourcesPolicy extends AbstractMappedDataPolicy<CachingReso
         } else {
             context.setAttribute(SHOULD_CACHE_ATTR, Boolean.FALSE);
             chain.doApply(request);
+        }
+    }
+
+    /**
+     * Set or overwrite Cache-Control header with ttl as max-age to mark the response as cached
+     * @param cacheEntry
+     * @param config
+     */
+    private void markCacheEntryAsCached(ISignalReadStream<ApiResponse> cacheEntry, final CachingResourcesConfig config) {
+        if(cacheEntry.getHead() != null && cacheEntry.getHead() instanceof ApiResponse && cacheEntry.getHead().getHeaders() != null) {
+            HeaderMap responseHeaders = cacheEntry.getHead().getHeaders();
+            responseHeaders.put("Cache-Control", "max-age=" + String.valueOf(config.getTtl()));
         }
     }
 
