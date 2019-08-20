@@ -61,6 +61,7 @@ import io.apiman.manager.api.rest.impl.audit.AuditUtils;
 import io.apiman.manager.api.rest.impl.i18n.Messages;
 import io.apiman.manager.api.rest.impl.util.ExceptionFactory;
 import io.apiman.manager.api.rest.impl.util.FieldValidator;
+import io.apiman.manager.api.rest.impl.util.SwaggerWsdlHelper;
 import io.apiman.manager.api.security.ISecurityContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -80,10 +81,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 import java.util.*;
 import java.util.Map.Entry;
@@ -1764,10 +1767,7 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         boolean hasPermission = securityContext.hasPermission(PermissionType.apiView, organizationId);
         try {
             storage.beginTx();
-            ApiVersionBean apiVersion = storage.getApiVersion(organizationId, apiId, version);
-            if (apiVersion == null) {
-                throw ExceptionFactory.apiVersionNotFoundException(apiId, version);
-            }
+            ApiVersionBean apiVersion = getApiVersionFromStorage(organizationId, apiId, version);
             storage.commitTx();
             if (!hasPermission) {
                 apiVersion.setGateways(null);
@@ -1781,6 +1781,14 @@ public class OrganizationResourceImpl implements IOrganizationResource {
             storage.rollbackTx();
             throw new SystemErrorException(e);
         }
+    }
+
+    private ApiVersionBean getApiVersionFromStorage(String organizationId, String apiId, String version) throws StorageException {
+        ApiVersionBean apiVersion = storage.getApiVersion(organizationId, apiId, version);
+        if (apiVersion == null) {
+            throw ExceptionFactory.apiVersionNotFoundException(apiId, version);
+        }
+        return apiVersion;
     }
 
     /**
@@ -1805,10 +1813,7 @@ public class OrganizationResourceImpl implements IOrganizationResource {
             throws ApiVersionNotFoundException, NotAuthorizedException {
         try {
             storage.beginTx();
-            ApiVersionBean apiVersion = storage.getApiVersion(organizationId, apiId, version);
-            if (apiVersion == null) {
-                throw ExceptionFactory.apiVersionNotFoundException(apiId, version);
-            }
+            ApiVersionBean apiVersion = getApiVersionFromStorage(organizationId, apiId, version);
             if (apiVersion.getDefinitionType() == ApiDefinitionType.None || apiVersion.getDefinitionType() == null) {
                 throw ExceptionFactory.apiDefinitionNotFoundException(apiId, version);
             }
@@ -1816,7 +1821,10 @@ public class OrganizationResourceImpl implements IOrganizationResource {
             if (definition == null) {
                 throw ExceptionFactory.apiDefinitionNotFoundException(apiId, version);
             }
+
+            definition = updateDefinitionWithManagedEndpoint(organizationId, apiId, version, apiVersion, definition);
             ResponseBuilder builder = Response.ok().entity(definition);
+
             if (apiVersion.getDefinitionType() == ApiDefinitionType.SwaggerJSON) {
                 builder.type(MediaType.APPLICATION_JSON);
             } else if (apiVersion.getDefinitionType() == ApiDefinitionType.SwaggerYAML) {
@@ -1839,35 +1847,64 @@ public class OrganizationResourceImpl implements IOrganizationResource {
     }
 
     /**
+     * Replaces the location with the location of the managed endpoint if it is a wsdl definition.
+     * Replaces the host and base path with the information of the managed endpoint if it is a swagger 2+ definition.
+     * Updates the definition in storage if needed.
+     * @param organizationId the organizationId
+     * @param apiId the apiId
+     * @param version the version
+     * @param definition the definition as stream
+     * @param apiVersion the apiVersion
+     * @return a ByteArrayInputStream with the updated definition
+     * @throws IOException
+     * @throws StorageException
+     */
+    protected InputStream updateDefinitionWithManagedEndpoint(String organizationId, String apiId, String version, ApiVersionBean apiVersion, InputStream definition) throws IOException, StorageException {
+        // If it is not a published API we will not try to update the API definition. We will return definition from storage
+        if (apiVersion.getStatus() != ApiStatus.Published) {
+            return definition;
+        }
+
+        URL managedEndpoint = null;
+        try {
+            managedEndpoint = new URL(getApiVersionEndpointInfoFromStorage(apiVersion, organizationId, apiId, version).getManagedEndpoint());
+        } catch (Exception e) {
+            // If the gateway is not available we return the definition from storage
+            return definition;
+        }
+
+        String definitionString = null;
+        String updatedDefinitionString = null;
+        if (apiVersion.getDefinitionType() == ApiDefinitionType.SwaggerJSON) {
+            definitionString = SwaggerWsdlHelper.readSwaggerStreamToString(definition);
+            updatedDefinitionString = SwaggerWsdlHelper.updateSwaggerDefinitionWithEndpoint(managedEndpoint, definitionString, apiVersion, storage);
+        } else if (apiVersion.getDefinitionType() == ApiDefinitionType.SwaggerYAML) {
+            definitionString = SwaggerWsdlHelper.convertYamlToJson(SwaggerWsdlHelper.readSwaggerStreamToString(definition));
+            updatedDefinitionString = SwaggerWsdlHelper.updateSwaggerDefinitionWithEndpoint(managedEndpoint, definitionString, apiVersion, storage);
+        } else if (apiVersion.getDefinitionType() == ApiDefinitionType.WSDL) {
+            updatedDefinitionString = SwaggerWsdlHelper.updateLocationEndpointInWsdl(definition, managedEndpoint, apiVersion, storage);
+        } else {
+            return definition;
+        }
+
+        return new ByteArrayInputStream(updatedDefinitionString.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
      * @see io.apiman.manager.api.rest.contract.IOrganizationResource#getApiVersionEndpointInfo(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public ApiVersionEndpointSummaryBean getApiVersionEndpointInfo(String organizationId,
             String apiId, String version) throws ApiVersionNotFoundException,
-            InvalidApiStatusException, GatewayNotFoundException {
+            InvalidApiStatusException {
         try {
             storage.beginTx();
-            ApiVersionBean apiVersion = storage.getApiVersion(organizationId, apiId, version);
-            if (apiVersion == null) {
-                throw ExceptionFactory.apiVersionNotFoundException(apiId, version);
-            }
+            ApiVersionBean apiVersion = getApiVersionFromStorage(organizationId, apiId, version);
             if (apiVersion.getStatus() != ApiStatus.Published) {
                 throw new InvalidApiStatusException(Messages.i18n.format("ApiNotPublished")); //$NON-NLS-1$
             }
-            Set<ApiGatewayBean> gateways = apiVersion.getGateways();
-            if (gateways.isEmpty()) {
-                throw new SystemErrorException("No Gateways for published API!"); //$NON-NLS-1$
-            }
-            GatewayBean gateway = storage.getGateway(gateways.iterator().next().getGatewayId());
-            if (gateway == null) {
-                throw new GatewayNotFoundException();
-            }
-            IGatewayLink link = gatewayLinkFactory.create(gateway);
-            ApiEndpoint endpoint = link.getApiEndpoint(organizationId, apiId, version);
-            ApiVersionEndpointSummaryBean rval = new ApiVersionEndpointSummaryBean();
-            rval.setManagedEndpoint(endpoint.getEndpoint());
+            ApiVersionEndpointSummaryBean rval = getApiVersionEndpointInfoFromStorage(apiVersion, organizationId, apiId, version);
             storage.commitTx();
-            log.debug(String.format("Got endpoint summary: %s", gateway)); //$NON-NLS-1$
             return rval;
         } catch (AbstractRestException e) {
             storage.rollbackTx();
@@ -1876,6 +1913,25 @@ public class OrganizationResourceImpl implements IOrganizationResource {
             storage.rollbackTx();
             throw new SystemErrorException(e);
         }
+    }
+
+    private ApiVersionEndpointSummaryBean getApiVersionEndpointInfoFromStorage(ApiVersionBean apiVersion, String organizationId,
+            String apiId, String version) throws GatewayNotFoundException, GatewayAuthenticationException, StorageException {
+        Set<ApiGatewayBean> gateways = apiVersion.getGateways();
+        if (gateways.isEmpty()) {
+            throw new SystemErrorException("No Gateways for published API!"); //$NON-NLS-1$
+        }
+        GatewayBean gateway = storage.getGateway(gateways.iterator().next().getGatewayId());
+        if (gateway == null) {
+            throw new GatewayNotFoundException();
+        } else {
+            log.debug(String.format("Got endpoint summary: %s", gateway)); //$NON-NLS-1$
+        }
+        IGatewayLink link = gatewayLinkFactory.create(gateway);
+        ApiEndpoint endpoint = link.getApiEndpoint(organizationId, apiId, version);
+        ApiVersionEndpointSummaryBean rval = new ApiVersionEndpointSummaryBean();
+        rval.setManagedEndpoint(endpoint.getEndpoint());
+        return rval;
     }
 
     /**
@@ -2092,10 +2148,7 @@ public class OrganizationResourceImpl implements IOrganizationResource {
             throw ExceptionFactory.notAuthorizedException();
         try {
             storage.beginTx();
-            ApiVersionBean apiVersion = storage.getApiVersion(organizationId, apiId, version);
-            if (apiVersion == null) {
-                throw ExceptionFactory.apiVersionNotFoundException(apiId, version);
-            }
+            ApiVersionBean apiVersion = getApiVersionFromStorage(organizationId, apiId, version);
             if (apiVersion.getDefinitionType() != definitionType) {
                 apiVersion.setDefinitionType(definitionType);
                 storage.updateApiVersion(apiVersion);
@@ -2294,10 +2347,7 @@ public class OrganizationResourceImpl implements IOrganizationResource {
             throw ExceptionFactory.notAuthorizedException();
         try {
             storage.beginTx();
-            ApiVersionBean apiVersion = storage.getApiVersion(organizationId, apiId, version);
-            if (apiVersion == null) {
-                throw ExceptionFactory.apiVersionNotFoundException(apiId, version);
-            }
+            ApiVersionBean apiVersion = getApiVersionFromStorage(organizationId, apiId, version);
             apiVersion.setDefinitionType(ApiDefinitionType.None);
             apiVersion.setModifiedBy(securityContext.getCurrentUser());
             apiVersion.setModifiedOn(new Date());
