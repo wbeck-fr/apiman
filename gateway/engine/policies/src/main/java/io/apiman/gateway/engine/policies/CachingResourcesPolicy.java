@@ -167,8 +167,10 @@ public class CachingResourcesPolicy extends AbstractMappedDataPolicy<CachingReso
     @Override
     protected IReadWriteStream<ApiResponse> responseDataHandler(final ApiResponse response,
                                                                 IPolicyContext context, CachingResourcesConfig policyConfiguration) {
-        // if the response is empty because of a policy failure before we end here and return null
-        if (response == null) return null;
+        if (response == null) {
+            // if the response is empty because of a policy failure before we end here and return null
+            return null;
+        }
 
         List<CachingResourcesSettingsEntry> possibleMatchingCachingEntries = context.getAttribute(CACHE_POSSIBLE_MATCHING_ENTRIES, new ArrayList<CachingResourcesSettingsEntry>());
         boolean isAMatch = false;
