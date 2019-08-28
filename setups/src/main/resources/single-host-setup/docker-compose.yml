@@ -93,14 +93,14 @@ services:
     container_name: ui
     environment:
       - >-
-        CATALINA_OPTS=-Dbridge.url=${BRIDGE_URL}
+        CATALINA_OPTS=-Dbridge.urls=${BRIDGE_URL}
+        -Dbridge.username=${BRIDGE_USERNAME}
+        -Dbridge.password=${BRIDGE_PASSWORD}
+        -Dbridge.ports=${BRIDGE_PORT}
         -Dapiman.es.protocol=http
         -Dapiman.es.port=9200
         -Dapiman.es.timeout=10000
         -Dapiman.es.host=elasticsearch
-        -Dbridge.username=${BRIDGE_USERNAME}
-        -Dbridge.password=${BRIDGE_PASSWORD}
-        -Dbridge.port=${BRIDGE_PORT}
         -Dkeycloak.host=${ENDPOINT}
         -Dkeycloak.port=${KEYCLOAK_PORT}
         -Dkeycloak.truststore-password='${TRUSTSTORE_KEYSTORE_PASSWORD}'
