@@ -75,6 +75,33 @@ pipeline {
                 sh 'mvn clean install -DskipTests'
             }
         }
+
+         stage('Trigger Apiman-Plugins-Pipeline') {
+             parallel {
+                 stage('Release Build') {
+                     when {
+                         anyOf {
+                             branch '**/e2e_release'
+                         }
+                     }
+                     steps {
+                         build job: '../Apiman-Plugins-Pipeline/e2e_release', wait: true
+                     }
+                 }
+
+                 stage('Master Build') {
+                     when {
+                         anyOf {
+                             branch '**/e2e_master'
+                         }
+                     }
+                     steps {
+                         build job: '../Apiman-Plugins-Pipeline/e2e_master', wait: true
+                     }
+                 }
+             }
+        }
+
         stage('Build docker images') {
             steps {
                 sh """
