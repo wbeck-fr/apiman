@@ -58,6 +58,29 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources-apiman-plugins</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/apiman-plugins/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${user.home}/.m2/repository/io/apiman/plugins/apiman-plugins-repository/7.0.0</directory>
+                  <includes>
+                    <include>**/*.tgz</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -90,7 +113,8 @@
                         <fileSets>
                           <fileSet>
                             <includes>
-                              <include>target/${project.artifactId}-${project.version}.zip</include>
+                              <include>target/${project.artifactId}-${project.version}.tgz</include>
+                              <include>target/apiman-plugins/**/*</include>
                             </includes>
                             <filtered>false</filtered>
                             <directoryMode>0755</directoryMode>

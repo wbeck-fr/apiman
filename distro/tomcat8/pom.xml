@@ -118,6 +118,24 @@
               </resources>
             </configuration>
           </execution>
+          <execution>
+            <id>copy-resources-apiman-plugins</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/apiman-plugins/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${user.home}/.m2/repository/io/apiman/plugins/apiman-plugins-repository/7.0.0</directory>
+                  <includes>
+                    <include>**/*.tgz</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
        </executions>
       </plugin>
     </plugins>
@@ -156,6 +174,7 @@
                               <include>target/${project.build.finalName}-overlay.zip</include>
                               <include>target/keycloak-config-files/**/*</include>
                               <include>target/tomcat-config-files/**/*</include>
+                              <include>target/apiman-plugins/**/*</include>
                             </includes>
                             <filtered>false</filtered>
                             <directoryMode>0755</directoryMode>
