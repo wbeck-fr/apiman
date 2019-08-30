@@ -14,7 +14,7 @@
         <include>*</include>
       </includes>
       <outputFileNameMapping>apiman-gateway.jar</outputFileNameMapping>
-      <useProjectArtifact>true</useProjectArtifact>
+      <useProjectArtifact>false</useProjectArtifact>
       <useProjectAttachments>true</useProjectAttachments>
       <useTransitiveDependencies>false</useTransitiveDependencies>
       <useTransitiveFiltering>false</useTransitiveFiltering>
