@@ -106,6 +106,9 @@ pipeline {
             steps {
                 sh """
                     mvn clean package docker:build -P docker -pl !distro/wildfly10,!distro/wildfly11,!distro/eap7 -DskipTests
+                    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock rassie/docker-squash -t api-mgmt/ui:${PROJECT_VERSION} api-mgmt/ui:${PROJECT_VERSION}
+                    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock rassie/docker-squash -t api-mgmt/gateway:${PROJECT_VERSION} api-mgmt/gateway:${PROJECT_VERSION}
+                    docker run --rm -v /var/run/docker.sock:/var/run/docker.sock rassie/docker-squash -t api-mgmt/keycloak:${PROJECT_VERSION} api-mgmt/keycloak:${PROJECT_VERSION}
                     docker image save api-mgmt/ui:${PROJECT_VERSION} -o api-mgmt-ui-${PROJECT_VERSION}-overlay.tar
                     docker image save api-mgmt/gateway:${PROJECT_VERSION} -o api-mgmt-gateway-${PROJECT_VERSION}-overlay.tar
                     docker image save api-mgmt/keycloak:${PROJECT_VERSION} -o api-mgmt-keycloak-${PROJECT_VERSION}-overlay.tar
