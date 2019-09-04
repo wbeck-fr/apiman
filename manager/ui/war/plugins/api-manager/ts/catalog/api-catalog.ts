@@ -150,7 +150,7 @@ module Apiman {
                       api.iconIsUrl = true;
                   }
                   api.ticon = 'fa-file-text-o';
-                  if (api.endpointType == 'soap') {
+                  if (api.endpointType == 'soap' || api.endpointType == 'ui') {
                       api.ticon = 'fa-file-code-o';
                   }
                   if (api.routeDefinitionUrl != null) {
@@ -229,7 +229,7 @@ module Apiman {
                         'description': $scope.api.description,
                         'initialVersion': $scope.api.initialVersion,
                         'endpoint': $scope.api.endpoint,
-                        'endpointType': $scope.api.endpointType,
+                        'endpointType': ($scope.api.endpointType === 'ui') ? 'rest' : $scope.api.endpointType,
                         'definitionUrl': $scope.api.definitionUrl,
                         'definitionType': $scope.api.definitionType
 

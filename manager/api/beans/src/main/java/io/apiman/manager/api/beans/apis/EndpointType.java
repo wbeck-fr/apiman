@@ -21,5 +21,5 @@ package io.apiman.manager.api.beans.apis;
  * @author eric.wittmann@redhat.com
  */
 public enum EndpointType {
-    rest, soap
+    rest, soap, ui
 }

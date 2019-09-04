@@ -158,7 +158,7 @@ module Apiman {
                     description: api.description,
                     initialVersion: '1.0',
                     endpoint: api.endpoint,
-                    endpointType: api.endpointType,
+                    endpointType: (api.endpointType === 'ui') ? 'rest' : api.endpointType,
                     publicAPI: $scope.importInfo.isPublic,
                     plans: $scope.importInfo.plans,
                     definitionUrl: api.definitionUrl,
