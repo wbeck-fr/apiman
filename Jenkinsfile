@@ -1,5 +1,7 @@
 #!/usr/bin/env groovy
 
+@Library('jenkins-jira-integration@dev') _
+
 pipeline {
     agent {
         node {
@@ -228,20 +230,7 @@ pipeline {
     post {
         always {
             script {
-                def fieldsResponse = jiraGetFields site: 'Jira'
-
-                def jiraTicketKeys = jiraIssueSelector(issueSelector: [$class: 'DefaultIssueSelector'])
-                jiraTicketKeys.each { issueTicketKey ->
-                def customFieldBuildStatus = getFieldId(fieldsResponse.data, 'Build Status')
-                def customFieldBuild = getFieldId(fieldsResponse.data, 'Build')
-
-                def date = new Date().format("YYYY-MM-dd'T'HH:mm:ss.sZZZ")
-                def badgeURL = '!' + env.JENKINS_URL + 'buildStatus/icon?job=' + URLEncoder.encode(env.JOB_NAME, "UTF-8") + '!'
-                def badgeLink = '[' + badgeURL + '|' + env.BUILD_URL + ']'
-
-                def updateJenkinsField = [fields: ["${customFieldBuildStatus}": "${badgeLink}", "${customFieldBuild}": "${date}"]]
-                jiraEditIssue idOrKey: issueTicketKey, issue: updateJenkinsField, site: 'Jira'
-                }
+              jenkinsJiraIntegration(['JiraSiteName': 'Jira'])
             }
         }
         unstable {
@@ -263,13 +252,4 @@ pipeline {
                    body: '${DEFAULT_CONTENT}'
         }
     }
-}
-
-// Get a Custom field id from fields based on the field name.
-def getFieldId(fields, fieldName) {
-  for (i = 0; i <fields.size(); i++) {
-    if(fields[i].custom && fields[i].name == fieldName) {
-      return fields[i].id
-    }
-  }
 }
