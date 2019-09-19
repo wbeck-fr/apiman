@@ -37,7 +37,7 @@
                 or drag and drop your Swagger API definition into the text area below.
               </p>
             </div>
-            <div class="apiman-divider-20" ng-show="definitionType">
+            <div class="apiman-divider-20" ng-hide="definitionType === 'None'">
               <div class="alert alert-warning">
                 <span class="pficon pficon-info"></span>
                 <p apiman-i18n-key="api-def.replaceInfo">If the API is published, the endpoint in the definition
