@@ -3,7 +3,7 @@
   <parent>
     <groupId>io.apiman</groupId>
     <artifactId>apiman</artifactId>
-    <version>7.5.0</version>
+    <version>7.6.0</version>
   </parent>
   <artifactId>apiman-docker-setups</artifactId>
   <packaging>jar</packaging>
