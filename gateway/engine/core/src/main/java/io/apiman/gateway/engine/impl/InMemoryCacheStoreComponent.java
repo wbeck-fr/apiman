@@ -39,14 +39,14 @@ import java.util.Map;
 @DependsOnComponents( { IBufferFactoryComponent.class } )
 public class InMemoryCacheStoreComponent implements ICacheStoreComponent {
 
-    private Object mapMutex = new Object();
-    private Object cacheSizeMutex = new Object();
+    private static Object mapMutex = new Object();
+    private static Object cacheSizeMutex = new Object();
 
-    private Map<String, Long> expireOnMap = new HashMap<>();
-    private Map<String, Object> objectCache = new LinkedHashMap<>();
-    private Map<String, IApimanBuffer> dataCache = new HashMap<>();
-    private long cacheSize = 0;
-    private long maxCacheSize = 10 * 1024 * 1024L; // 10 MB
+    private static Map<String, Long> expireOnMap = new HashMap<>();
+    private static Map<String, Object> objectCache = new LinkedHashMap<>();
+    private static Map<String, IApimanBuffer> dataCache = new HashMap<>();
+    private static long cacheSize = 0;
+    private static long maxCacheSize = 10 * 1024 * 1024L; // 10 MB
 
     private IBufferFactoryComponent bufferFactory;
 
