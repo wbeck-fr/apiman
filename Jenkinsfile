@@ -33,11 +33,32 @@ pipeline {
             }
         }
 
+        stage('Build Test Image') {
+            steps {
+                script {
+                    sh 'docker build -f ./ci/maven-docker.dockerfile -t maven-docker:latest .'
+                }
+            }
+        }
+
         stage('Tests') {
             parallel {
-                stage('Test local'){
+                stage('Tests without ES'){
+                    environment {
+                        JAVA_HOME = '/usr/local/openjdk-8'
+                    }
+                    agent {
+                        // https://github.com/carlossg/docker-maven#running-as-non-root
+                        docker {
+                            image 'maven-docker:latest'
+                            args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
+                            label 'docker'
+                        }
+                    }
                     steps {
-                        sh 'mvn clean test'
+                        retry(2) {
+                            sh 'mvn clean test'
+                        }
                     }
                     post {
                         always {
@@ -46,21 +67,21 @@ pipeline {
                     }
                 }
 
-                stage('ES tests in docker'){
+                stage('Tests with ES'){
                     environment {
                         JAVA_HOME = '/usr/local/openjdk-8'
                     }
                     agent {
                         // https://github.com/carlossg/docker-maven#running-as-non-root
                         docker {
-                            image 'maven:3-jdk-8'
-                            args '-v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
+                            image 'maven-docker:latest'
+                            args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
                             label 'docker'
                         }
                     }
                     steps {
                         retry(2) {
-                            sh 'mvn clean test -pl !gateway/engine/redis -Dapiman-test.type=es -Dapiman.gateway-test.config=servlet-es'
+                            sh 'mvn clean test -Dapiman-test.type=es -Dapiman.gateway-test.config=servlet-es'
                         }
                     }
                     post {
@@ -181,18 +202,18 @@ pipeline {
                          ]]
 
                 withDockerRegistry([credentialsId: 'nexus', url: "https://gitlab.scheer-group.com:8080"]) {
-                    sh './publishImages.sh ${PROJECT_VERSION}'
+                    sh './ci/publish-images.sh ${PROJECT_VERSION}'
                 }
             }
         }
 
         stage('Deployment to Apitest') {
                 when {
-                  branch 'e2e_master'
+                  branch '**/e2e_master'
                 }
                 steps {
                     script {
-                        sh 'ssh -i ~/.ssh/apiteste2ech apimgmt@apitest.e2e.ch "bash -s" < ~/autoDeploy/deployApiMgmt.sh "/home/apimgmt/api-mgmt/single-host-setup/" "${PROJECT_VERSION}" "${GIT_COMMIT_SHORT}" "${BUILD_NUMBER}"'
+                        sh 'ssh -i ~/.ssh/apiteste2ech apimgmt@apitest.e2e.ch "bash -s" < ./ci/deploy-api-mgmt.sh "/home/apimgmt/api-mgmt/single-host-setup/" "${PROJECT_VERSION}" "${GIT_COMMIT_SHORT}" "${BUILD_NUMBER}" "${BRANCH_NAME}"'
                     }
                 }
         }
@@ -221,7 +242,7 @@ pipeline {
                          ]]
 
                 withDockerRegistry([credentialsId: 'nexus', url: "https://gitlab.scheer-group.com:8080"]) {
-                    sh './publishImages.sh ${PROJECT_VERSION} release'
+                    sh './ci/publish-images.sh ${PROJECT_VERSION} release'
                 }
             }
         }
