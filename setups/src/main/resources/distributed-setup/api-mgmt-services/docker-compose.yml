@@ -26,7 +26,9 @@ services:
     image: 'api-mgmt/keycloak:${docker-compose.api-mgmt.keycloak.version}'
     container_name: keycloak
     environment:
+      - 'DB_ADDR=mysql'
       - 'DB_PASSWORD=${MYSQL_PASSWORD}'
+      - 'DB_VENDOR=mysql'
       - 'KEYCLOAK_USER=${KEYCLOAK_ADMIN_USERNAME}'
       - 'KEYCLOAK_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}'
       - 'KEYCLOAK_IMPORT=/opt/api-mgmt/realm.json'
