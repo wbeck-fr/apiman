@@ -297,8 +297,8 @@ textarea.apiman-form-data {
   border-color: #097BAB;
 }
 .apiman-label-success:hover {
-  background-color: #5cb75c;
-  border-color: #358C35;
+  background-color: var(--e2e-button-hover-color);
+  border-color: var(--e2e-button-hover-color);
 }
 .apiman-label-info:hover {
   background-color: #27799c;
