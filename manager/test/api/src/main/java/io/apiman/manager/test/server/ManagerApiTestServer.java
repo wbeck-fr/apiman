@@ -89,7 +89,7 @@ public class ManagerApiTestServer {
      */
     private ApimanEmbeddedElastic node = null;
     private JestClient client = null;
-    private static final int JEST_TIMEOUT = 6000;
+    private static final int JEST_TIMEOUT = -1;
     private static final Integer ES_DEFAULT_PORT = 19250;
     private static final String ES_DEFAULT_HOST = "localhost";
     private static final String ES_DEFAULT_INDEX = "apiman_manager";

@@ -89,7 +89,7 @@ public abstract class ApiManagerConfig {
 
     public static final String DEFAULT_ES_CLUSTER_NAME = "apiman"; //$NON-NLS-1$
     public static final String DEFAULT_ES_INDEX_NAME = "apiman_manager"; //$NON-NLS-1$
-    public static final int DEFAULT_JEST_TIMEOUT = 6000;
+    public static final int DEFAULT_JEST_TIMEOUT = -1;
 
     private final Configuration config;
 

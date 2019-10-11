@@ -90,7 +90,7 @@ public class ServletGatewayTestServer implements IGatewayTestServer {
      * Elasticsearch related.
      */
     private static final String ES_CLUSTER_NAME = "_apimantest";
-    private static final int JEST_TIMEOUT = 6000;
+    private static final int JEST_TIMEOUT = -1;
     public static JestClient ES_CLIENT = null;
     private JestClient client = null;
     private ApimanEmbeddedElastic node;
