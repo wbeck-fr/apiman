@@ -174,7 +174,7 @@ module Apiman {
                 PageLifecycle.setPageTitle('consumer-api-def', [ $scope.api.name ]);
 
                 if (($scope.version.definitionType == 'SwaggerJSON' || $scope.version.definitionType == 'SwaggerYAML') && SwaggerUIBundle) {
-                    var url = ApiDefinitionSvcs.getApiDefinitionUrl($scope.params.org, $scope.params.api, $scope.params.version);
+                    var url = ApiDefinitionSvcs.getApimanDefinitionUrl($scope.params.org, $scope.params.api, $scope.params.version);
                     Logger.debug("!!!!! Using definition URL: {0}", url);
 
                     $scope.definitionStatus = 'loading';
