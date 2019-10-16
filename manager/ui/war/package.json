@@ -58,7 +58,7 @@
     "sshpk": "1.4.6",
     "sugar": "1.4.1",
     "swagger-client": "3.8.8",
-    "swagger-ui-dist":"3.17.4",
+    "swagger-ui-dist":"3.24.0",
     "through2": "0.6.3",
     "typescript": "1.6.2",
     "typings": "0.6.8",
