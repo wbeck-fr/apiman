@@ -43,7 +43,7 @@ pipeline {
 
         stage('Tests') {
             parallel {
-                stage('Tests without ES'){
+                stage('default'){
                     environment {
                         JAVA_HOME = '/usr/local/openjdk-8'
                     }
@@ -67,7 +67,7 @@ pipeline {
                     }
                 }
 
-                stage('Tests with ES'){
+                stage('servlet-es/es'){
                     environment {
                         JAVA_HOME = '/usr/local/openjdk-8'
                     }
@@ -86,6 +86,107 @@ pipeline {
                     }
                     post {
                         always {
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                    }
+                }
+
+                stage('vertx3-mem'){
+                    environment {
+                        JAVA_HOME = '/usr/local/openjdk-8'
+                    }
+                    agent {
+                        // https://github.com/carlossg/docker-maven#running-as-non-root
+                        docker {
+                            image 'maven-docker:latest'
+                            args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
+                            label 'docker'
+                        }
+                    }
+                    steps {
+                        retry(2) {
+                            sh 'mvn -pl gateway/test clean test -Dapiman.gateway-test.config=vertx3-mem'
+                        }
+                    }
+                    post {
+                        always {
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                    }
+                }
+
+                stage('vertx3-file'){
+                    environment {
+                        JAVA_HOME = '/usr/local/openjdk-8'
+                    }
+                    agent {
+                        // https://github.com/carlossg/docker-maven#running-as-non-root
+                        docker {
+                            image 'maven-docker:latest'
+                            args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
+                            label 'docker'
+                        }
+                    }
+                    steps {
+                        retry(2) {
+                            sh 'mvn -pl gateway/test clean test -Dapiman.gateway-test.config=vertx3-file'
+                        }
+                    }
+                    post {
+                        always {
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                    }
+                }
+
+                stage('amg-1'){
+                    environment {
+                        JAVA_HOME = '/usr/local/openjdk-8'
+                    }
+                    agent {
+                        // https://github.com/carlossg/docker-maven#running-as-non-root
+                        docker {
+                            image 'maven-docker:latest'
+                            args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
+                            label 'docker'
+                        }
+                    }
+                    steps {
+                        retry(2) {
+                            sh 'mvn -pl gateway/test clean test -Dapiman.gateway-test.config=amg-1'
+                        }
+                    }
+                    post {
+                        always {
+                            junit '**/target/surefire-reports/*.xml'
+                        }
+                    }
+                }
+
+                stage('vertx3-es'){
+                    environment {
+                        JAVA_HOME = '/usr/local/openjdk-8'
+                    }
+                    agent {
+                        // https://github.com/carlossg/docker-maven#running-as-non-root
+                        docker {
+                            image 'maven-docker:latest'
+                            args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
+                            label 'docker'
+                        }
+                    }
+                    steps {
+                        retry(2) {
+                            sh """
+                                docker run -d -p 19250:9200 -p 9300:9300 -e "discovery.type=single-node" --name=elasticsearch elasticsearch:5.6.14
+                                sleep 15
+                                mvn -pl gateway/test clean test -Dapiman.gateway-test.config=vertx3-es
+                            """
+                        }
+                    }
+                    post {
+                        always {
+                            sh 'docker stop elasticsearch && docker rm elasticsearch'
                             junit '**/target/surefire-reports/*.xml'
                         }
                     }
