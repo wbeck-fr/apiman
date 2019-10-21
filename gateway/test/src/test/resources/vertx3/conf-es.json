@@ -16,7 +16,7 @@
       "client": {
         "type": "${test.foo.es.type}",
         "cluster-name": "elasticsearch",
-        "host": "localhost",
+        "host": "cscabbia.e2e.ch",
         "port": 19250,
         "initialize": true
       }
@@ -72,7 +72,7 @@
     "class": "io.apiman.gateway.test.server.TestMetrics",
     "config": {}
   },
-  
+
   "components": {
       "IHttpClientComponent": {
         "class": "io.apiman.gateway.platforms.vertx3.components.HttpClientComponentImpl",
@@ -85,7 +85,7 @@
           "client": {
             "type": "jest",
             "cluster-name": "elasticsearch",
-            "host": "localhost",
+            "host": "cscabbia.e2e.ch",
             "port": 19250,
             "initialize": true
           }
@@ -98,7 +98,7 @@
           "client": {
             "type": "jest",
             "cluster-name": "elasticsearch",
-            "host": "localhost",
+            "host": "cscabbia.e2e.ch",
             "port": 19250,
             "initialize": true
           }
