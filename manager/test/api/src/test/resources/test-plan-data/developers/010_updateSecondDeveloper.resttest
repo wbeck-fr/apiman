@@ -1,0 +1,18 @@
+PUT /developers/Developer2 admin/admin
+Content-Type: application/json
+
+{
+   "name":"Developer Updated Name",
+   "clients":[
+      {
+         "clientId":"ClientC",
+         "organizationId":"Test"
+      },
+      {
+         "clientId":"ClientD",
+         "organizationId":"Test"
+      }
+   ]
+}
+----
+204

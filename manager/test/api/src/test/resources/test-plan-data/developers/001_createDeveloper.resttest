@@ -1,0 +1,34 @@
+POST /developers admin/admin
+Content-Type: application/json
+
+{
+   "name":"Developer1",
+   "clients":[
+      {
+         "clientId":"Client1",
+         "organizationId":"Organization1"
+      },
+      {
+         "clientId":"ClientB",
+         "organizationId":"Test"
+      }
+   ]
+}
+----
+200
+Content-Type: application/json
+
+{
+    "id":"Developer1",
+    "name": "Developer1",
+    "clients": [
+        {
+            "clientId": "Client1",
+            "organizationId": "Organization1"
+        },
+        {
+            "clientId": "ClientB",
+            "organizationId": "Test"
+        }
+    ]
+}

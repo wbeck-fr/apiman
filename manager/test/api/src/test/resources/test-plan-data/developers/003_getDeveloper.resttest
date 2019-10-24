@@ -1,0 +1,19 @@
+GET /developers/Developer1 admin/admin
+----
+200
+Content-Type: application/json
+
+{
+    "id":"Developer1",
+    "name": "Developer1",
+    "clients": [
+        {
+            "clientId": "Client1",
+            "organizationId": "Organization1"
+        },
+        {
+            "clientId": "ClientB",
+            "organizationId": "Test"
+        }
+    ]
+}

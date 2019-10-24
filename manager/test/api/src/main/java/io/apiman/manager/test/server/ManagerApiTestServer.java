@@ -315,6 +315,7 @@ public class ManagerApiTestServer {
         apiManServer.addFilter(AuthenticationFilter.class, "/roles/*", EnumSet.of(DispatcherType.REQUEST));
         apiManServer.addFilter(AuthenticationFilter.class, "/search/*", EnumSet.of(DispatcherType.REQUEST));
         apiManServer.addFilter(AuthenticationFilter.class, "/users/*", EnumSet.of(DispatcherType.REQUEST));
+        apiManServer.addFilter(AuthenticationFilter.class, "/developer/*", EnumSet.of(DispatcherType.REQUEST));
     }
 
     /**
@@ -330,7 +331,8 @@ public class ManagerApiTestServer {
             String pwd = userInfo[1];
             String[] roles = new String[] { "apiuser" };
             if (user.startsWith("admin")) {
-                roles = new String[] { "apiuser", "apiadmin"};
+                // add Role Developer1 because we match the developerId with a identical role name to allow access
+                roles = new String[] { "apiuser", "apiadmin", "Developer1"};
             }
             userStore.addUser(user, Credential.getCredential(pwd), roles);
         }
