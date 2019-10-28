@@ -29,6 +29,7 @@ import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientStatus;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.download.DownloadBean;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
 import io.apiman.manager.api.beans.gateways.GatewayType;
@@ -203,6 +204,14 @@ public class JpaStorage extends AbstractJpaStorage implements IStorage, IStorage
     }
 
     /**
+     * @see io.apiman.manager.api.core.IStorage#createDeveloper(DeveloperBean)
+     */
+    @Override
+    public void createDeveloper(DeveloperBean developerBean) {
+        // TODO: Implement
+    }
+
+    /**
      * @see io.apiman.manager.api.core.IStorage#createPlugin(io.apiman.manager.api.beans.plugins.PluginBean)
      */
     @Override
@@ -336,6 +345,14 @@ public class JpaStorage extends AbstractJpaStorage implements IStorage, IStorage
     @Override
     public void updatePlugin(PluginBean pluginBean) throws StorageException {
         super.update(pluginBean);
+    }
+
+    /**
+     * @see io.apiman.manager.api.core.IStorage#updateDeveloper(DeveloperBean)
+     */
+    @Override
+    public void updateDeveloper(DeveloperBean developer) throws StorageException {
+        // TODO: Implement
     }
 
     /**
@@ -505,6 +522,14 @@ public class JpaStorage extends AbstractJpaStorage implements IStorage, IStorage
     }
 
     /**
+     * @see io.apiman.manager.api.core.IStorage#deleteDeveloper(DeveloperBean)
+     */
+    @Override
+    public void deleteDeveloper(DeveloperBean developer) throws StorageException {
+        // TODO: Implement
+    }
+
+    /**
      * @see io.apiman.manager.api.core.IStorage#deletePlugin(io.apiman.manager.api.beans.plugins.PluginBean)
      */
     @Override
@@ -596,6 +621,15 @@ public class JpaStorage extends AbstractJpaStorage implements IStorage, IStorage
     @Override
     public DownloadBean getDownload(String id) throws StorageException {
         return super.get(id, DownloadBean.class);
+    }
+
+    /**
+     * @see io.apiman.manager.api.core.IStorage#getDeveloper(String)
+     */
+    @Override
+    public DeveloperBean getDeveloper(String id) throws StorageException {
+        // TODO: Implement
+        return null;
     }
 
     /**
@@ -2260,6 +2294,15 @@ public class JpaStorage extends AbstractJpaStorage implements IStorage, IStorage
         return super.getAll(RoleBean.class, query);
     }
 
+    /**
+     * @see IStorage#getDevelopers()
+     */
+    @Override
+    public Iterator<DeveloperBean> getDevelopers() throws StorageException {
+        // TODO: Implement
+        return null;
+    }
+
     @Override
     public Iterator<ContractBean> getAllContracts(OrganizationBean organizationBean, int lim) throws StorageException {
         String jpql =
@@ -2363,6 +2406,15 @@ public class JpaStorage extends AbstractJpaStorage implements IStorage, IStorage
             query.setMaxResults(lim);
         }
         return super.getAll(PlanVersionBean.class, query);
+    }
+
+    /**
+     * @see IStorage#getAllPublicApiVersions()
+     */
+    @Override
+    public Iterator<ApiVersionBean> getAllPublicApiVersions() throws StorageException {
+        // TODO: Implement
+        return null;
     }
 
     private void deleteAllPolicies(OrganizationBean organizationBean) throws StorageException {

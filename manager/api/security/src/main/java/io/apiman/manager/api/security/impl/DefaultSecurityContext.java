@@ -92,6 +92,20 @@ public class DefaultSecurityContext extends AbstractSecurityContext {
     }
 
     /**
+     * @see io.apiman.manager.api.security.ISecurityContext#hasDevPortalPermissions(String) 
+     */
+    @Override
+    public Boolean hasDevPortalPermissions(String developerId) {
+        // only implemented for Keycloak Client Roles in KeycloakSecurityContext.java
+        if (isAdmin()){
+            return true;
+        } else {
+            // implemented for global roles
+            return servletRequest.get().isUserInRole(developerId);
+        }
+    }
+
+    /**
      * Called to clear the context http servlet request.
      */
     protected static void clearServletRequest() {

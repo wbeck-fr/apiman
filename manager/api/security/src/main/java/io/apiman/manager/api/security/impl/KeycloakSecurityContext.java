@@ -15,9 +15,12 @@
  */
 package io.apiman.manager.api.security.impl;
 
+import org.keycloak.KeycloakPrincipal;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 /**
  * An alternative security context used when protected by keycloak.
@@ -74,6 +77,19 @@ public class KeycloakSecurityContext extends AbstractSecurityContext {
             return session.getToken().getEmail();
         } else {
             return null;
+        }
+    }
+
+    /**
+     * @see io.apiman.manager.api.security.ISecurityContext#hasDevPortalPermissions(String)
+     */
+    @Override
+    public Boolean hasDevPortalPermissions(String developerId) {
+        if (isAdmin()){
+            return true;
+        } else {
+            KeycloakPrincipal principal = (KeycloakPrincipal) DefaultSecurityContext.servletRequest.get().getUserPrincipal();
+            return principal.getKeycloakSecurityContext().getToken().getResourceAccess("apiman-devportal").isUserInRole(developerId);
         }
     }
 

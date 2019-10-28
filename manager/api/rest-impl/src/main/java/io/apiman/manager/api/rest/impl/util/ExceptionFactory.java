@@ -20,45 +20,7 @@ import io.apiman.manager.api.beans.apis.ApiVersionBean;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
 import io.apiman.manager.api.beans.summary.PlanVersionSummaryBean;
-import io.apiman.manager.api.rest.contract.exceptions.ActionException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiDefinitionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiVersionAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ApiVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientVersionAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ClientVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.ContractAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.ContractNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.EntityStillActiveException;
-import io.apiman.manager.api.rest.contract.exceptions.GatewayAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.GatewayNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidApiStatusException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidClientStatusException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidMetricCriteriaException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidNameException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidPlanStatusException;
-import io.apiman.manager.api.rest.contract.exceptions.InvalidVersionException;
-import io.apiman.manager.api.rest.contract.exceptions.MemberNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.NotAuthorizedException;
-import io.apiman.manager.api.rest.contract.exceptions.OrganizationAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.OrganizationNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanVersionAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.PlanVersionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PluginAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.PluginNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PluginResourceNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PolicyDefinitionAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.PolicyDefinitionInvalidException;
-import io.apiman.manager.api.rest.contract.exceptions.PolicyDefinitionNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.PolicyNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.RoleAlreadyExistsException;
-import io.apiman.manager.api.rest.contract.exceptions.RoleNotFoundException;
-import io.apiman.manager.api.rest.contract.exceptions.UserNotFoundException;
+import io.apiman.manager.api.rest.contract.exceptions.*;
 import io.apiman.manager.api.rest.impl.i18n.Messages;
 
 import java.util.Iterator;
@@ -412,6 +374,24 @@ public final class ExceptionFactory {
             PluginCoordinates coordinates) {
         return new PluginResourceNotFoundException(Messages.i18n.format(
                 "PluginResourceNotFound", resourceName, coordinates.toString())); //$NON-NLS-1$
+    }
+
+    /**
+     * Creates an exception from an developer name.
+     * @param developerId the developer name
+     * @return the exception
+     */
+    public static final DeveloperAlreadyExistsException developerAlreadyExistsException(String developerId) {
+        return new DeveloperAlreadyExistsException(Messages.i18n.format("DeveloperAlreadyExists", developerId)); //$NON-NLS-1$
+    }
+
+    /**
+     * Creates an exception from an developer id.
+     * @param developerId the developer id
+     * @return the exception
+     */
+    public static final DeveloperNotFoundException developerNotFoundException(String developerId) {
+        return new DeveloperNotFoundException(Messages.i18n.format("DeveloperClientNotExist", developerId)); //$NON-NLS-1$
     }
 
     /**

@@ -15,14 +15,7 @@
  */
 package io.apiman.manager.api.es;
 
-import io.apiman.manager.api.beans.apis.ApiBean;
-import io.apiman.manager.api.beans.apis.ApiDefinitionType;
-import io.apiman.manager.api.beans.apis.ApiGatewayBean;
-import io.apiman.manager.api.beans.apis.ApiPlanBean;
-import io.apiman.manager.api.beans.apis.ApiStatus;
-import io.apiman.manager.api.beans.apis.ApiVersionBean;
-import io.apiman.manager.api.beans.apis.EndpointContentType;
-import io.apiman.manager.api.beans.apis.EndpointType;
+import io.apiman.manager.api.beans.apis.*;
 import io.apiman.manager.api.beans.audit.AuditEntityType;
 import io.apiman.manager.api.beans.audit.AuditEntryBean;
 import io.apiman.manager.api.beans.audit.AuditEntryType;
@@ -30,6 +23,8 @@ import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientStatus;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
+import io.apiman.manager.api.beans.developers.DeveloperMappingBean;
 import io.apiman.manager.api.beans.download.DownloadBean;
 import io.apiman.manager.api.beans.download.DownloadType;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
@@ -47,19 +42,7 @@ import io.apiman.manager.api.beans.policies.PolicyBean;
 import io.apiman.manager.api.beans.policies.PolicyDefinitionBean;
 import io.apiman.manager.api.beans.policies.PolicyDefinitionTemplateBean;
 import io.apiman.manager.api.beans.policies.PolicyType;
-import io.apiman.manager.api.beans.summary.ApiEntryBean;
-import io.apiman.manager.api.beans.summary.ApiSummaryBean;
-import io.apiman.manager.api.beans.summary.ApiVersionSummaryBean;
-import io.apiman.manager.api.beans.summary.ClientSummaryBean;
-import io.apiman.manager.api.beans.summary.ClientVersionSummaryBean;
-import io.apiman.manager.api.beans.summary.ContractSummaryBean;
-import io.apiman.manager.api.beans.summary.GatewaySummaryBean;
-import io.apiman.manager.api.beans.summary.OrganizationSummaryBean;
-import io.apiman.manager.api.beans.summary.PlanSummaryBean;
-import io.apiman.manager.api.beans.summary.PlanVersionSummaryBean;
-import io.apiman.manager.api.beans.summary.PluginSummaryBean;
-import io.apiman.manager.api.beans.summary.PolicyDefinitionSummaryBean;
-import io.apiman.manager.api.beans.summary.PolicyFormType;
+import io.apiman.manager.api.beans.summary.*;
 import io.apiman.manager.api.core.exceptions.StorageException;
 import io.apiman.manager.api.es.beans.ApiDefinitionBean;
 import io.apiman.manager.api.es.beans.PoliciesBean;
@@ -69,13 +52,8 @@ import io.apiman.manager.api.es.util.XContentFactory;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Marshalls objects into Maps to be used in ES requests.  Also unmarshalls from
@@ -645,6 +623,39 @@ public class EsMarshalling {
                     .field("path", bean.getPath())
                     .field("expires", bean.getExpires().getTime())
                 .endObject();
+            postMarshall(bean);
+            return builder;
+        } catch (IOException e) {
+            throw new StorageException(e);
+        }
+    }
+
+    /**
+     * Marshals the given bean into the given map.
+     * @param bean the bean
+     * @return the content builder
+     * @throws StorageException when a storage problem occurs while storing a bean
+     */
+    public static XContentBuilder marshall(DeveloperBean bean) throws StorageException {
+        try (XContentBuilder builder = XContentFactory.jsonBuilder()) {
+            preMarshall(bean);
+            builder
+                    .startObject()
+                    .field("id", bean.getId())
+                    .field("name", bean.getName());
+
+            Set<DeveloperMappingBean> clients = bean.getClients();
+            if (clients != null && !clients.isEmpty()) {
+                builder.startArray("clients");
+                for (DeveloperMappingBean developerMappingBean : clients) {
+                    builder.startObject()
+                            .field("clientId", developerMappingBean.getClientId())
+                            .field("organizationId", developerMappingBean.getOrganizationId())
+                            .endObject();
+                }
+                builder.endArray();
+            }
+            builder.endObject();
             postMarshall(bean);
             return builder;
         } catch (IOException e) {
@@ -1353,6 +1364,31 @@ public class EsMarshalling {
         bean.setCreatedBy(asString(map.get("createdBy")));
         bean.setCreatedOn(asDate(map.get("createdOn")));
 
+        postMarshall(bean);
+        return bean;
+    }
+
+    /**
+     * Unmarshals the given map source into a bean.
+     * @param source the source
+     * @return the developer
+     */
+    public static DeveloperBean unmarshallDeveloper(Map<String, Object> source) {
+        if (source == null) {
+            return null;
+        }
+        DeveloperBean bean = new DeveloperBean();
+        bean.setId(asString(source.get("id")));
+        bean.setName(asString(source.get("name")));
+        List<Map<String, Object>> clients = (List<Map<String, Object>>) source.get("clients");
+        if (clients != null) {
+            for (Map<String, Object> clientsMap : clients) {
+                DeveloperMappingBean developerMappingBean = new DeveloperMappingBean();
+                developerMappingBean.setClientId(asString(clientsMap.get("clientId")));
+                developerMappingBean.setOrganizationId(asString(clientsMap.get("organizationId")));
+                bean.getClients().add(developerMappingBean);
+            }
+        }
         postMarshall(bean);
         return bean;
     }

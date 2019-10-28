@@ -78,4 +78,12 @@ public interface ISecurityContext {
      */
     public String getRequestHeader(String headerName);
 
+    /**
+     * Returns true if the current user has permission to perform a particular
+     * action for the provided developer.
+     *
+     * @param developerId the id of the developer
+     * @return true if has permission, else false
+     */
+    Boolean hasDevPortalPermissions(String developerId);
 }

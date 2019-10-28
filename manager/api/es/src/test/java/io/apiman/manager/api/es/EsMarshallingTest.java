@@ -22,6 +22,7 @@ import io.apiman.manager.api.beans.audit.AuditEntryBean;
 import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.download.DownloadBean;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
 import io.apiman.manager.api.beans.idm.RoleBean;
@@ -279,6 +280,16 @@ public class EsMarshallingTest {
         DownloadBean bean = createBean(DownloadBean.class);
         XContentBuilder builder = EsMarshalling.marshall(bean);
         Assert.assertEquals("{\"id\":\"ID\",\"type\":\"exportJson\",\"path\":\"PATH\",\"expires\":1}", builder.string());
+    }
+
+    /**
+     * Test method for {@link io.apiman.manager.api.es.EsMarshalling#marshall(DeveloperBean)}
+     */
+    @Test
+    public void testMarshallDeveloperBean() throws Exception {
+        DeveloperBean bean = createBean(DeveloperBean.class);
+        XContentBuilder builder = EsMarshalling.marshall(bean);
+        Assert.assertEquals("{\"id\":\"ID\",\"name\":\"NAME\",\"clients\":[{\"clientId\":\"CLIENTID\",\"organizationId\":\"ORGANIZATIONID\"},{\"clientId\":\"CLIENTID\",\"organizationId\":\"ORGANIZATIONID\"}]}", builder.string());
     }
     
     /**

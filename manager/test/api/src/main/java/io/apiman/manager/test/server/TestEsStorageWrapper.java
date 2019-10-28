@@ -23,6 +23,7 @@ import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientStatus;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.download.DownloadBean;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
 import io.apiman.manager.api.beans.idm.RoleBean;
@@ -562,6 +563,14 @@ public class TestEsStorageWrapper implements IStorage {
     }
 
     /**
+     * @see io.apiman.manager.api.core.IStorage#updateDeveloper(DeveloperBean)
+     */
+    @Override
+    public void updateDeveloper(DeveloperBean developer) throws StorageException {
+        delegate.updateDeveloper(developer);
+    }
+
+    /**
      * @see io.apiman.manager.api.core.IStorage#createUser(io.apiman.manager.api.beans.idm.UserBean)
      */
     @Override
@@ -686,6 +695,11 @@ public class TestEsStorageWrapper implements IStorage {
     }
 
     @Override
+    public Iterator<DeveloperBean> getDevelopers() throws StorageException {
+        return this.delegate.getDevelopers();
+    }
+
+    @Override
     public Iterator<ContractBean> getAllContracts(OrganizationBean organizationBean, int lim) throws StorageException {
         return this.delegate.getAllContracts(organizationBean, lim);
     }
@@ -718,6 +732,14 @@ public class TestEsStorageWrapper implements IStorage {
     @Override
     public Iterator<PlanVersionBean> getAllPlanVersions(OrganizationBean organizationBean, PlanStatus status, int lim) throws StorageException {
         return this.delegate.getAllPlanVersions(organizationBean, status, lim);
+    }
+
+    /**
+     * @see io.apiman.manager.api.core.IStorage#getAllPublicApiVersions()
+     */
+    @Override
+    public Iterator<ApiVersionBean> getAllPublicApiVersions() throws StorageException {
+        return this.delegate.getAllPublicApiVersions();
     }
 
     /**
@@ -806,6 +828,14 @@ public class TestEsStorageWrapper implements IStorage {
     }
 
     /**
+     * @see io.apiman.manager.api.core.IStorage#createDeveloper(DeveloperBean)
+     */
+    @Override
+    public void createDeveloper(DeveloperBean developerBean) throws StorageException {
+        delegate.createDeveloper(developerBean);
+    }
+
+    /**
      * @see io.apiman.manager.api.core.IStorage#deleteDownload(io.apiman.manager.api.beans.download.DownloadBean)
      */
     @Override
@@ -814,11 +844,27 @@ public class TestEsStorageWrapper implements IStorage {
     }
 
     /**
+     * @see io.apiman.manager.api.core.IStorage#deleteDeveloper(DeveloperBean)
+     */
+    @Override
+    public void deleteDeveloper(DeveloperBean developer) throws StorageException {
+        delegate.deleteDeveloper(developer);
+    }
+
+    /**
      * @see io.apiman.manager.api.core.IStorage#getDownload(java.lang.String)
      */
     @Override
     public DownloadBean getDownload(String id) throws StorageException {
         return delegate.getDownload(id);
+    }
+
+    /**
+     * @see io.apiman.manager.api.core.IStorage#getDeveloper(String)
+     */
+    @Override
+    public DeveloperBean getDeveloper(String id) throws StorageException {
+        return delegate.getDeveloper(id);
     }
 
     /**
