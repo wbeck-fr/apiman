@@ -19,6 +19,7 @@ import io.apiman.manager.api.core.util.PolicyTemplateUtil;
 import io.apiman.manager.test.junit.ManagerRestTester.TestInfo;
 import io.apiman.manager.test.server.ManagerApiTestServer;
 import io.apiman.manager.test.server.MockGatewayServlet;
+import io.apiman.manager.test.util.ManagerTestUtils;
 import io.apiman.test.common.json.JsonCompare;
 import io.apiman.test.common.plan.TestGroupType;
 import io.apiman.test.common.plan.TestPlan;
@@ -225,34 +226,44 @@ public class ManagerRestTester extends ParentRunner<TestInfo> {
      */
     @Override
     public void run(RunNotifier notifier) {
-        setup();
+        if (isSkipStorage()){
+            log("");
+            log("-------------------------------------------------------------------------------");
+            log("Skipping REST Tests (" + testPlans.get(0).name + ") for storage " + ManagerTestUtils.getTestType().toString());
+            log("-------------------------------------------------------------------------------");
+            log("");
+            return;
+        } else {
+            setup();
 
-        PolicyTemplateUtil.clearCache();
-        MockGatewayServlet.reset();
+            PolicyTemplateUtil.clearCache();
+            MockGatewayServlet.reset();
 
-        log("");
-        log("-------------------------------------------------------------------------------");
-        log("Executing REST Test");
-        log("-------------------------------------------------------------------------------");
-        log("");
+            log("");
+            log("-------------------------------------------------------------------------------");
+            log("Executing REST Test");
+            log("-------------------------------------------------------------------------------");
+            log("");
 
-        try {
-            super.run(notifier);
-        } finally {
             try {
-                testServer.flush();
-                shutdown();
-            } catch (Throwable e) {
-                e.printStackTrace(); // TODO: Was this deliberate?
+                super.run(notifier);
+            } finally {
+                try {
+                    testServer.flush();
+                    shutdown();
+                } catch (Throwable e) {
+                    e.printStackTrace(); // TODO: Was this deliberate?
+                }
+                resetSystemProperties();
             }
-            resetSystemProperties();
-        }
 
-        log("");
-        log("-------------------------------------------------------------------------------");
-        log("REST Test complete");
-        log("-------------------------------------------------------------------------------");
-        log("");
+            log("");
+            log("-------------------------------------------------------------------------------");
+            log("REST Test complete");
+            log("-------------------------------------------------------------------------------");
+            log("");
+
+        }
     }
 
     /**
@@ -433,5 +444,9 @@ public class ManagerRestTester extends ParentRunner<TestInfo> {
 
     public static class PublishPayloadTestInfo extends TestInfo {
         String[] expectedPayloads;
+    }
+
+    private Boolean isSkipStorage(){
+        return testPlans.get(0).plan.getSkipStorage() != null && testPlans.get(0).plan.getSkipStorage().equals(ManagerTestUtils.getTestType().toString());
     }
 }
