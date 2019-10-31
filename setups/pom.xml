@@ -25,6 +25,10 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>apiman-distro-data</artifactId>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>keycloak-docker-image</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

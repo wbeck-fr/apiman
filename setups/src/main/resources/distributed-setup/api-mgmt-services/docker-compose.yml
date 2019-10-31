@@ -31,7 +31,7 @@ services:
       - 'DB_VENDOR=mysql'
       - 'KEYCLOAK_USER=${KEYCLOAK_ADMIN_USERNAME}'
       - 'KEYCLOAK_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}'
-      - 'KEYCLOAK_IMPORT=/opt/api-mgmt/realm.json'
+      - 'KEYCLOAK_IMPORT=/opt/api-mgmt/keycloak-default-realm.json'
       - 'JDBC_PARAMS=useSSL=false' # No need for SSL between MySQL <-> Keycloak in a docker network
       # Following variables are used to create self-signed certificates
       - 'ENDPOINT=${ENDPOINT}'

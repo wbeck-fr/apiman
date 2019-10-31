@@ -24,6 +24,24 @@
         </includes>
       </unpackOptions>
     </dependencySet>
+    <dependencySet>
+      <outputDirectory>api-mgmt/configs/bootstrap</outputDirectory>
+      <includes>
+        <include>io.apiman:keycloak-docker-image:jar</include>
+      </includes>
+      <useProjectArtifact>false</useProjectArtifact>
+      <useProjectAttachments>false</useProjectAttachments>
+      <useTransitiveDependencies>false</useTransitiveDependencies>
+      <useTransitiveFiltering>false</useTransitiveFiltering>
+      <directoryMode>0755</directoryMode>
+      <fileMode>0755</fileMode>
+      <unpack>true</unpack>
+      <unpackOptions>
+        <includes>
+          <include>keycloak-default-realm.json</include>
+        </includes>
+      </unpackOptions>
+    </dependencySet>
   </dependencySets>
   <fileSets>
     <fileSet>

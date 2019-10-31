@@ -6,7 +6,6 @@
     <version>7.6.0</version>
   </parent>
   <artifactId>keycloak-docker-image</artifactId>
-  <packaging>pom</packaging>
   <name>keycloak-docker-image</name>
 
   <properties>
@@ -72,7 +71,7 @@
                           <fileSet>
                             <includes>
                               <include>target/resources/apiman/**/*</include>
-                              <include>target/resources/realm.json</include>
+                              <include>target/resources/keycloak-default-realm.json</include>
                             </includes>
                             <filtered>false</filtered>
                           </fileSet>
