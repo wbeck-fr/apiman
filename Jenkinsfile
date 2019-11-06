@@ -6,7 +6,6 @@ pipeline {
     agent {
         node {
             label 'cscabbia'
-            customWorkspace "workspace/Apiman-Pipeline"
         }
     }
 
@@ -30,6 +29,12 @@ pipeline {
         stage('Clean') {
             steps {
                 sh 'git clean -xdf'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install -DskipTests'
             }
         }
 
@@ -194,36 +199,30 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                sh 'mvn clean install -DskipTests'
+        stage('Trigger Apiman-Plugins-Pipeline') {
+            parallel {
+                stage('Release Build') {
+                    when {
+                        anyOf {
+                            branch '**/e2e_release'
+                        }
+                    }
+                    steps {
+                        build job: '../Apiman-Plugins-Pipeline/e2e_release', wait: true
+                    }
+                }
+
+                stage('Master Build') {
+                    when {
+                        anyOf {
+                            branch '**/e2e_master'
+                        }
+                    }
+                    steps {
+                        build job: '../Apiman-Plugins-Pipeline/e2e_master', wait: true
+                    }
+                }
             }
-        }
-
-         stage('Trigger Apiman-Plugins-Pipeline') {
-             parallel {
-                 stage('Release Build') {
-                     when {
-                         anyOf {
-                             branch '**/e2e_release'
-                         }
-                     }
-                     steps {
-                         build job: '../Apiman-Plugins-Pipeline/e2e_release', wait: true
-                     }
-                 }
-
-                 stage('Master Build') {
-                     when {
-                         anyOf {
-                             branch '**/e2e_master'
-                         }
-                     }
-                     steps {
-                         build job: '../Apiman-Plugins-Pipeline/e2e_master', wait: true
-                     }
-                 }
-             }
         }
 
         stage('Build docker images') {
@@ -309,14 +308,14 @@ pipeline {
         }
 
         stage('Deployment to Apitest') {
-                when {
-                  branch '**/e2e_master'
+            when {
+              branch '**/e2e_master'
+            }
+            steps {
+                script {
+                    sh 'ssh -i ~/.ssh/apiteste2ech apimgmt@apitest.e2e.ch "bash -s" < ./ci/deploy-api-mgmt.sh "/home/apimgmt/api-mgmt/single-host-setup/" "${PROJECT_VERSION}" "${GIT_COMMIT_SHORT}" "${BUILD_NUMBER}" "${BRANCH_NAME}"'
                 }
-                steps {
-                    script {
-                        sh 'ssh -i ~/.ssh/apiteste2ech apimgmt@apitest.e2e.ch "bash -s" < ./ci/deploy-api-mgmt.sh "/home/apimgmt/api-mgmt/single-host-setup/" "${PROJECT_VERSION}" "${GIT_COMMIT_SHORT}" "${BUILD_NUMBER}" "${BRANCH_NAME}"'
-                    }
-                }
+            }
         }
 
         stage('Publish release builds to NAS1/Nexus') {
