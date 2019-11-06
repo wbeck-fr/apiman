@@ -41,4 +41,6 @@ public interface IReaderHandler {
     
     public void onOrg(ObjectNode node) throws IOException;
 
+    void onDeveloper(ObjectNode node) throws IOException;
+
 }

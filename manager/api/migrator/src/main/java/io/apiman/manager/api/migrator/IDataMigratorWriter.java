@@ -39,4 +39,6 @@ public interface IDataMigratorWriter extends AutoCloseable {
     
     public void writeOrg(ObjectNode node) throws IOException;
 
+    void writeDeveloper(ObjectNode node) throws IOException;
+
 }

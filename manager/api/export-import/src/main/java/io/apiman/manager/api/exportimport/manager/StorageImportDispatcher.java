@@ -31,6 +31,7 @@ import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientStatus;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
 import io.apiman.manager.api.beans.idm.RoleBean;
 import io.apiman.manager.api.beans.idm.RoleMembershipBean;
@@ -441,6 +442,19 @@ public class StorageImportDispatcher implements IImportReaderDispatcher {
             logger.info(Messages.i18n.format("StorageImportDispatcher.ImportingAuditEntry") + entry.getId()); //$NON-NLS-1$
             entry.setId(null);
             storage.createAuditEntry(entry);
+        } catch (StorageException e) {
+            error(e);
+        }
+    }
+
+    /**
+     * @see io.apiman.manager.api.exportimport.read.IImportReaderDispatcher#developer(DeveloperBean)
+     */
+    @Override
+    public void developer(DeveloperBean developer) {
+        try {
+            logger.info(Messages.i18n.format("StorageImportDispatcher.ImportingDeveloper") + developer.getId());
+            storage.createDeveloper(developer);
         } catch (StorageException e) {
             error(e);
         }

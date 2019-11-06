@@ -127,6 +127,14 @@ public class JsonDataMigratorReader implements IDataMigratorReader {
                         readerHandler.onOrg(obj);
                         jp.nextToken();
                     }
+                } else if (name.equals("Developers")) { //$NON-NLS-1$
+                    readArrayStart();
+                    while (jp.getCurrentToken() == JsonToken.START_OBJECT) {
+                        ObjectNode obj = readObjectNode();
+                        readerHandler.onDeveloper(obj);
+                        jp.nextToken();
+                    }
+
                 }
             }
         } finally {

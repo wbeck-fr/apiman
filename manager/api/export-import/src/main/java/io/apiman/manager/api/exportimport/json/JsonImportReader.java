@@ -21,6 +21,7 @@ import io.apiman.manager.api.beans.audit.AuditEntryBean;
 import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
 import io.apiman.manager.api.beans.idm.RoleBean;
 import io.apiman.manager.api.beans.idm.RoleMembershipBean;
@@ -120,6 +121,9 @@ public class JsonImportReader extends AbstractJsonReader implements IImportReade
                     break;
                 case Orgs:
                     readOrgs();
+                    break;
+                case Developers:
+                    processEntities(DeveloperBean.class, dispatcher::developer);
                     break;
                 default:
                     throw new IllegalArgumentException("Unhandled field: " + fieldName);

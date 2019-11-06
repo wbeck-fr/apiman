@@ -56,4 +56,12 @@ public class NewDeveloperBean implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "NewDeveloperBean [name=" + name + ",clients=" + clients + "]";
+    }
 }

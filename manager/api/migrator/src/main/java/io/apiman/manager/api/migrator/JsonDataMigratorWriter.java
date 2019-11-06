@@ -168,7 +168,21 @@ public class JsonDataMigratorWriter implements IDataMigratorWriter {
         }
         jg.writeObject(node);
     }
-    
+
+    /**
+     * @see io.apiman.manager.api.migrator.IDataMigratorWriter#writeDeveloper(com.fasterxml.jackson.databind.node.ObjectNode)
+     */
+    @Override
+    public void writeDeveloper(ObjectNode node) throws IOException {
+        if (!sections.contains("Developers")) { //$NON-NLS-1$
+            closeFieldArray();
+            jg.writeArrayFieldStart("Developers"); //$NON-NLS-1$
+            arrayFieldOpen = true;
+            sections.add("Developers"); //$NON-NLS-1$
+        }
+        jg.writeObject(node);
+    }
+
     /**
      * Closes the current field array if one is open.
      * @throws IOException

@@ -107,6 +107,16 @@ public class VersionMigratorChain implements IVersionMigrator {
     }
 
     /**
+     * @see io.apiman.manager.api.migrator.IVersionMigrator#migrateDeveloper(com.fasterxml.jackson.databind.node.ObjectNode)
+     */
+    @Override
+    public void migrateDeveloper(ObjectNode node) {
+        for (IVersionMigrator migrator : migrators) {
+            migrator.migrateDeveloper(node);
+        }
+    }
+
+    /**
      * @return true if there is at least one migrator in the chain
      */
     public boolean hasMigrators() {

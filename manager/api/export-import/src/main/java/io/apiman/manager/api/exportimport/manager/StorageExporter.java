@@ -22,6 +22,7 @@ import io.apiman.manager.api.beans.audit.AuditEntryBean;
 import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
 import io.apiman.manager.api.beans.idm.RoleBean;
 import io.apiman.manager.api.beans.idm.RoleMembershipBean;
@@ -87,6 +88,7 @@ public class StorageExporter {
                 exportPlugins();
                 exportRoles();
                 exportPolicyDefs();
+                exportDevelopers();
 
                 exportOrgs();
             } finally {
@@ -388,6 +390,26 @@ public class StorageExporter {
             writer.endPolicyDefs();
         }
         catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void exportDevelopers() {
+        Iterator<DeveloperBean> iter;
+        try {
+            iter = storage.getDevelopers();
+            writer.startDevelopers();
+
+            // iter can be null because jpa storage is not implemented
+            while (iter != null && iter.hasNext()){
+                DeveloperBean bean = iter.next();
+                logger.info(Messages.i18n.format("StorageExporter.ExportingDeveloper") + bean); //$NON-NLS-1$
+                writer.writeDeveloper(bean);
+            }
+
+            writer.endDevelopers();
+
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

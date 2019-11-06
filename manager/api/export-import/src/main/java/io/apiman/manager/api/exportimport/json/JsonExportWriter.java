@@ -21,6 +21,7 @@ import io.apiman.manager.api.beans.audit.AuditEntryBean;
 import io.apiman.manager.api.beans.clients.ClientBean;
 import io.apiman.manager.api.beans.clients.ClientVersionBean;
 import io.apiman.manager.api.beans.contracts.ContractBean;
+import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.gateways.GatewayBean;
 import io.apiman.manager.api.beans.idm.RoleBean;
 import io.apiman.manager.api.beans.idm.RoleMembershipBean;
@@ -175,6 +176,29 @@ public class JsonExportWriter extends AbstractJsonWriter<GlobalElementsEnum> imp
         validityCheckEnd(GlobalElementsEnum.PolicyDefinitions);
         writeEndArray(GlobalElementsEnum.PolicyDefinitions);
         unlock(GlobalElementsEnum.PolicyDefinitions);
+        return this;
+    }
+
+    @Override
+    public IExportWriter startDevelopers() {
+        validityCheckStart(GlobalElementsEnum.Developers);
+        lock(GlobalElementsEnum.Developers);
+        writeStartArray(GlobalElementsEnum.Developers);
+        return this;
+    }
+
+    @Override
+    public IExportWriter writeDeveloper(DeveloperBean bean) {
+        writeCheck(GlobalElementsEnum.Developers);
+        writePojo(bean);
+        return this;
+    }
+
+    @Override
+    public IExportWriter endDevelopers() {
+        validityCheckEnd(GlobalElementsEnum.Developers);
+        writeEndArray(GlobalElementsEnum.Developers);
+        unlock(GlobalElementsEnum.Developers);
         return this;
     }
 

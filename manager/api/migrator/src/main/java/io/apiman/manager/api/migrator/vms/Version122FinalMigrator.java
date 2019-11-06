@@ -109,4 +109,11 @@ public class Version122FinalMigrator implements IVersionMigrator {
         }
         
     }
+
+    /**
+     * @see io.apiman.manager.api.migrator.IVersionMigrator#migrateDeveloper(ObjectNode)
+     */
+    @Override
+    public void migrateDeveloper(ObjectNode node) {
+    }
 }

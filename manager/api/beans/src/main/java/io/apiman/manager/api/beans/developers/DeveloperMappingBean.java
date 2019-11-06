@@ -49,5 +49,13 @@ public class DeveloperMappingBean implements Serializable {
     public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "DeveloperMappingBean [clientId=" + clientId + ",organizationId=" + organizationId + "]";
+    }
 }
 

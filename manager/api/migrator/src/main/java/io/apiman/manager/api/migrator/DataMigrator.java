@@ -216,6 +216,18 @@ public class DataMigrator implements IReaderHandler {
     }
 
     /**
+     * @see io.apiman.manager.api.migrator.IReaderHandler#onDeveloper(ObjectNode)
+     */
+    @Override
+    public void onDeveloper(ObjectNode node) throws IOException {
+        if (chain.hasMigrators()) {
+            logger.info(Messages.i18n.format("DataMigrator.MigratingDeveloper", node.get("name"))); //$NON-NLS-1$ //$NON-NLS-2$
+            chain.migrateDeveloper(node);
+        }
+        writer.writeDeveloper(node);
+    }
+
+    /**
      * @return the version
      */
     public Version getVersion() {
