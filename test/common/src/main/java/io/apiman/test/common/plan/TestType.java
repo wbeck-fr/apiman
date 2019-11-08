@@ -47,6 +47,8 @@ public class TestType {
     protected String endpoint;
     @XmlAttribute(name = "delay")
     private Integer delay;
+    @XmlAttribute(name = "skipStorage")
+    private String skipStorage;
 
     /**
      * Gets the value of the value property.
@@ -70,6 +72,30 @@ public class TestType {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * Gets the value of the skipStorage property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getSkipStorage() {
+        return skipStorage;
+    }
+
+    /**
+     * Sets the value of the skipStorage property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public void setSkipStorage(String skipStorage) {
+        this.skipStorage = skipStorage;
     }
 
     /**

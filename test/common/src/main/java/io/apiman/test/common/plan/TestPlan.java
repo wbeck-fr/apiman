@@ -50,7 +50,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "skipStorage", "testGroup"
+        "testGroup"
 })
 @XmlRootElement(name = "testPlan")
 public class TestPlan {
@@ -61,8 +61,6 @@ public class TestPlan {
     protected String name;
     @XmlAttribute(name = "endpoint")
     protected String endpoint;
-    @XmlElement(name = "skipStorage")
-    protected String skipStorage;
 
     /**
      * Gets the value of the testGroup property.
@@ -139,23 +137,5 @@ public class TestPlan {
      */
     public void setEndpoint(String value) {
         this.endpoint = value;
-    }
-
-    /**
-     * Gets the value of the skipStorage property.
-     *
-     * @return possible object is {@link String}
-     */
-    public String getSkipStorage() {
-        return skipStorage;
-    }
-
-    /**
-     * Sets the value of the skipStorage property
-     *
-     * @param skipStorage allowed object is {@link String}
-     */
-    public void setSkipStorage(String skipStorage) {
-        this.skipStorage = skipStorage;
     }
 }

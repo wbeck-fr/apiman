@@ -226,44 +226,34 @@ public class ManagerRestTester extends ParentRunner<TestInfo> {
      */
     @Override
     public void run(RunNotifier notifier) {
-        if (isSkipStorage()){
-            log("");
-            log("-------------------------------------------------------------------------------");
-            log("Skipping REST Tests (" + testPlans.get(0).name + ") for storage " + ManagerTestUtils.getTestType().toString());
-            log("-------------------------------------------------------------------------------");
-            log("");
-            return;
-        } else {
-            setup();
+        setup();
 
-            PolicyTemplateUtil.clearCache();
-            MockGatewayServlet.reset();
+        PolicyTemplateUtil.clearCache();
+        MockGatewayServlet.reset();
 
-            log("");
-            log("-------------------------------------------------------------------------------");
-            log("Executing REST Test");
-            log("-------------------------------------------------------------------------------");
-            log("");
+        log("");
+        log("-------------------------------------------------------------------------------");
+        log("Executing REST Test");
+        log("-------------------------------------------------------------------------------");
+        log("");
 
+        try {
+            super.run(notifier);
+        } finally {
             try {
-                super.run(notifier);
-            } finally {
-                try {
-                    testServer.flush();
-                    shutdown();
-                } catch (Throwable e) {
-                    e.printStackTrace(); // TODO: Was this deliberate?
-                }
-                resetSystemProperties();
+                testServer.flush();
+                shutdown();
+            } catch (Throwable e) {
+                e.printStackTrace(); // TODO: Was this deliberate?
             }
-
-            log("");
-            log("-------------------------------------------------------------------------------");
-            log("REST Test complete");
-            log("-------------------------------------------------------------------------------");
-            log("");
-
+            resetSystemProperties();
         }
+
+        log("");
+        log("-------------------------------------------------------------------------------");
+        log("REST Test complete");
+        log("-------------------------------------------------------------------------------");
+        log("");
     }
 
     /**
@@ -271,6 +261,7 @@ public class ManagerRestTester extends ParentRunner<TestInfo> {
      */
     @Override
     protected void runChild(final TestInfo testInfo, RunNotifier notifier) {
+
         log("-----------------------------------------------------------");
         log("Starting Test [{0} / {1}]", testInfo.plan.name, testInfo.name);
         log("-----------------------------------------------------------");
@@ -319,32 +310,43 @@ public class ManagerRestTester extends ParentRunner<TestInfo> {
             runLeaf(new Statement() {
                 @Override
                 public void evaluate() throws Throwable {
-                    String rtPath = testInfo.test.getValue();
-                    Integer delay = testInfo.test.getDelay();
+                    if (skipCurrentStorage(testInfo)){
 
-                    if (delay != null) {
-                        try { Thread.sleep(delay); } catch (InterruptedException e) { }
+                        log("-----------------------------------------------------------");
+                        log("Skipping Test [{0} / {1} for storage {2}]", testInfo.plan.name, testInfo.name, ManagerTestUtils.getTestType().toString());
+                        log("-----------------------------------------------------------");
+
+                    } else {
+
+                        String rtPath = testInfo.test.getValue();
+                        Integer delay = testInfo.test.getDelay();
+
+                        if (delay != null) {
+                            try { Thread.sleep(delay); } catch (InterruptedException e) { }
+                        }
+                        if (rtPath != null && !rtPath.trim().isEmpty()) {
+                            RestTest restTest = TestUtil.loadRestTest(rtPath, getTestClass().getJavaClass().getClassLoader());
+                            String endpoint = testInfo.plan.endpoint;
+                            if (StringUtils.isEmpty(endpoint)) {
+                                endpoint = TestUtil.doPropertyReplacement(testInfo.test.getEndpoint());
+                            }
+                            if (StringUtils.isEmpty(endpoint)) {
+                                endpoint = TestUtil.doPropertyReplacement(testInfo.group.getEndpoint());
+                            }
+                            if (StringUtils.isEmpty(endpoint)) {
+                                endpoint = TestUtil.doPropertyReplacement(testInfo.plan.plan.getEndpoint());
+                            }
+                            if (StringUtils.isEmpty(endpoint)) {
+                                endpoint = "http://localhost:" + getTestServerPort() + getBaseApiContext();
+                            }
+                            testInfo.plan.runner.runTest(restTest, endpoint);
+                        }
                     }
-                    if (rtPath != null && !rtPath.trim().isEmpty()) {
-                        RestTest restTest = TestUtil.loadRestTest(rtPath, getTestClass().getJavaClass().getClassLoader());
-                        String endpoint = testInfo.plan.endpoint;
-                        if (StringUtils.isEmpty(endpoint)) {
-                            endpoint = TestUtil.doPropertyReplacement(testInfo.test.getEndpoint());
-                        }
-                        if (StringUtils.isEmpty(endpoint)) {
-                            endpoint = TestUtil.doPropertyReplacement(testInfo.group.getEndpoint());
-                        }
-                        if (StringUtils.isEmpty(endpoint)) {
-                            endpoint = TestUtil.doPropertyReplacement(testInfo.plan.plan.getEndpoint());
-                        }
-                        if (StringUtils.isEmpty(endpoint)) {
-                            endpoint = "http://localhost:" + getTestServerPort() + getBaseApiContext();
-                        }
-                        testInfo.plan.runner.runTest(restTest, endpoint);
-                    }
+
                 }
             }, description, notifier);
         }
+
     }
 
     /**
@@ -446,7 +448,7 @@ public class ManagerRestTester extends ParentRunner<TestInfo> {
         String[] expectedPayloads;
     }
 
-    private Boolean isSkipStorage(){
-        return testPlans.get(0).plan.getSkipStorage() != null && testPlans.get(0).plan.getSkipStorage().equals(ManagerTestUtils.getTestType().toString());
+    private Boolean skipCurrentStorage(TestInfo testInfo){
+        return testInfo.test.getSkipStorage() != null && testInfo.test.getSkipStorage().equals(ManagerTestUtils.getTestType().toString());
     }
 }
