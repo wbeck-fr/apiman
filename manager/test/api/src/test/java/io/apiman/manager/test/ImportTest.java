@@ -27,7 +27,6 @@ import org.junit.runner.RunWith;
  * @author eric.wittmann@redhat.com
  */
 @RunWith(ManagerRestTester.class)
-@ManagerRestTestPlan("test-plans/import-testPlan.xml")
 @ManagerRestTestGatewayLog(
         "GET:/mock-gateway/system/status\n" +
         "PUT:/mock-gateway/apis\n" +
@@ -35,4 +34,12 @@ import org.junit.runner.RunWith;
         "PUT:/mock-gateway/clients\n"
   )
 public class ImportTest {
+
+  @ManagerRestTestPlan("test-plans/import-testPlan.xml")
+  public void importTestPlan(){}
+
+  // Order=1 to add a second test case
+  @ManagerRestTestPlan(value = "test-plans/importDeveloper-testPlan.xml", order = 1)
+  public void importDeveloperTestPlan(){}
+
 }
