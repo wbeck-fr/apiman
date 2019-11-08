@@ -8,9 +8,15 @@
 
 package io.apiman.test.common.plan;
 
-import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -19,38 +25,24 @@ import java.util.List;
  * <p>The following schema fragment specifies the expected content contained within this class.
  *
  * <pre>
- *  <xs:complexType>
- *       <xs:sequence>
- *         <xs:element name="skipStorage" type="xs:string" minOccurs="0"/>
- *         <xs:element name="testGroup" type="tns:testGroupType" maxOccurs="unbounded"/>
+ * &lt;complexType>
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *       <xs:attribute name="name" type="xs:string" use="required"/>
- *       <xs:attribute name="endpoint" type="xs:string"/>
- *     &lt;complexType>
- *   &lt;element>
- *
- *   <xs:complexType name="testGroupType">
- *     <xs:sequence>
- *       <xs:element name="test" type="tns:testType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
- *     &lt;sequence>
- *     <xs:attribute name="name" type="xs:string" use="required"/>
- *     <xs:attribute name="endpoint" type="xs:string"/>
- *   &lt;complexType>
- *
- *   <xs:complexType name="testType">
- *     <xs:simpleContent>
- *       <xs:extension base="xs:string">
- *         <xs:attribute name="name" type="xs:string" use="required"/>
- *         <xs:attribute name="endpoint" type="xs:string"/>
- *         <xs:attribute name="delay" type="xs:int"/>
- *       &lt;extension>
- *     &lt;simpleContent>
- *   &lt;complexType>
+ *         &lt;element name="testGroup" type="{urn:io.apiman.test:2014:02:testPlan}testGroupType" maxOccurs="unbounded"/>
+ *       &lt;/sequence>
+ *       &lt;attribute name="name" use="required" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="endpoint" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
  * </pre>
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-        "testGroup"
+    "testGroup"
 })
 @XmlRootElement(name = "testPlan")
 public class TestPlan {
@@ -138,4 +130,5 @@ public class TestPlan {
     public void setEndpoint(String value) {
         this.endpoint = value;
     }
+
 }

@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testPlan xmlns="urn:io.apiman.test:2014:02:testPlan">
 
-  <!--jpa is not implemented so we skip the tests always-->
-  <skipStorage>jpa</skipStorage>
-
   <!--Copied from test-plans/all-testPlan.xml and test-plans/public-api-testPlan.xml-->
   <testGroup name="Create Entities">
-    <test name="Create Gateway">test-plan-data/all/creates/000_create-gateway.resttest</test>
-    <test name="Create Organization">test-plan-data/all/creates/001_create_org.resttest</test>
-    <test name="Create Plan">test-plan-data/all/creates/002_create-plan1.resttest</test>
-    <test name="Create Plan Version">test-plan-data/all/creates/003_create-plan1-version-1.0.resttest</test>
-    <test name="Lock Plan">test-plan-data/all/publish/003_lock-plan-1.resttest</test>
-    <test name="Create Client">test-plan-data/all/creates/004_create-client1.resttest</test>
-    <test name="Create Client Version">test-plan-data/all/creates/005_create-client1-version-1.0.resttest</test>
-    <test name="Create API">test-plan-data/all/creates/006_create-api1.resttest</test>
-    <test name="Create API Version">test-plan-data/public-api/003_create-api-version.resttest</test>
-    <test name="Update API Version">test-plan-data/all/creates/007.5_update-api1-version-1.0.resttest</test>
-    <test name="Publish API">test-plan-data/all/publish/001_publish-api-1.resttest</test>
-    <test name="Create Contract">test-plan-data/all/creates/008_create-contract1.resttest</test>
-    <test name="Register Client">test-plan-data/all/publish/002_register-client-1.resttest</test>
+    <test name="Create Gateway" skipStorage="jpa">test-plan-data/all/creates/000_create-gateway.resttest</test>
+    <test name="Create Organization" skipStorage="jpa">test-plan-data/all/creates/001_create_org.resttest</test>
+    <test name="Create Plan" skipStorage="jpa">test-plan-data/all/creates/002_create-plan1.resttest</test>
+    <test name="Create Plan Version" skipStorage="jpa">test-plan-data/all/creates/003_create-plan1-version-1.0.resttest</test>
+    <test name="Lock Plan" skipStorage="jpa">test-plan-data/all/publish/003_lock-plan-1.resttest</test>
+    <test name="Create Client" skipStorage="jpa">test-plan-data/all/creates/004_create-client1.resttest</test>
+    <test name="Create Client Version" skipStorage="jpa">test-plan-data/all/creates/005_create-client1-version-1.0.resttest</test>
+    <test name="Create API" skipStorage="jpa">test-plan-data/all/creates/006_create-api1.resttest</test>
+    <test name="Create API Version" skipStorage="jpa">test-plan-data/public-api/003_create-api-version.resttest</test>
+    <test name="Update API Version" skipStorage="jpa">test-plan-data/all/creates/007.5_update-api1-version-1.0.resttest</test>
+    <test name="Publish API" skipStorage="jpa">test-plan-data/all/publish/001_publish-api-1.resttest</test>
+    <test name="Create Contract" skipStorage="jpa">test-plan-data/all/creates/008_create-contract1.resttest</test>
+    <test name="Register Client" skipStorage="jpa">test-plan-data/all/publish/002_register-client-1.resttest</test>
   </testGroup>
 
+  <!--jpa is not implemented so we skip the tests always-->
   <testGroup name="Developers">
-    <test name="Create Developer">test-plan-data/developers/001_createDeveloper.resttest</test>
-    <test name="Create Already Exists Developer">test-plan-data/developers/002_createAlreadyExists.resttest</test>
-    <test name="Get Developer">test-plan-data/developers/003_getDeveloper.resttest</test>
-    <test name="Create Second Developer">test-plan-data/developers/004_createSecondDeveloper.resttest</test>
-    <test name="Get All Developers">test-plan-data/developers/005_getAllDevelopers.resttest</test>
-    <test name="Get All Matching Clients">test-plan-data/developers/006_getAllMatchingClientVersions.resttest</test>
-    <test name="Get All Matching Contracts">test-plan-data/developers/007_getAllMatchingContracts.resttest</test>
-    <test name="Get All Matching API Versions">test-plan-data/developers/008_getAllMatchingApiVersions.resttest</test>
-    <test name="Delete Developer">test-plan-data/developers/009_deleteDeveloper.resttest</test>
-    <test name="Update Second Developer">test-plan-data/developers/010_updateSecondDeveloper.resttest</test>
-    <test name="Get Second Developer">test-plan-data/developers/011_getUpdatedSecondDeveloper.resttest</test>
-    <test name="Get All Public API Versions">test-plan-data/developers/012_getAllPublicAPiVersions.resttest</test>
+    <test name="Create Developer" skipStorage="jpa">test-plan-data/developers/001_createDeveloper.resttest</test>
+    <test name="Create Already Exists Developer" skipStorage="jpa">test-plan-data/developers/002_createAlreadyExists.resttest</test>
+    <test name="Get Developer" skipStorage="jpa">test-plan-data/developers/003_getDeveloper.resttest</test>
+    <test name="Create Second Developer" skipStorage="jpa">test-plan-data/developers/004_createSecondDeveloper.resttest</test>
+    <test name="Get All Developers" skipStorage="jpa">test-plan-data/developers/005_getAllDevelopers.resttest</test>
+    <test name="Get All Matching Clients" skipStorage="jpa">test-plan-data/developers/006_getAllMatchingClientVersions.resttest</test>
+    <test name="Get All Matching Contracts" skipStorage="jpa">test-plan-data/developers/007_getAllMatchingContracts.resttest</test>
+    <test name="Get All Matching API Versions" skipStorage="jpa">test-plan-data/developers/008_getAllMatchingApiVersions.resttest</test>
+    <test name="Delete Developer" skipStorage="jpa">test-plan-data/developers/009_deleteDeveloper.resttest</test>
+    <test name="Update Second Developer" skipStorage="jpa">test-plan-data/developers/010_updateSecondDeveloper.resttest</test>
+    <test name="Get Second Developer" skipStorage="jpa">test-plan-data/developers/011_getUpdatedSecondDeveloper.resttest</test>
+    <test name="Get All Public API Versions" skipStorage="jpa">test-plan-data/developers/012_getAllPublicAPiVersions.resttest</test>
   </testGroup>
 
 </testPlan>
