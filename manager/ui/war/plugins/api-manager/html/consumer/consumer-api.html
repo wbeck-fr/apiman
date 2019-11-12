@@ -113,7 +113,8 @@
                     <div class="apiman-plans">
                       <div class="col-md-10 col-no-padding">
                         <i class="fa fa-fw fa-bar-chart-o icon"></i>
-                        <span class="title"><a data-toggle="collapse" ng-click="getPolicyChain(plan)" href="#collapse{{ $index }}">{{ plan.planName }}</a></span>
+                        <!-- See: https://stackoverflow.com/a/19947501 -->
+                        <span class="title"><a href="javascript:;" data-toggle="collapse" ng-click="getPolicyChain(plan)" data-target="#collapse{{ $index }}">{{ plan.planName }} </a></span>
                         <div class="description">
                           {{ plan.planDescription }}
                         </div>
