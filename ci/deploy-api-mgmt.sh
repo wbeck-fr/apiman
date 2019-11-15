@@ -38,9 +38,9 @@ unzip -p /tmp/apiman.zip api-mgmt/single-host-setup/docker-compose.yml > docker-
 #replace version number to latest version
 sed -i "s/${2}/latest/g" docker-compose.yml
 #replace docker image with url from nexus
-sed -i "s/api-mgmt\/gateway/gitlab.scheer-group.com:8080\/api-mgmt\/gateway/g" docker-compose.yml
-sed -i "s/api-mgmt\/keycloak/gitlab.scheer-group.com:8080\/api-mgmt\/keycloak/g" docker-compose.yml
-sed -i "s/api-mgmt\/ui/gitlab.scheer-group.com:8080\/api-mgmt\/ui/g" docker-compose.yml
+sed -i "s/api-mgmt\/gateway:latest/gitlab.scheer-group.com:8080\/api-mgmt\/gateway:latest/g" docker-compose.yml
+sed -i "s/api-mgmt\/keycloak:latest/gitlab.scheer-group.com:8080\/api-mgmt\/keycloak:latest/g" docker-compose.yml
+sed -i "s/api-mgmt\/ui:latest/gitlab.scheer-group.com:8080\/api-mgmt\/ui:latest/g" docker-compose.yml
 
 #pull new docker images and start docker containers
 docker-compose pull
