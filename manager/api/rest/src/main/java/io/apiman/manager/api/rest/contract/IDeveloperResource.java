@@ -13,6 +13,7 @@ import io.apiman.manager.api.rest.contract.exceptions.NotAuthorizedException;
 import io.swagger.annotations.Api;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -158,5 +159,29 @@ public interface IDeveloperResource {
     @Path("{developerId}/apis")
     @Produces(MediaType.APPLICATION_JSON)
     List<ApiVersionBean> getAllApiVersions(@PathParam("developerId") String id) throws DeveloperNotFoundException, NotAuthorizedException;
+
+    /**
+     * Use this endpoint to retrieve the API Definition if the user has a contract to
+     * the requested API
+     *
+     * @param developerId The id of the developer
+     * @param organizationId The id of the organization
+     * @param apiId The id of the API
+     * @param version The version of the API
+     * @statuscode 200 If the API definition is successfully returned.
+     * @statuscode 404 If the API version does not exist.
+     * @return The API Definition document (e.g. a Swagger JSON file).
+     * @throws DeveloperNotFoundException
+     * @throws NotAuthorizedException
+     */
+    @GET
+    @Path("{developerId}/organizations/{organizationId}/apis/{apiId}/versions/{version}/definition")
+    @Produces({MediaType.APPLICATION_JSON, "application/wsdl+xml", "application/x-yaml"})
+    Response getApiDefinition(@PathParam("developerId") String developerId,
+                              @PathParam("organizationId") String organizationId,
+                              @PathParam("apiId") String apiId,
+                              @PathParam("version") String version)
+            throws DeveloperNotFoundException, NotAuthorizedException;
+
 
 }

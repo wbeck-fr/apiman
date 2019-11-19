@@ -19,6 +19,7 @@ import io.apiman.manager.api.rest.impl.util.FieldValidator;
 import io.apiman.manager.api.security.ISecurityContext;
 
 import javax.inject.Inject;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +39,8 @@ public class DeveloperResourceImpl implements IDeveloperResource {
     @Inject
     @ApimanLogger(DeveloperResourceImpl.class)
     IApimanLogger log;
+
+    private OrganizationResourceImpl organizationResource;
 
     /**
      * Constructor
@@ -182,7 +185,7 @@ public class DeveloperResourceImpl implements IDeveloperResource {
      * @throws StorageException           if something unexpected happens
      * @throws DeveloperNotFoundException when trying to get, update, or delete an organization that does not exist
      */
-    private DeveloperBean getDeveloperBeanFromStorage(String id) throws StorageException, DeveloperNotFoundException, NotAuthorizedException {
+    private DeveloperBean getDeveloperBeanFromStorage(String id) throws StorageException, DeveloperNotFoundException {
         DeveloperBean developerBean = storage.getDeveloper(id);
         if (developerBean == null) {
             throw ExceptionFactory.developerNotFoundException(id);
@@ -308,5 +311,55 @@ public class DeveloperResourceImpl implements IDeveloperResource {
             throw new SystemErrorException(e);
         }
         return apiVersionBeans;
+    }
+
+    /**
+     * @see IDeveloperResource#getApiDefinition(String, String, String, String)
+     */
+    @Override
+    public Response getApiDefinition(String developerId, String organizationId, String apiId, String version) throws DeveloperNotFoundException, NotAuthorizedException {
+        if (!securityContext.hasDevPortalPermissions(developerId)) {
+            throw ExceptionFactory.notAuthorizedException();
+        }
+
+        if (organizationResource == null) {
+            instantiateOrganizationResource();
+        }
+
+        Set<DeveloperMappingBean> developerClients;
+        List<ContractSummaryBean> contracts;
+
+        try {
+            storage.beginTx();
+            developerClients = getDeveloperBeanFromStorage(developerId).getClients();
+            // get all contracts from the API Version
+            contracts = query.getContracts(organizationId, apiId, version, 1, 10000);
+            storage.commitTx();
+
+            for (ContractSummaryBean contract : contracts) {
+                for (DeveloperMappingBean client : developerClients) {
+                    // check if the developer is allowed to request the definition
+                    if (client.getClientId().equals(contract.getClientId()) && client.getOrganizationId().equals(contract.getClientOrganizationId())) {
+                        return organizationResource.getApiDefinition(organizationId, apiId, version);
+                    }
+                }
+            }
+
+        } catch (StorageException e) {
+            storage.rollbackTx();
+            throw new SystemErrorException(e);
+        }
+        return null;
+    }
+
+    /**
+     * @see ActionResourceImpl#instantiateOrganizationResource()
+     */
+    private void instantiateOrganizationResource() {
+        organizationResource = new OrganizationResourceImpl();
+        organizationResource.securityContext = securityContext;
+        organizationResource.storage = storage;
+        organizationResource.query = query;
+        organizationResource.log = log;
     }
 }
