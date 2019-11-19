@@ -36,7 +36,7 @@ Content-Type: application/json
 	"createdBy": "admin",
 	"modifiedBy": "admin",
 	"retiredOn": null,
-	"definitionType": null,
+	"definitionType": "SwaggerJSON",
 	"parsePayload": false,
 	"definitionUrl": null
 }]
