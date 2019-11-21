@@ -94,7 +94,6 @@
     <version.compiler.plugin>3.2</version.compiler.plugin>
     <version.dependency.plugin>2.10</version.dependency.plugin>
     <version.deploy.plugin>2.8.2</version.deploy.plugin>
-    <version.enforcer.plugin>1.4</version.enforcer.plugin>
     <version.install.plugin>2.5.2</version.install.plugin>
     <version.jar.plugin>2.5</version.jar.plugin>
     <version.javadoc.plugin>2.10.1</version.javadoc.plugin>
@@ -114,7 +113,7 @@
     <!-- Dependency Versions -->
     <version.com.fasterxml.jackson>2.10.0</version.com.fasterxml.jackson>
     <version.com.h2database>1.3.173</version.com.h2database>
-    <version.com.lmax>3.2.0</version.com.lmax>
+    <version.com.lmax>3.4.2</version.com.lmax>
     <version.com.squareup.okhttp>2.4.0</version.com.squareup.okhttp>
     <version.com.squareup.okio>1.4.0</version.com.squareup.okio>
     <version.com.unboundid.unboundid-ldapsdk>3.0.0</version.com.unboundid.unboundid-ldapsdk>
@@ -1235,46 +1234,7 @@
 
   <build>
     <pluginManagement>
-      <plugins><!--
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>${version.enforcer.plugin}</version>
-          <dependencies>
-            <dependency>
-              <groupId>de.is24.maven.enforcer.rules</groupId>
-              <artifactId>illegal-transitive-dependency-check</artifactId>
-              <version>1.7.4</version>
-            </dependency>
-          </dependencies>
-          <executions>
-            <execution>
-              <id>enforcer-transitives-check</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
-              <phase>process-classes</phase>
-              <configuration>
-                <fail>true</fail>
-                <rules>
-                  <illegalTransitiveDependencyCheck implementation="de.is24.maven.enforcer.rules.IllegalTransitiveDependencyCheck">
-                    <reportOnly>false</reportOnly>
-                    <regexIgnoredClasses>
-                      <regexIgnoredClass>javax\..+</regexIgnoredClass>
-                      <regexIgnoredClass>org.w3c.dom\..+</regexIgnoredClass>
-                      <regexIgnoredClass>io.netty.buffer.ByteBuf</regexIgnoredClass>
-                      <regexIgnoredClass>org.json\..+</regexIgnoredClass>
-                    </regexIgnoredClasses>
-                    <useClassesFromLastBuild>true</useClassesFromLastBuild>
-                  </illegalTransitiveDependencyCheck>
-                  <Use this plugin to find out version mismatches:  https://dzone.com/articles/solving-dependency-conflicts-in-maven>
-                  <dependencyConvergence/>
-                </rules>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        -->
+      <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
@@ -1463,11 +1423,6 @@
             <forceLongFormat>false</forceLongFormat>
           </gitDescribe>
         </configuration>
-      </plugin>
-      <!-- Enforcer-related stuff -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
       </plugin>
       <!-- Include the maven-compiler-plugin settings here so that Eclipse/m2e will properly import the projects. -->
       <plugin>
