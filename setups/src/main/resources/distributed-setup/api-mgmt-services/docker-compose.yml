@@ -217,6 +217,31 @@ services:
         max-file: "10"
         mode: non-blocking
     restart: always
+  devportal:
+    image: 'api-mgmt/devportal:${docker-compose.api-mgmt.devportal.version}'
+    container_name: devportal
+    environment:
+      - 'APIMAN_UI_REST_URL=https://${ENDPOINT}:${UI_PORT}/apiman'
+      - 'KEYCLOAK_AUTH_URL=https://${ENDPOINT}:${KEYCLOAK_PORT}/auth'
+    ports:
+      - '${DEV_PORTAL_PORT}:443'
+    depends_on:
+      - keycloak
+      - ui
+    volumes:
+      - type: bind
+        source: ./../../configs/tls.crt
+        target: /etc/ssl/certs/tls.crt
+      - type: bind
+        source: ./../../configs/tls.key
+        target: /etc/ssl/private/tls.key
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        mode: non-blocking
+    restart: always
 volumes:
   mysql_data:
     driver: local

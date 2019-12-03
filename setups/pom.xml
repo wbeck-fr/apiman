@@ -13,6 +13,7 @@
     <docker-compose.api-mgmt.ui.version>${project.version}</docker-compose.api-mgmt.ui.version>
     <docker-compose.api-mgmt.gateway.version>${project.version}</docker-compose.api-mgmt.gateway.version>
     <docker-compose.api-mgmt.keycloak.version>${project.version}</docker-compose.api-mgmt.keycloak.version>
+    <docker-compose.api-mgmt.devportal.version>${project.version}</docker-compose.api-mgmt.devportal.version>
     <docker-compose.api-mgmt.keycloak-gatekeeper.version>${version.org.keycloak}</docker-compose.api-mgmt.keycloak-gatekeeper.version>
     <docker-compose.api-mgmt.mysql.version>5.7.25</docker-compose.api-mgmt.mysql.version>
     <docker-compose.api-mgmt.elasticsearch.version>${version.org.elasticsearch}</docker-compose.api-mgmt.elasticsearch.version>
