@@ -41,6 +41,7 @@ sed -i "s/${2}/latest/g" docker-compose.yml
 sed -i "s/api-mgmt\/gateway:latest/gitlab.scheer-group.com:8080\/api-mgmt\/gateway:latest/g" docker-compose.yml
 sed -i "s/api-mgmt\/keycloak:latest/gitlab.scheer-group.com:8080\/api-mgmt\/keycloak:latest/g" docker-compose.yml
 sed -i "s/api-mgmt\/ui:latest/gitlab.scheer-group.com:8080\/api-mgmt\/ui:latest/g" docker-compose.yml
+sed -i "s/api-mgmt\/devportal:latest/gitlab.scheer-group.com:8080\/api-mgmt\/devportal:latest/g" docker-compose.yml
 
 #pull new docker images and start docker containers
 docker-compose pull

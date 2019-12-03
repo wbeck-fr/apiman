@@ -199,7 +199,7 @@ pipeline {
             }
         }
 
-        stage('Trigger Apiman-Plugins-Pipeline') {
+        stage('Trigger Devportal/Plugins') {
             parallel {
                 stage('Release Build') {
                     when {
@@ -208,6 +208,7 @@ pipeline {
                         }
                     }
                     steps {
+                        build job: '../Api-Mgmt-Dev-Portal/e2e_release', wait: false
                         build job: '../Apiman-Plugins-Pipeline/e2e_release', wait: true
                     }
                 }
@@ -219,6 +220,7 @@ pipeline {
                         }
                     }
                     steps {
+                        build job: '../Api-Mgmt-Dev-Portal/e2e_master', wait: false
                         build job: '../Apiman-Plugins-Pipeline/e2e_master', wait: true
                     }
                 }
