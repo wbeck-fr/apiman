@@ -204,23 +204,24 @@ module Apiman {
                             }
                             return request;
                         },
-                        // remove onComplete and onFailure and do the logic with the responseInterceptor
-                        responseInterceptor: function(response){
-                            if (response.status == 200) {
-                                $scope.$apply(function() {
-                                    $scope.definitionStatus = 'complete';
-                                });
+                        onComplete: function() {
+                            $scope.$apply(function() {
+                                $scope.definitionStatus = 'complete';
+                            });
 
-                                if (SwaggerUIContractService.getXAPIKey()){
-                                    ui.preauthorizeApiKey("X-API-Key", SwaggerUIContractService.getXAPIKey());
-                                }
-                            } else {
-                                $scope.$apply(function(error) {
+                            if (SwaggerUIContractService.getXAPIKey()){
+                                ui.preauthorizeApiKey("X-API-Key", SwaggerUIContractService.getXAPIKey());
+                            }
+                        },
+                        // do error handling in the responseInterceptor
+                        responseInterceptor: function (response) {
+                            if (response.status == 500 && response.ok === false) {
+                                $scope.$apply(function() {
                                     $scope.definitionStatus = 'error';
                                     $scope.hasError = true;
-                                    $scope.error = error;
                                 });
                             }
+                            return response;
                         }
                     };
 
