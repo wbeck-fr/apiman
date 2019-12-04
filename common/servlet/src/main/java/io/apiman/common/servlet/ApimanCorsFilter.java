@@ -16,6 +16,8 @@
 package io.apiman.common.servlet;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -33,10 +35,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ApimanCorsFilter implements Filter {
 
+    private HashSet<String> allowedCorsOrigins = new HashSet<>();
+
     /**
      * Constructor.
      */
     public ApimanCorsFilter() {
+        String corsOrigins = System.getProperty("allowed_cors_origins");
+        if (corsOrigins != null) {
+            allowedCorsOrigins = new HashSet<>(Arrays.asList(corsOrigins.trim().split(",")));
+        }
     }
 
     /**
@@ -55,7 +63,7 @@ public class ApimanCorsFilter implements Filter {
         HttpServletRequest httpReq = (HttpServletRequest) request;
         HttpServletResponse httpResp = (HttpServletResponse) response;
 
-        if (isPreflightRequest(httpReq)) {
+        if (isPreflightRequest(httpReq) && originIsAllowed(httpReq)) {
             httpResp.setHeader("Access-Control-Allow-Origin", httpReq.getHeader("Origin")); //$NON-NLS-1$ //$NON-NLS-2$
             httpResp.setHeader("Access-Control-Allow-Credentials", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             httpResp.setHeader("Access-Control-Max-Age", "1800"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -63,13 +71,24 @@ public class ApimanCorsFilter implements Filter {
             httpResp.setHeader("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Accept,Origin,Authorization"); //$NON-NLS-1$ //$NON-NLS-2$
             httpResp.setHeader("Access-Control-Expose-Headers", "X-Apiman-Error"); //$NON-NLS-1$ //$NON-NLS-2$
         } else {
-            if (hasOriginHeader(httpReq)) {
+            if (hasOriginHeader(httpReq) && originIsAllowed(httpReq)) {
                 httpResp.setHeader("Access-Control-Allow-Origin", httpReq.getHeader("Origin")); //$NON-NLS-1$ //$NON-NLS-2$
                 httpResp.setHeader("Access-Control-Allow-Credentials", "true"); //$NON-NLS-1$ //$NON-NLS-2$
                 httpResp.setHeader("Access-Control-Expose-Headers", "X-Apiman-Error"); //$NON-NLS-1$ //$NON-NLS-2$
             }
             chain.doFilter(httpReq, httpResp);
         }
+    }
+
+    /**
+     * Check if the origin of the request is in the list of allows cors origins.
+     *
+     * @param httpReq the http servlet request
+     * @return true if the origin is allowed, else false
+     */
+    private boolean originIsAllowed(HttpServletRequest httpReq) {
+        String origin = httpReq.getHeader("Origin").trim();
+        return allowedCorsOrigins.contains(origin);
     }
 
     /**

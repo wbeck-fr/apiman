@@ -111,6 +111,7 @@ services:
         -DkeystorePassword='${TRUSTSTORE_KEYSTORE_PASSWORD}'
         -DallowSelfSigned=${SELF_SIGNED}
         -Dtomcat-sslEnabledProtocols=${TLS_ALLOWED_PROTOCOLS:-TLSv1.1,TLSv1.2}
+        -Dallowed_cors_origins=https://${ENDPOINT}:${DEV_PORTAL_PORT}
     ports:
       - '${UI_PORT}:8443'
     depends_on:
@@ -156,7 +157,7 @@ services:
         -Dapiman.gateway-keycloak-keystore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_KEYCLOAK_KEYSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
         -Dapiman.gateway-keycloak-truststore=${KEYSTORE_TRUSTSTORE_PATH:-}${GATEWAY_KEYCLOAK_TRUSTSTORE:-/usr/src/apiman/apiman-distro-vertx/certs/apiman.jks}
         -Dapiman.gateway-allowedProtocols=${TLS_ALLOWED_PROTOCOLS:-}
-        -Dallowed_cors_origin=https://${ENDPOINT}:${UI_PORT}
+        -Dallowed_cors_origins=https://${ENDPOINT}:${UI_PORT},https://${ENDPOINT}:${DEV_PORTAL_PORT}
     ports:
       - '${GATEWAY_PORT}:${GATEWAY_PORT}'
     depends_on:

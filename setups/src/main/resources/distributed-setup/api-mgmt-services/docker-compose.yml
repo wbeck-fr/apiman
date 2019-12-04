@@ -115,6 +115,7 @@ services:
         -DkeystorePassword='${TRUSTSTORE_KEYSTORE_PASSWORD}'
         -DallowSelfSigned=${SELF_SIGNED}
         -Dtomcat-sslEnabledProtocols=${TLS_ALLOWED_PROTOCOLS:-TLSv1.1,TLSv1.2}
+        -Dallowed_cors_origins=https://${ENDPOINT}:${DEV_PORTAL_PORT}
     ports:
       - '${UI_PORT}:8443'
     depends_on:
