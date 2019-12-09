@@ -89,7 +89,7 @@ public class KeycloakSecurityContext extends AbstractSecurityContext {
             return true;
         } else {
             KeycloakPrincipal principal = (KeycloakPrincipal) DefaultSecurityContext.servletRequest.get().getUserPrincipal();
-            return principal.getKeycloakSecurityContext().getToken().getResourceAccess("apiman-devportal").isUserInRole(developerId);
+            return principal.getKeycloakSecurityContext().getToken().getResourceAccess("devportal").isUserInRole(developerId);
         }
     }
 
