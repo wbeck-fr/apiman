@@ -87,6 +87,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.util.*;
 import java.util.Map.Entry;
@@ -1737,18 +1739,7 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         if (bean.getDefinitionUrl() != null) {
             InputStream definition = null;
             try {
-                if (isSelfSignedIsAllowed() && definitionUrlIsHttps(bean)){
-                    // Create one connection that trust all certificates
-                    SSLContext sslContext = SSLContext.getInstance("SSL");
-                    sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-                    HttpsURLConnection connection = (HttpsURLConnection) new URL(bean.getDefinitionUrl()).openConnection();
-                    connection.setSSLSocketFactory(sslContext.getSocketFactory());
-                    // add NOOP hostname verifier
-                    connection.setHostnameVerifier((s, sslSession) -> true);
-                    definition = connection.getInputStream();
-                } else {
-                    definition = new URL(bean.getDefinitionUrl()).openStream();
-                }
+                definition = loadDefinitionFromUrl(bean.getDefinitionUrl());
                 storage.updateApiDefinition(newVersion, definition);
             } catch (Exception e) {
                 log.error("Unable to store API definition from: " + bean.getDefinitionUrl(), e); //$NON-NLS-1$
@@ -1760,12 +1751,87 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         return newVersion;
     }
 
+    /**
+     * Loads the API Definition from a given url
+     *
+     * @param definitionUrl the definition url
+     * @return the input stream of the API Definition
+     * @throws IOException
+     * @throws KeyManagementException
+     * @throws NoSuchAlgorithmException
+     */
+    private InputStream loadDefinitionFromUrl(String definitionUrl) throws IOException, KeyManagementException, NoSuchAlgorithmException {
+        InputStream definition;
+
+        if (definitionUrlIsHttps(definitionUrl)) {
+            HttpsURLConnection connection = (HttpsURLConnection) new URL(definitionUrl).openConnection();
+
+            if (isSelfSignedIsAllowed()) {
+                // Create one connection that trust all certificates
+                SSLContext sslContext = SSLContext.getInstance("SSL");
+                sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+                connection.setSSLSocketFactory(sslContext.getSocketFactory());
+                // add NOOP hostname verifier
+                connection.setHostnameVerifier((s, sslSession) -> true);
+            }
+
+            if (isBridgeDefinition(definitionUrl)) {
+                addBridgeCredentials(connection);
+            }
+
+            definition = connection.getInputStream();
+        } else {
+            definition = new URL(definitionUrl).openStream();
+        }
+        return definition;
+    }
+
+    /**
+     * Add bridge credentials to the connection
+     *
+     * @param connection the connection
+     */
+    private void addBridgeCredentials(HttpsURLConnection connection) {
+        String bridgeUsername = System.getProperty("bridge.username").trim();
+        String bridgePassword = System.getProperty("bridge.password").trim();
+        String auth = bridgeUsername + ":" + bridgePassword;
+        String basicAuth = "Basic " + new String(Base64.getEncoder().encode(auth.getBytes()));
+        connection.setRequestProperty("Authorization", basicAuth);
+    }
+
+    /**
+     * Check if self-signed certificates are allowed
+     *
+     * @return true if self-signed certs are allowed, else false
+     */
     private boolean isSelfSignedIsAllowed() {
         return System.getProperty("allowSelfSigned", "false").equals("true");
     }
 
-    private boolean definitionUrlIsHttps(NewApiVersionBean bean){
-        return bean.getDefinitionUrl().contains("https");
+    /**
+     * Checks if the definition url is a https url
+     *
+     * @param definitionUrl the definition url
+     * @return true if the url contains https, else false
+     */
+    private boolean definitionUrlIsHttps(String definitionUrl) {
+        return definitionUrl.contains("https");
+    }
+
+    /**
+     * Checks if the definitionUrl is a Bridge Url
+     *
+     * @param definitionUrl the definition url
+     * @return true if it is definition from bridge, else false
+     */
+    private boolean isBridgeDefinition(String definitionUrl) {
+        String[] bridgeUrls = System.getProperty("bridge.urls").trim().split(",");
+        for (String bridgeUrl : bridgeUrls) {
+            if (definitionUrl.contains(bridgeUrl)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -2140,9 +2206,8 @@ public class OrganizationResourceImpl implements IOrganizationResource {
         String definitionUrl;
         try {
             definitionUrl = bean.getDefinitionUrl();
-            URL url = new URL(definitionUrl);
-            data = url.openStream();
-        } catch (IOException e) {
+            data = loadDefinitionFromUrl(bean.getDefinitionUrl());
+        } catch (Exception e) {
             throw new SystemErrorException(e);
         }
         try {
