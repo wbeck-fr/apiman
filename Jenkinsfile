@@ -348,6 +348,18 @@ pipeline {
                 }
             }
         }
+
+        stage('Remove docker images') {
+            steps {
+                script {
+                    sh """
+                        docker image rm -f api-mgmt/ui:${PROJECT_VERSION}
+                        docker image rm -f api-mgmt/keycloak:${PROJECT_VERSION}
+                        docker image rm -f api-mgmt/gateway:${PROJECT_VERSION}
+                    """
+                }
+            }
+        }
     }
 
     post {
