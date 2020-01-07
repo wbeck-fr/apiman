@@ -222,7 +222,7 @@ services:
     image: 'api-mgmt/devportal:${docker-compose.api-mgmt.devportal.version}'
     container_name: devportal
     environment:
-      - 'APIMAN_UI_REST_URL=https://${ENDPOINT}:${UI_PORT}/apiman'
+      - 'API_MGMT_UI_REST_URL=https://${ENDPOINT}:${UI_PORT}/apiman'
       - 'KEYCLOAK_AUTH_URL=https://${ENDPOINT}:${KEYCLOAK_PORT}/auth'
     ports:
       - '${DEV_PORTAL_PORT}:443'
