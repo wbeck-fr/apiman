@@ -12,6 +12,7 @@ import io.apiman.manager.api.core.IStorage;
 import io.apiman.manager.api.core.IStorageQuery;
 import io.apiman.manager.api.core.exceptions.StorageException;
 import io.apiman.manager.api.core.logging.ApimanLogger;
+import io.apiman.manager.api.gateway.IGatewayLinkFactory;
 import io.apiman.manager.api.rest.contract.IDeveloperResource;
 import io.apiman.manager.api.rest.contract.exceptions.*;
 import io.apiman.manager.api.rest.impl.util.ExceptionFactory;
@@ -39,6 +40,9 @@ public class DeveloperResourceImpl implements IDeveloperResource {
     @Inject
     @ApimanLogger(DeveloperResourceImpl.class)
     IApimanLogger log;
+    @Inject
+    IGatewayLinkFactory gatewayLinkFactory;
+
 
     private OrganizationResourceImpl organizationResource;
 
@@ -361,5 +365,6 @@ public class DeveloperResourceImpl implements IDeveloperResource {
         organizationResource.storage = storage;
         organizationResource.query = query;
         organizationResource.log = log;
+        organizationResource.gatewayLinkFactory = gatewayLinkFactory;
     }
 }
