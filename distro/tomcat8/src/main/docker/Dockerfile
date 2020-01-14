@@ -22,12 +22,12 @@ RUN rm apiman-es.war && rm apiman-gateway.war && rm apiman-gateway-api.war
 #Remove tomcat stuff we not need
 RUN rm -rf docs && rm -rf examples && rm -rf host-manager && rm -rf manager
 
-RUN unzip apiman.war -n -d apiman && unzip apimanui.war -n -d apimanui
+RUN unzip -n apiman.war -d apiman && unzip -n apimanui.war -d apimanui
 
 # Disable initial configuration per default
 RUN touch /usr/local/tomcat/data/bootstrap/apiman-default-config.json.imported
 
 # Get Keycloak Adapter
 WORKDIR $CATALINA_HOME
-RUN wget "https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-oidc/keycloak-tomcat8-adapter-dist-$KEYCLOAK_VERSION.zip"
-RUN cd lib && unzip ../keycloak-tomcat8-adapter-dist-$KEYCLOAK_VERSION.zip && rm ../keycloak-tomcat8-adapter-dist-$KEYCLOAK_VERSION.zip
+RUN wget "https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-oidc/keycloak-tomcat-adapter-dist-$KEYCLOAK_VERSION.zip"
+RUN cd lib && unzip ../keycloak-tomcat-adapter-dist-$KEYCLOAK_VERSION.zip && rm ../keycloak-tomcat-adapter-dist-$KEYCLOAK_VERSION.zip

@@ -1,6 +1,10 @@
-.login-pf body {
+.login-pf-page {
     background: url("../img/login_relaunch_ns_bg.jpg") no-repeat center center fixed;
     background-size: cover;
+    height: 100%;
+}
+.login-pf body {
+    height: 100%;
 }
 
 .alert-error {
