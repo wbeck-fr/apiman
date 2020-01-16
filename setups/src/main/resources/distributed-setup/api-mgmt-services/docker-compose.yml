@@ -135,9 +135,9 @@ services:
         max-file: "10"
         mode: non-blocking
     restart: always
-  nginx-proxy:
-    image: 'jwilder/nginx-proxy:latest'
-    container_name: nginx-proxy
+  elasticsearch-proxy:
+    image: 'api-mgmt/elasticsearch-proxy:${docker-compose.api-mgmt.elasticsearch-proxy.version}'
+    container_name: elasticsearch-proxy
     # Create a user for nginx proxy if es-users.htpasswd has not more than one line (comment), then run the default entrypoint and cmd from jwilder/nginx-proxy Dockerfile
     entrypoint: ["sh", "-c", "if [ $$(wc -l < /etc/nginx/htpasswd/${ENDPOINT}) -le 1 ]; then echo ${ELASTICSEARCH_USERNAME}:$$(openssl passwd -crypt ${ELASTICSEARCH_PASSWORD}) >> /etc/nginx/htpasswd/${ENDPOINT}; fi && /app/docker-entrypoint.sh forego start -r"]
     ports:
