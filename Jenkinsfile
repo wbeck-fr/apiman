@@ -6,6 +6,7 @@ pipeline {
     agent {
         node {
             label 'cscabbia'
+            customWorkspace "workspace/Apiman-Pipeline"
         }
     }
 
