@@ -143,11 +143,11 @@ public class DeveloperResourceImpl implements IDeveloperResource {
             throw ExceptionFactory.notAuthorizedException();
         }
 
-        DeveloperBean developerBean = get(id);
-        developerBean.setName(bean.getName());
-        developerBean.setClients(bean.getClients());
         try {
             storage.beginTx();
+            DeveloperBean developerBean = getDeveloperBeanFromStorage(id);
+            developerBean.setName(bean.getName());
+            developerBean.setClients(bean.getClients());
             storage.updateDeveloper(developerBean);
             storage.commitTx();
             log.debug(String.format("Updated developer %s: %s", developerBean.getName(), developerBean));
@@ -231,7 +231,7 @@ public class DeveloperResourceImpl implements IDeveloperResource {
         List<ClientVersionSummaryBean> clientVersionSummaryBeans;
         try {
             storage.beginTx();
-            developer = storage.getDeveloper(id);
+            developer = getDeveloperBeanFromStorage(id);
             storage.commitTx();
 
             clientVersionSummaryBeans = queryMatchingClientVersions(developer);
@@ -275,7 +275,7 @@ public class DeveloperResourceImpl implements IDeveloperResource {
 
         try {
             storage.beginTx();
-            developer = storage.getDeveloper(id);
+            developer = getDeveloperBeanFromStorage(id);
             storage.commitTx();
 
             clientVersionSummaryBeans = queryMatchingClientVersions(developer);
