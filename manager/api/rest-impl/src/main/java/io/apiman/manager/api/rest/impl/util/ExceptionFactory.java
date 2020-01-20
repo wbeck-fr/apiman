@@ -391,7 +391,7 @@ public final class ExceptionFactory {
      * @return the exception
      */
     public static final DeveloperNotFoundException developerNotFoundException(String developerId) {
-        return new DeveloperNotFoundException(Messages.i18n.format("DeveloperClientNotExist", developerId)); //$NON-NLS-1$
+        return new DeveloperNotFoundException(Messages.i18n.format("DeveloperNotExist", developerId)); //$NON-NLS-1$
     }
 
     /**

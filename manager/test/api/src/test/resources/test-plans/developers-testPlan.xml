@@ -34,6 +34,15 @@
     <test name="Update Second Developer" skipStorage="jpa">test-plan-data/developers/010_updateSecondDeveloper.resttest</test>
     <test name="Get Second Developer" skipStorage="jpa">test-plan-data/developers/011_getUpdatedSecondDeveloper.resttest</test>
     <test name="Get All Public API Versions" skipStorage="jpa">test-plan-data/developers/012_getAllPublicApiVersions.resttest</test>
+    <test name="Get not authorized" skipStorage="jpa">test-plan-data/developers/013_getNotAuthorized.resttest</test>
+  </testGroup>
+
+  <!--  Test exceptions and try to get data from already deleted/non-existent developer-->
+  <testGroup name="Already Deleted">
+    <test name="Get non-existent Developer" skipStorage="jpa">test-plan-data/developers/alreadyDeleted/001_getAlreadyDeleted.resttest</test>
+    <test name="Get All Matching Clients" skipStorage="jpa">test-plan-data/developers/alreadyDeleted/002_getAllMatchingClientVersions.resttest</test>
+    <test name="Get All Matching Contracts" skipStorage="jpa">test-plan-data/developers/alreadyDeleted/003_getAllMatchingContracts.resttest</test>
+    <test name="Get All Matching API Versions" skipStorage="jpa">test-plan-data/developers/alreadyDeleted/004_getAllMatchingApiVersions.resttest</test>
   </testGroup>
 
 </testPlan>
