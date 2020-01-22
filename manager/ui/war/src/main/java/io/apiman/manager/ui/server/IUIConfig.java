@@ -80,4 +80,25 @@ public interface IUIConfig {
      */
     public boolean isDevelopmentMode();
 
+    /**
+     * Gets the endpoint of keycloak
+     *
+     * @return the keycloak url
+     */
+    String getKeycloakEndpoint();
+
+    /**
+     * Gets the endpoint of the devportal
+     *
+     * @return the devportal url
+     */
+    String getDevportalEndpoint();
+
+    /**
+     * Gets the endpoint of kibana
+     *
+     * @return the kibana url
+     */
+    String getKibanaEndpoint();
+
 }

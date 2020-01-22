@@ -143,6 +143,37 @@
                 </div>
             </li>
 
+            <!--Tools-->
+            <li class="list-group-item secondary-nav-item-pf" ng-show="isAdmin" ng-mouseover="onMouseEnter($event)" ng-mouseleave="onMouseLeave()">
+                <a>
+                    <span class="fa fa-external-link" data-toggle="tooltip" title="Tools"></span>
+                    <span class="list-group-item-value" apiman-i18n-key="tools">Tools</span>
+                </a>
+                <div class="nav-pf-secondary-nav">
+                    <div class="nav-item-pf-header">
+                        <a class="secondary-collapse-toggle-pf" data-toggle="collapse-secondary-nav"></a>
+                        <span apiman-i18n-key="tools">Tools</span>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a target="_blank" href="{{ devportalEndpoint }}">
+                                <span class="list-group-item-value" apiman-i18n-key="developer-portal">Developer Portal</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a target="_blank" href="{{ keycloakEndpoint }}">
+                                <span class="list-group-item-value" apiman-i18n-key="keycloak">Keycloak</span>
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <a target="_blank" href="{{ kibanaEndpoint }}">
+                                <span class="list-group-item-value" apiman-i18n-key="kibana">Kibana</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
             <!--Administration-->
             <li class="list-group-item secondary-nav-item-pf" data-target="#admin-secondary" ng-show="isAdmin" ng-mouseover="onMouseEnter($event)" ng-mouseleave="onMouseLeave()">
                 <a>

@@ -40,10 +40,6 @@ module Apiman {
                     angular.element('.nav-pf-vertical').removeClass('collapsed');
                     angular.element('.container-pf-nav-pf-vertical').removeClass('collapsed-nav');
                 }
-                // angular.element('.container').addClass('container-pf-nav-pf-vertical');
-                // angular.element('.container').addClass('container-fluid');
-                // angular.element('.container').removeClass('container');
-
             };
 
             $scope.userToggle = function(){

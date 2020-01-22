@@ -95,8 +95,20 @@ module ApimanPageLifecycle {
             $rootScope.headerInclude = 'plugins/api-manager/html/headers/' + header + '.include';
             console.log('Using header: ' + $rootScope.headerInclude);
 
+
+            // Set custom settings
             $rootScope.developmentMode = Configuration.ui && Configuration.ui.developmentMode;
             console.log('Development mode: ' + $rootScope.developmentMode);
+
+            $rootScope.keycloakEndpoint = Configuration.ui && Configuration.ui.keycloakEndpoint;
+            console.log('Keycloak Endpoint: ' + $rootScope.keycloakEndpoint);
+
+            $rootScope.devportalEndpoint = Configuration.ui && Configuration.ui.devportalEndpoint;
+            console.log('Devportal Endpoint: ' + $rootScope.devportalEndpoint);
+
+            $rootScope.kibanaEndpoint = Configuration.ui && Configuration.ui.kibanaEndpoint;
+            console.log('Kibana Endpoint: ' + $rootScope.kibanaEndpoint);
+
 
             let redirectWrongPermission = function () {
                 Logger.info('Detected a 404 error.');
@@ -210,6 +222,8 @@ module ApimanPageLifecycle {
                     // Now resolve the data as a promise (wait for all data packets to be fetched)
                     var promise = $q.all(allData);
                     promise.then(function(data) {
+                        $rootScope.isAdmin = CurrentUser.getCurrentUser().admin;
+
                         // Make sure the user has permission to view this page.
                         if (requiredPermission == "development"){
                             if ($rootScope.developmentMode != true){
@@ -222,6 +236,7 @@ module ApimanPageLifecycle {
                         {
                             redirectWrongPermission();
                         }
+
                         // Now process all the data packets and bind them to the $scope.
                         var count = 0;
                         angular.forEach(data, function(value, key) {
@@ -232,7 +247,6 @@ module ApimanPageLifecycle {
                         
                         $timeout(function() {
                             $rootScope.pageState = 'loaded';
-                            $rootScope.isAdmin = CurrentUser.getCurrentUser().admin;
                             Logger.log("|{0}| >> Page successfully loaded: {1} data packets loaded", pageName, count);
                             if (handler) {
                                 $timeout(function() {

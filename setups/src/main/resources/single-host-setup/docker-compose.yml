@@ -112,6 +112,9 @@ services:
         -DallowSelfSigned=${SELF_SIGNED}
         -Dtomcat-sslEnabledProtocols=${TLS_ALLOWED_PROTOCOLS:-TLSv1.1,TLSv1.2}
         -Dallowed_cors_origins=https://${ENDPOINT}:${DEV_PORTAL_PORT}
+        -Dapiman-manager-ui.keycloak-endpoint=https://${ENDPOINT}:${KEYCLOAK_PORT}
+        -Dapiman-manager-ui.devportal-endpoint=https://${ENDPOINT}:${DEV_PORTAL_PORT}
+        -Dapiman-manager-ui.kibana-endpoint=https://${ENDPOINT}:${KIBANA_PORT}
     ports:
       - '${UI_PORT}:8443'
     depends_on:

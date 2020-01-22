@@ -39,7 +39,12 @@ public class UIConfig implements IUIConfig {
 
     public static final String APIMAN_MANAGER_UI_DEVELOPMENT_MODE = "apiman-manager-ui.developmentMode"; //$NON-NLS-1$
 
+    public static final String APIMAN_MANAGER_UI_KEYCLOAK_ENDPOINT = "apiman-manager-ui.keycloak-endpoint"; //$NON-NLS-1$
+    public static final String APIMAN_MANAGER_UI_DEVPORTAL_ENDPOINT = "apiman-manager-ui.devportal-endpoint"; //$NON-NLS-1$
+    public static final String APIMAN_MANAGER_UI_KIBANA_ENDPOINT = "apiman-manager-ui.kibana-endpoint"; //$NON-NLS-1$
+
     private static Configuration config;
+
     static {
         config = ConfigFactory.createConfig();
     }
@@ -132,5 +137,29 @@ public class UIConfig implements IUIConfig {
      */
     public Configuration getConfig() {
         return config;
+    }
+
+    /**
+     * @see IUIConfig#getKeycloakEndpoint()
+     */
+    @Override
+    public String getKeycloakEndpoint() {
+        return config.getString(UIConfig.APIMAN_MANAGER_UI_KEYCLOAK_ENDPOINT);
+    }
+
+    /**
+     * @see IUIConfig#getDevportalEndpoint()
+     */
+    @Override
+    public String getDevportalEndpoint() {
+        return config.getString(UIConfig.APIMAN_MANAGER_UI_DEVPORTAL_ENDPOINT);
+    }
+
+    /**
+     * @see IUIConfig#getKibanaEndpoint()
+     */
+    @Override
+    public String getKibanaEndpoint() {
+        return config.getString(UIConfig.APIMAN_MANAGER_UI_KIBANA_ENDPOINT);
     }
 }

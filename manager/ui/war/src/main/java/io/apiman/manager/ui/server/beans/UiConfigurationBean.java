@@ -28,6 +28,10 @@ public class UiConfigurationBean {
     private String platform = "community"; //$NON-NLS-1$
     private String backToConsole;
     private Boolean developmentMode;
+    private String keycloakEndpoint;
+    private String devportalEndpoint;
+    private String kibanaEndpoint;
+
 
     /**
      * Constructor.
@@ -92,16 +96,58 @@ public class UiConfigurationBean {
     }
 
     /**
-     * @return developmentMode
+     * @return developmentMode the development mode
      */
     public Boolean getDevelopmentMode() {
         return developmentMode;
     }
 
     /**
-     * Set UI-DevelopmentMode
+     * @param developmentMode the development mode to set
      */
     public void setDevelopmentMode(Boolean developmentMode) {
         this.developmentMode = developmentMode;
+    }
+
+    /**
+     * @return the keycloak endpoint
+     */
+    public String getKeycloakEndpoint() {
+        return keycloakEndpoint;
+    }
+
+    /**
+     * @param keycloakEndpoint the keycloak endpoint to set
+     */
+    public void setKeycloakEndpoint(String keycloakEndpoint) {
+        this.keycloakEndpoint = keycloakEndpoint;
+    }
+
+    /**
+     * @return the Developer Portal endpoint
+     */
+    public String getDevportalEndpoint() {
+        return devportalEndpoint;
+    }
+
+    /**
+     * @param devportalEndpoint the endpoint of the Developer Portal to set
+     */
+    public void setDevportalEndpoint(String devportalEndpoint) {
+        this.devportalEndpoint = devportalEndpoint;
+    }
+
+    /**
+     * @return the kibana endpoint
+     */
+    public String getKibanaEndpoint() {
+        return kibanaEndpoint;
+    }
+
+    /**
+     * @param kibanaEndpoint the kibana endpoint to set
+     */
+    public void setKibanaEndpoint(String kibanaEndpoint) {
+        this.kibanaEndpoint = kibanaEndpoint;
     }
 }

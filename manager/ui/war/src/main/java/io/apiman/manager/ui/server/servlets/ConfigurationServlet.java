@@ -100,6 +100,9 @@ public class ConfigurationServlet extends AbstractUIServlet {
             configBean.getUi().setMetrics(getConfig().isMetricsEnabled());
             configBean.getUi().setPlatform(getConfig().getPlatform());
             configBean.getUi().setDevelopmentMode(getConfig().isDevelopmentMode());
+            configBean.getUi().setKeycloakEndpoint(getConfig().getKeycloakEndpoint());
+            configBean.getUi().setDevportalEndpoint(getConfig().getDevportalEndpoint());
+            configBean.getUi().setKibanaEndpoint(getConfig().getKibanaEndpoint());
             configBean.getApiman().setVersion(version.getVersionString());
             configBean.getApiman().setBuiltOn(version.getVersionDate());
             configBean.getApiman().setLogoutUrl(getConfig().getLogoutUrl());
