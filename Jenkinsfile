@@ -59,10 +59,12 @@ pipeline {
                             image 'maven-docker:latest'
                             args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
                             label 'docker'
+                            customWorkspace "workspace/Apiman-Pipeline-Tests/default"
                         }
                     }
                     steps {
                         retry(2) {
+                            sh 'git clean -xdf'
                             sh 'mvn clean test'
                         }
                     }
@@ -83,10 +85,12 @@ pipeline {
                             image 'maven-docker:latest'
                             args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
                             label 'docker'
+                            customWorkspace "workspace/Apiman-Pipeline-Tests/servlet-es"
                         }
                     }
                     steps {
                         retry(2) {
+                            sh 'git clean -xdf'
                             sh 'mvn clean test -Dapiman-test.type=es -Dapiman.gateway-test.config=servlet-es'
                         }
                     }
@@ -107,10 +111,12 @@ pipeline {
                             image 'maven-docker:latest'
                             args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
                             label 'docker'
+                            customWorkspace "workspace/Apiman-Pipeline-Tests/vertx3-mem"
                         }
                     }
                     steps {
                         retry(2) {
+                            sh 'git clean -xdf'
                             sh 'mvn -pl gateway/test clean test -Dapiman.gateway-test.config=vertx3-mem'
                         }
                     }
@@ -131,10 +137,12 @@ pipeline {
                             image 'maven-docker:latest'
                             args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
                             label 'docker'
+                            customWorkspace "workspace/Apiman-Pipeline-Tests/vertx3-file"
                         }
                     }
                     steps {
                         retry(2) {
+                            sh 'git clean -xdf'
                             sh 'mvn -pl gateway/test clean test -Dapiman.gateway-test.config=vertx3-file'
                         }
                     }
@@ -155,10 +163,12 @@ pipeline {
                             image 'maven-docker:latest'
                             args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
                             label 'docker'
+                            customWorkspace "workspace/Apiman-Pipeline-Tests/amg-1"
                         }
                     }
                     steps {
                         retry(2) {
+                            sh 'git clean -xdf'
                             sh 'mvn -pl gateway/test clean test -Dapiman.gateway-test.config=amg-1'
                         }
                     }
@@ -179,10 +189,12 @@ pipeline {
                             image 'maven-docker:latest'
                             args '--group-add docker -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/.m2:/var/maven/.m2 --tmpfs /.cache -e MAVEN_CONFIG=/var/maven/.m2 -e MAVEN_OPTS="-Duser.home=/var/maven"'
                             label 'docker'
+                            customWorkspace "workspace/Apiman-Pipeline-Tests/vertx3-es"
                         }
                     }
                     steps {
                         retry(2) {
+                            sh 'git clean -xdf'
                             sh """
                                 docker run -d -p 19250:9200 -p 9300:9300 -e "discovery.type=single-node" --name=elasticsearch elasticsearch:5.6.16
                                 sleep 15
