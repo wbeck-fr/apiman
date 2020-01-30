@@ -404,7 +404,7 @@
     },
     {
       "id": "cors-policy",
-      "policyImpl": "plugin:io.apiman.plugins:apiman-plugins-cors-policy:1.5.0.Final:war/io.apiman.plugins.cors_policy.CorsPolicy",
+      "policyImpl": "plugin:io.apiman.plugins:apiman-plugins-cors-policy:7.0.0:war/io.apiman.plugins.cors_policy.CorsPolicy",
       "name": "CORS Policy",
       "description": "CORS regulates access resource requests from outside of an originating domain. Configuration required.",
       "icon": "gavel",
