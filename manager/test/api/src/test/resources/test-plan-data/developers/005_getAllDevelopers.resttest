@@ -3,24 +3,37 @@ GET /developers admin/admin
 200
 Content-Type: application/json
 
-[{
-	"id": "Developer2",
-	"name": "Developer 2",
-	"clients": [{
-		"clientId": "ClientA",
-		"organizationId": "Test"
-	}, {
-		"clientId": "ClientB",
-		"organizationId": "Test"
-	}]
-}, {
-	"id": "Developer1",
-	"name": "Developer1",
-	"clients": [{
-		"clientId": "Client1",
-		"organizationId": "Organization1"
-	}, {
-		"clientId": "ClientB",
-		"organizationId": "Test"
-	}]
-}]
+[
+  {
+    "id": "Developer2",
+    "name": "Developer 2",
+    "clients": [
+      {
+        "clientId": "ClientA",
+        "organizationId": "Test"
+      },
+      {
+        "clientId": "ClientB",
+        "organizationId": "Test"
+      }
+    ]
+  },
+  {
+    "id": "Developer1",
+    "name": "Developer1",
+    "clients": [
+      {
+        "clientId": "Client1",
+        "organizationId": "Organization1"
+      },
+      {
+        "clientId": "ClientB",
+        "organizationId": "Test"
+      }
+    ]
+  },
+  {
+    "name": "Developer1",
+    "clients": []
+  }
+]

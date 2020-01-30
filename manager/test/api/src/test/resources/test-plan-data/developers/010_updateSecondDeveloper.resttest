@@ -1,4 +1,4 @@
-PUT /developers/Developer2 admin/admin
+PUT /developers/${developer2-id} admin/admin
 Content-Type: application/json
 
 {

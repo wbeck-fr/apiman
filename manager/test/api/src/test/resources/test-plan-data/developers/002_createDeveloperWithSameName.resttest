@@ -1,0 +1,9 @@
+POST /developers admin/admin
+Content-Type: application/json
+
+{"name":"Developer1"}
+----
+200
+Content-Type: application/json
+
+{"name":"Developer1"}

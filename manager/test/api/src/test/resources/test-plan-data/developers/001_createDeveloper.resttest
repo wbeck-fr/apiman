@@ -17,9 +17,9 @@ Content-Type: application/json
 ----
 200
 Content-Type: application/json
+X-RestTest-BindTo-developer1-id: id
 
 {
-    "id":"Developer1",
     "name": "Developer1",
     "clients": [
         {

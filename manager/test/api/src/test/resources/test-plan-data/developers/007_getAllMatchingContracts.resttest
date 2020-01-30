@@ -1,4 +1,4 @@
-GET /developers/Developer1/contracts admin/admin
+GET /developers/${developer1-id}/contracts admin/admin
 ----
 200
 Content-Type: application/json

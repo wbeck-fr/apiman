@@ -1,10 +1,9 @@
-GET /developers/Developer2 admin/admin
+GET /developers/${developer2-id} admin/admin
 ----
 200
 Content-Type: application/json
 
 {
-	"id": "Developer2",
 	"name": "Developer Updated Name",
 	"clients": [{
 		"clientId": "ClientC",

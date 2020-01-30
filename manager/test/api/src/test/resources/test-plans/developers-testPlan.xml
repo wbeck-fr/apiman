@@ -22,7 +22,7 @@
   <!--jpa is not implemented so we skip the tests always-->
   <testGroup name="Developers">
     <test name="Create Developer" skipStorage="jpa">test-plan-data/developers/001_createDeveloper.resttest</test>
-    <test name="Create Already Exists Developer" skipStorage="jpa">test-plan-data/developers/002_createAlreadyExists.resttest</test>
+    <test name="Create Developer with same name" skipStorage="jpa">test-plan-data/developers/002_createDeveloperWithSameName.resttest</test>
     <test name="Get Developer" skipStorage="jpa">test-plan-data/developers/003_getDeveloper.resttest</test>
     <test name="Create Second Developer" skipStorage="jpa">test-plan-data/developers/004_createSecondDeveloper.resttest</test>
     <test name="Get All Developers" skipStorage="jpa">test-plan-data/developers/005_getAllDevelopers.resttest</test>

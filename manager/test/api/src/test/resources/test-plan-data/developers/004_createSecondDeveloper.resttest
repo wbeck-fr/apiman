@@ -17,18 +17,18 @@ Content-Type: application/json
 ----
 200
 Content-Type: application/json
+X-RestTest-BindTo-developer2-id: id
 
 {
-    "id":"Developer2",
     "name": "Developer 2",
     "clients": [
-        {
-            "clientId": "ClientA",
-            "organizationId": "Test"
-        },
-        {
-            "clientId": "ClientB",
-            "organizationId": "Test"
-        }
+      {
+         "clientId":"ClientA",
+         "organizationId":"Test"
+      },
+      {
+         "clientId":"ClientB",
+         "organizationId":"Test"
+      }
     ]
 }
