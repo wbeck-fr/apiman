@@ -40,9 +40,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class CachingESRegistry extends ESRegistry {
 
-    private Map<String, Api> apiCache = new ConcurrentHashMap<>();
-    private Map<String, Client> clientCache = new ConcurrentHashMap<>();
-    private Object mutex = new Object();
+    private static Map<String, Api> apiCache = new ConcurrentHashMap<>();
+    private static Map<String, Client> clientCache = new ConcurrentHashMap<>();
+    private static Object mutex = new Object();
 
     /**
      * Constructor.
