@@ -6,7 +6,6 @@ import io.apiman.manager.api.beans.developers.DeveloperBean;
 import io.apiman.manager.api.beans.developers.NewDeveloperBean;
 import io.apiman.manager.api.beans.summary.ClientVersionSummaryBean;
 import io.apiman.manager.api.beans.summary.ContractSummaryBean;
-import io.apiman.manager.api.rest.contract.exceptions.DeveloperAlreadyExistsException;
 import io.apiman.manager.api.rest.contract.exceptions.DeveloperNotFoundException;
 import io.apiman.manager.api.rest.contract.exceptions.InvalidNameException;
 import io.apiman.manager.api.rest.contract.exceptions.NotAuthorizedException;
@@ -54,7 +53,6 @@ public interface IDeveloperResource {
      * @param bean Information about the new developer
      * @return Full details about the developer that was created
      * @throws InvalidNameException
-     * @throws DeveloperAlreadyExistsException when trying to get, update, or delete a developer that does not exist
      * @throws NotAuthorizedException          when the user attempts to do or see something that they are not authorized (do not have permission) to
      * @statuscode 200 If the developer was successfully created
      * @statuscode 403 If the access is not allowed
@@ -62,7 +60,7 @@ public interface IDeveloperResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    DeveloperBean create(NewDeveloperBean bean) throws InvalidNameException, DeveloperAlreadyExistsException, NotAuthorizedException;
+    DeveloperBean create(NewDeveloperBean bean) throws InvalidNameException, NotAuthorizedException;
 
     /**
      * Use this endpoint to update an developer

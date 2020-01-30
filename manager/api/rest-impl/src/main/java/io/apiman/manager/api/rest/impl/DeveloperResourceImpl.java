@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * Implementation of the Developer Portal API
@@ -106,7 +107,7 @@ public class DeveloperResourceImpl implements IDeveloperResource {
      * @see IDeveloperResource#create(NewDeveloperBean)
      */
     @Override
-    public DeveloperBean create(NewDeveloperBean bean) throws InvalidNameException, DeveloperAlreadyExistsException, NotAuthorizedException {
+    public DeveloperBean create(NewDeveloperBean bean) throws InvalidNameException, NotAuthorizedException {
         if (!securityContext.isAdmin()) {
             throw ExceptionFactory.notAuthorizedException();
         }
@@ -114,16 +115,12 @@ public class DeveloperResourceImpl implements IDeveloperResource {
         FieldValidator.validateName(bean.getName());
 
         DeveloperBean developerBean = new DeveloperBean();
+        developerBean.setId(UUID.randomUUID().toString());
         developerBean.setName(bean.getName());
-        developerBean.setId(BeanUtils.idFromName(bean.getName()));
         developerBean.setClients(bean.getClients());
 
         try {
             storage.beginTx();
-            // check if already existing
-            if (storage.getDeveloper(developerBean.getId()) != null) {
-                throw ExceptionFactory.developerAlreadyExistsException(developerBean.getId());
-            }
             storage.createDeveloper(developerBean);
             storage.commitTx();
             log.debug(String.format("Created developer %s: %s", developerBean.getName(), developerBean)); //$NON-NLS-1$
