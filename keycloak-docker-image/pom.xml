@@ -3,7 +3,7 @@
   <parent>
     <groupId>io.apiman</groupId>
     <artifactId>apiman</artifactId>
-    <version>7.6.0</version>
+    <version>7.6.1</version>
   </parent>
   <artifactId>keycloak-docker-image</artifactId>
   <name>keycloak-docker-image</name>
