@@ -237,7 +237,7 @@
       "flowType": "PASSWORD",
       "requiredRole": "realm:apipublisher",
       // Paste and overwrite your Keycloak config here.
-      "realm": "apiman",
+      "realm": "${keycloak.realm}",
       "realm-public-key": "${keycloak.realm-public-key}",
       "auth-server-url": "https://${keycloak.host}:${keycloak.port}/auth",
       "ssl-required": "all",

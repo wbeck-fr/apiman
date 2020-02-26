@@ -1,5 +1,5 @@
 {
-  "realm": "apiman",
+  "realm": "${keycloak.realm}",
   "resource": "apiman",
   "auth-server-url": "https://${keycloak.host}:${keycloak.port}/auth",
   "ssl-required": "external",

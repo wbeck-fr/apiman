@@ -107,6 +107,7 @@ services:
         -Dapiman.es.port=9200
         -Dapiman.es.timeout=10000
         -Dapiman.es.host=elasticsearch
+        -Dkeycloak.realm=apiman
         -Dkeycloak.host=${ENDPOINT}
         -Dkeycloak.port=${KEYCLOAK_PORT}
         -Dkeycloak.truststore-password='${TRUSTSTORE_KEYSTORE_PASSWORD}'
@@ -227,6 +228,7 @@ services:
     environment:
       - 'API_MGMT_UI_REST_URL=https://${ENDPOINT}:${UI_PORT}/apiman'
       - 'KEYCLOAK_AUTH_URL=https://${ENDPOINT}:${KEYCLOAK_PORT}/auth'
+      - 'KEYCLOAK_REALM=apiman'
     ports:
       - '${DEV_PORTAL_PORT}:443'
     depends_on:
